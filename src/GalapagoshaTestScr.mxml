@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:ns1="*" addedToStage="windowedapplication1_addedToStageHandler(event)"
+					   backgroundColor="0x6dcff6" currentState="beckon"
+					   width ="1080" height ="1920" alignmentBaseline="ideographicCenter" showStatusBar="false">
+	<s:states>
+		<s:State name="menu"/>
+		<s:State name="greeting"/>
+		<s:State name="beckon"/>
+		
+		<s:State name="equador"/>
+		<s:State name="recipe"/>
+		<s:State name="ninja"/>
+		<s:State name="weight"/>
+	</s:states>
+	<fx:Script>
+		<![CDATA[
+			import org.osmf.layout.ScaleMode;
+			// Выход из режима привлечения внимания - startUserInteraction, переходим в режим приветствия
+			// Возврат в режим меню - backToMenu
+			// Если находимся в режиме меню больше 5 секунд - включается режим завлекания
+			protected function windowedapplication1_addedToStageHandler(event:Event):void
+			{
+				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+				addEventListener(Event.ENTER_FRAME,onEnterFrame);
+			}
+			
+			public function startUserInteraction():void
+			{
+				if(currentState == "beckon")
+					currentState = "greeting";
+			}
+			public function backToMenu():void
+			{
+				currentState = "menu";
+			}
+			
+			protected function videodisplay1_clickHandler(event:MouseEvent):void
+			{
+				startUserInteraction();
+			}
+			
+			
+			
+			protected function equadorBtn_clickHandler(event:MouseEvent):void
+			{
+				currentState = "equador";
+			}
+			
+			protected function bananaWeightBtn_clickHandler(event:MouseEvent):void
+			{
+				currentState = "weight";
+			}
+			
+			protected function bananaNinjaBtn_clickHandler(event:MouseEvent):void
+			{
+				currentState = "ninja";
+			}
+			
+			protected function bananaRecipeBtn_clickHandler(event:MouseEvent):void
+			{
+				currentState = "recipe";
+			}
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				currentState = "menu";
+			}
+			
+			protected var firstMenuTime:Date = new Date();
+			protected function onEnterFrame(event:Event):void
+			{
+				if(currentState == "menu")
+				{
+					var elapsed:Number = new Date().time - firstMenuTime.time;
+					trace();
+					if(elapsed>5000)currentState = "beckon";
+					
+				}
+				else firstMenuTime = new Date();
+			}
+			
+			protected function videodisplay2_clickHandler(event:MouseEvent):void
+			{
+				currentState = "menu";
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Image includeIn="greeting,beckon" width="2000" height="1300" horizontalCenter="0" smooth="true"
+			 source="@Embed('../assets/background.png')" verticalCenter="170"/>
+	<ns1:Clouds2 includeIn="greeting,beckon" width="1100" horizontalCenter="0" verticalCenter="0"/>
+	<s:Group includeIn="greeting,beckon" left="0" right="0" top="0" bottom="0">
+		
+		
+		<s:VideoDisplay width="1000" horizontalCenter="0" loop="true" source="assets/olusha.flv"
+						verticalCenter="0"
+						click.beckon="videodisplay1_clickHandler(event)"
+						click.greeting="videodisplay2_clickHandler(event)"/>
+		<s:Image includeIn="beckon" width="300" horizontalCenter="0" smooth="true"
+				 source="@Embed('../assets/expandSummer.png')" verticalCenter="600"/>		
+		<s:Image width="600" horizontalCenter="0" smooth="true"
+				 source="@Embed('../assets/winTrip.png')" verticalCenter="-600"/>
+		<ns1:TouchIT includeIn="greeting" horizontalCenter="0" verticalCenter="660"/>
+	</s:Group>
+	<s:Group includeIn="menu" left="0" right="0" top="0" bottom="0">
+		<s:Group  left="0" right="0" top="0" bottom="0" id="bananaRecipe">
+			<s:Group left="0" right="0" top="0" bottom="0" mask="{circleRecipe}">
+				<s:Graphic x="0" y="0" width="1082" height="1920">
+					<s:Rect x="0" y="0" width="660" height="712">
+						<s:fill>
+							<s:SolidColor color="0xffff00" />
+						</s:fill>
+					</s:Rect>
+				</s:Graphic>
+			</s:Group>
+			<s:Group id="circleRecipe" width="146" height="146" horizontalCenter="-205" verticalCenter="100">
+				<s:Ellipse x="0" width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor color="0"/>
+					</s:fill>
+				</s:Ellipse>
+			</s:Group>
+		</s:Group>
+		
+		<s:Group  left="0" right="0" top="0" bottom="0" id="bananaNinja">
+			<s:Group left="0" right="0" top="0" bottom="0" mask="{circleNinja}">
+				<s:Graphic x="0" y="0" width="1082" height="1920">
+					<s:Rect x="0" y="0" width="660" height="712">
+						<s:fill>
+							<s:SolidColor color="0x00ff00" />
+						</s:fill>
+					</s:Rect>
+				</s:Graphic>
+			</s:Group>
+			<s:Group id="circleNinja" width="146" height="146" horizontalCenter="0" verticalCenter="-100">
+				<s:Ellipse x="0" width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor color="0"/>
+					</s:fill>
+				</s:Ellipse>
+			</s:Group>
+		</s:Group>
+	</s:Group>
+
+	<s:Button includeIn="equador,recipe,ninja,weight" x="10" y="10" label="Назад" click="button1_clickHandler(event)"/>
+
+</s:WindowedApplication>

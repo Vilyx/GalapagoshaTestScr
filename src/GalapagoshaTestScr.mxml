@@ -87,10 +87,20 @@
 				currentState = "menu";
 			}
 			
+			protected function group1_clickHandler(event:MouseEvent):void
+			{
+				anim2.play();
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:Transition id="anim" >
+			<mx:AnimateProperty fromValue="1" toValue="100" property="scaleX" target="{circleRecipe}" duration="1000" id="anim2">
+				
+			</mx:AnimateProperty>
+		</s:Transition>
 	</fx:Declarations>
 	<s:Image includeIn="greeting,beckon" width="2000" height="1300" horizontalCenter="0" smooth="true"
 			 source="@Embed('../assets/background.png')" verticalCenter="170"/>
@@ -110,7 +120,7 @@
 	</s:Group>
 	<s:Group includeIn="menu" left="0" right="0" top="0" bottom="0">
 		<s:Group  left="0" right="0" top="0" bottom="0" id="bananaRecipe">
-			<s:Group left="0" right="0" top="0" bottom="0" mask="{circleRecipe}">
+			<s:Group left="0" right="0" top="0" bottom="0" mask="{circleRecipe}" click="group1_clickHandler(event)">
 				<s:Graphic x="0" y="0" width="1082" height="1920">
 					<s:Rect x="0" y="0" width="660" height="712">
 						<s:fill>

@@ -4,7 +4,7 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:ns1="*" addedToStage="windowedapplication1_addedToStageHandler(event)"
 					   backgroundColor="0x6dcff6" currentState="beckon"
-					   width ="1080" height ="1920" alignmentBaseline="ideographicCenter" showStatusBar="false">
+					   width ="1080" height ="1920" alignmentBaseline="ideographicCenter" showStatusBar="false" backgroundAlpha.ninja="0" frameRate="24">
 	<s:states>
 		<s:State name="menu"/>
 		<s:State name="greeting"/>
@@ -17,16 +17,77 @@
 	</s:states>
 	<fx:Script>
 		<![CDATA[
+			import flash.utils.setTimeout;
+			
+			import org.osmf.events.MediaPlayerStateChangeEvent;
+			import org.osmf.events.TimeEvent;
 			import org.osmf.layout.ScaleMode;
 			// Выход из режима привлечения внимания - startUserInteraction, переходим в режим приветствия
 			// Возврат в режим меню - backToMenu
 			// Если находимся в режиме меню больше 5 секунд - включается режим завлекания
+			private var video:Video = new Video(); 
+			private var count:Number = 0;
+			private var ns:NetStream;
+			
 			protected function windowedapplication1_addedToStageHandler(event:Event):void
 			{
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				addEventListener(Event.ENTER_FRAME,onEnterFrame);
+				
+				
+				
+				var nc:NetConnection = new NetConnection(); 
+				nc.connect(null); 
+				ns = new NetStream(nc); 
+				ns.client = {onMetaData:ns_onMetaData, NetStatusEvent:ns_onPlayStatus}; 
+				ns.addEventListener(NetStatusEvent.NET_STATUS, ns_onPlayStatus); 
+				beckonVideo.videoObject.attachNetStream(ns);
+				ns.play("../assets/1.flv");
 			}
-			
+			private var lastVid:int = -1;
+			protected function ns_onPlayStatus(event:NetStatusEvent):void 
+			{ 
+				//trace(event.info.code);
+				if (event.info.code == "NetStream.Play.Stop") 
+				{ 
+					var currentVid:int = lastVid;
+					while(currentVid == lastVid)
+						currentVid = int(1+Math.random()*4.9);
+					lastVid = currentVid;
+					var path:String = "../assets/"+currentVid.toString()+".flv";
+					trace(path);
+					ns.play(path);
+				}
+				
+			}
+			protected function ns_onMetaData(item:Object):void { 
+				
+				beckonVideo.width = 1080;// Resize video instance. 
+				beckonVideo.verticalCenter = 0;
+				beckonVideo.horizontalCenter = 0;
+				
+				
+			} 
+			protected function onVideoStateChange(event:MediaPlayerStateChangeEvent):void
+			{
+				trace(event.state);
+				switch(event.state)
+				{
+					case "ready":
+						setTimeout(playNext,1);
+						break;
+				}
+			}
+			private function playNext():void
+			{
+				if(!beckonVideo.playing)
+				{
+					var path:String = "../assets/"+(int(Math.random()*5)).toString()+".flv";
+					trace(path);
+					beckonVideo.source = path;
+					beckonVideo.play();
+				}
+			}
 			public function startUserInteraction():void
 			{
 				if(currentState == "beckon")
@@ -57,6 +118,7 @@
 			protected function bananaNinjaBtn_clickHandler(event:MouseEvent):void
 			{
 				currentState = "ninja";
+				frameRate = 60;
 			}
 			
 			protected function bananaRecipeBtn_clickHandler(event:MouseEvent):void
@@ -67,6 +129,7 @@
 			protected function button1_clickHandler(event:MouseEvent):void
 			{
 				currentState = "menu";
+				frameRate = 24;
 			}
 			
 			protected var firstMenuTime:Date = new Date();
@@ -87,10 +150,8 @@
 				currentState = "menu";
 			}
 			
-			protected function group1_clickHandler(event:MouseEvent):void
-			{
-				anim2.play();
-			}
+			
+			
 			
 		]]>
 	</fx:Script>
@@ -102,15 +163,17 @@
 			</mx:AnimateProperty>
 		</s:Transition>
 	</fx:Declarations>
-	<s:Image includeIn="greeting,beckon" width="2000" height="1300" horizontalCenter="0" smooth="true"
-			 source="@Embed('../assets/background.png')" verticalCenter="170"/>
+	<s:Image includeIn="greeting,beckon" width="2000" height="1300"
+			 smooth="true" source="@Embed('../assets/background.png')" 
+			 horizontalCenter="0" verticalCenter="0"/>
 	<ns1:Clouds2 includeIn="greeting,beckon" width="1100" horizontalCenter="0" verticalCenter="0"/>
 	<s:Group includeIn="greeting,beckon" left="0" right="0" top="0" bottom="0">
 		
 		
-		<s:VideoDisplay width="1000" horizontalCenter="0" loop="true" source="assets/olusha.flv"
+		<s:VideoDisplay id="beckonVideo" width="1080" horizontalCenter="0"
 						verticalCenter="0"
 						click.beckon="videodisplay1_clickHandler(event)"
+						source="assets/1.flv"
 						click.greeting="videodisplay2_clickHandler(event)"/>
 		<s:Image includeIn="beckon" width="300" horizontalCenter="0" smooth="true"
 				 source="@Embed('../assets/expandSummer.png')" verticalCenter="600"/>		
@@ -120,16 +183,52 @@
 	</s:Group>
 	<s:Group includeIn="menu" left="0" right="0" top="0" bottom="0">
 		<s:Group  left="0" right="0" top="0" bottom="0" id="bananaRecipe">
-			<s:Group left="0" right="0" top="0" bottom="0" mask="{circleRecipe}" click="group1_clickHandler(event)">
+			<s:Group left="0" right="0" top="0" bottom="0" mask="{circleRecipe}" click="bananaNinjaBtn_clickHandler(event)">
 				<s:Graphic x="0" y="0" width="1082" height="1920">
 					<s:Rect x="0" y="0" width="660" height="712">
 						<s:fill>
-							<s:SolidColor color="0xffff00" />
+							<s:SolidColor color="0xfbb03b" />
 						</s:fill>
 					</s:Rect>
 				</s:Graphic>
 			</s:Group>
 			<s:Group id="circleRecipe" width="146" height="146" horizontalCenter="-205" verticalCenter="100">
+				<s:Ellipse x="0" width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor color="0"/>
+					</s:fill>
+				</s:Ellipse>
+			</s:Group>
+		</s:Group>
+		<s:Group  left="0" right="0" top="0" bottom="0" id="bananaWeight">
+			<s:Group left="0" right="0" top="0" bottom="0" mask="{circleWeight}" click="bananaWeightBtn_clickHandler(event)">
+				<s:Graphic x="0" y="0" width="1082" height="1920">
+					<s:Rect x="0" y="0" width="660" height="712">
+						<s:fill>
+							<s:SolidColor color="0xf15a24" />
+						</s:fill>
+					</s:Rect>
+				</s:Graphic>
+			</s:Group>
+			<s:Group id="circleWeight" width="146" height="146" horizontalCenter="205" verticalCenter="100">
+				<s:Ellipse x="0" width="100%" height="100%">
+					<s:fill>
+						<s:SolidColor color="0"/>
+					</s:fill>
+				</s:Ellipse>
+			</s:Group>
+		</s:Group>
+		<s:Group  left="0" right="0" top="0" bottom="0" id="equador">
+			<s:Group left="0" right="0" top="0" bottom="0" mask="{circleEquador}">
+				<s:Graphic x="0" y="0" width="1082" height="1920">
+					<s:Rect x="0" y="0" width="660" height="712">
+						<s:fill>
+							<s:SolidColor color="0x22b573" />
+						</s:fill>
+					</s:Rect>
+				</s:Graphic>
+			</s:Group>
+			<s:Group id="circleEquador" width="146" height="146" horizontalCenter="0" verticalCenter="-100">
 				<s:Ellipse x="0" width="100%" height="100%">
 					<s:fill>
 						<s:SolidColor color="0"/>
@@ -143,12 +242,12 @@
 				<s:Graphic x="0" y="0" width="1082" height="1920">
 					<s:Rect x="0" y="0" width="660" height="712">
 						<s:fill>
-							<s:SolidColor color="0x00ff00" />
+							<s:SolidColor color="0x0081ff" />
 						</s:fill>
 					</s:Rect>
 				</s:Graphic>
 			</s:Group>
-			<s:Group id="circleNinja" width="146" height="146" horizontalCenter="0" verticalCenter="-100">
+			<s:Group id="circleNinja" width="146" height="146" horizontalCenter="0" verticalCenter="300">
 				<s:Ellipse x="0" width="100%" height="100%">
 					<s:fill>
 						<s:SolidColor color="0"/>
@@ -158,6 +257,7 @@
 		</s:Group>
 	</s:Group>
 
+	<ns1:BananaNinja includeIn="ninja" left="0" top="0" bottom="0" right="0"/>
 	<s:Button includeIn="equador,recipe,ninja,weight" x="10" y="10" label="Назад" click="button1_clickHandler(event)"/>
 
 </s:WindowedApplication>

@@ -10,6 +10,8 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
+      <libraryPathEntry kind="3" linkType="1" path="/Box3Dlib/bin/Box3Dlib.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/away3d-core-fp11-dev/bin/away3d-core-fp11-dev.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

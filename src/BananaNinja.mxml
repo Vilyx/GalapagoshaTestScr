@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1080" height="1920" addedToStage="application1_addedToStageHandler(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import Box2D.Collision.Shapes.b2CircleShape;
+			import Box2D.Collision.Shapes.b2PolygonShape;
+			import Box2D.Collision.b2AABB;
+			import Box2D.Common.Math.b2Vec2;
+			import Box2D.Common.b2internal;
+			import Box2D.Dynamics.b2Body;
+			import Box2D.Dynamics.b2BodyDef;
+			import Box2D.Dynamics.b2DebugDraw;
+			import Box2D.Dynamics.b2FixtureDef;
+			import Box2D.Dynamics.b2World;
+			
+			import away3d.cameras.Camera3D;
+			import away3d.containers.ObjectContainer3D;
+			import away3d.containers.Scene3D;
+			import away3d.containers.View3D;
+			import away3d.core.base.Object3D;
+			import away3d.debug.AwayStats;
+			import away3d.entities.Mesh;
+			import away3d.events.LoaderEvent;
+			import away3d.events.MouseEvent3D;
+			import away3d.lights.DirectionalLight;
+			import away3d.loaders.Loader3D;
+			import away3d.loaders.parsers.Parsers;
+			import away3d.materials.TextureMaterial;
+			import away3d.materials.lightpickers.StaticLightPicker;
+			import away3d.textures.BitmapTexture;
+			
+			public var m_world:b2World;
+			public var m_bomb:b2Body;
+			public var m_velocityIterations:int = 10;
+			public var m_positionIterations:int = 10;
+			public var m_timeStep:Number = 1.0/48.0;
+			public var m_physScale:Number = 30;
+			
+			use namespace b2internal;
+			
+			//var b:b2Body;
+			
+			private var blist:Vector.<b2Body> = new Vector.<b2Body>();
+			private var rotlist:Vector.<Vector3D> = new Vector.<Vector3D>();
+			
+			
+			
+			private var _view:View3D;
+			private var _scene:Scene3D;
+			private var _camera:Camera3D;
+			
+			private var banana:Loader3D;
+			private var skinLoader:Loader3D;
+			private var halfsLoader:Loader3D;
+			private var _lightPicker:StaticLightPicker;
+			private var bananaClon:Object3D;
+			private var skinClon:Object3D;
+			private var firstHalf:Object3D;
+			private var secondHalf:Object3D;
+			private var bananaHolder:ObjectContainer3D;
+			
+			[Embed(source="assets/Ninjas.jpg")]
+			public var backImg:Class;
+			
+			protected function application1_addedToStageHandler(event:Event):void
+			{
+				stage.scaleMode = StageScaleMode.NO_SCALE;
+				stage.align = StageAlign.TOP_LEFT;
+				
+				//setup the view
+				_view = new View3D();
+				stage.addChild(_view);
+				var bmd:BitmapData = new backImg().bitmapData;
+				_view.background = new BitmapTexture(bmd);   
+				_view.backgroundColor = 0x037cfe;
+				_scene = _view.scene;
+				_camera = _view.camera;
+				
+				//new HoverDragController(_camera,stage);
+				_camera.x =0;
+				_camera.y=0;
+				_camera.z=-1000;
+				_camera.lookAt(new Vector3D(0,-1,0));
+				_view.camera.lens.far = 10000;
+				_view.camera.lens.near = 1;
+				_view.antiAlias = 8;
+				//setup parser to be used on Loader3D
+				Parsers.enableAllBundled();
+				
+				banana = new Loader3D();
+				banana.addEventListener(LoaderEvent.RESOURCE_COMPLETE,onComplete);
+				banana.load(new URLRequest("../assets/banana_only.obj"));
+				bananaHolder = new ObjectContainer3D();
+				_scene.addChild(bananaHolder);
+				//_scene.addChild(banana);
+				
+				//setup the lights for the scene
+				var _light:DirectionalLight = new DirectionalLight(-1, -1, 1);
+				_light.ambient = 1;
+				_light.ambientColor = 0xc5e1ff;
+				var _direction:Vector3D = new Vector3D(-1, -1, 1);
+				_lightPicker = new StaticLightPicker([_light]);
+				_view.scene.addChild(_light);
+				
+				//add listeners
+				//stage.addChild(new AwayStats(_view));
+			}
+			private function setupWorld():void
+			{
+				var worldAABB:b2AABB = new b2AABB();
+				worldAABB.lowerBound.Set(-1000.0, -1000.0);
+				worldAABB.upperBound.Set(1000.0, 1000.0);
+				
+				// Define the gravity vector
+				var gravity:b2Vec2 = new b2Vec2(0.0,30.0);
+				
+				// Allow bodies to sleep
+				var doSleep:Boolean = true;
+				
+				// Construct a world object
+				m_world = new b2World(gravity, doSleep);
+				//m_world.SetBroadPhase(new b2BroadPhase(worldAABB));
+				m_world.SetWarmStarting(true);
+				
+				// Create border of boxes
+				var wall:b2PolygonShape= new b2PolygonShape();
+				var wallBd:b2BodyDef = new b2BodyDef();
+				var wallB:b2Body;
+				
+				createBanan();
+				addEventListener(Event.ENTER_FRAME, onEnterFrame);
+				stage.addEventListener(Event.RESIZE, onResize);
+				onResize();
+				
+				_view.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+				_view.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			}
+			private function createBanan(skin:Boolean=false):void
+			{
+				var b:b2Body;
+				var fd:b2FixtureDef = new b2FixtureDef();
+				var bd:b2BodyDef = new b2BodyDef();
+				bd.type = b2Body.b2_dynamicBody;
+				var cd:b2CircleShape = new b2CircleShape();
+				cd.m_radius = 10/m_physScale;
+				fd.density = 2;
+				fd.restitution = 0.2;
+				fd.friction = 0.5;
+				fd.shape = cd;
+				bd.type = b2Body.b2_dynamicBody;
+				bd.userData = (skin?"skin":"banan");
+				var xpos:int = (Math.random()*1000-500)/m_physScale*(this.width/1600);
+				bd.position.Set(xpos, 400/m_physScale);
+				b = m_world.CreateBody(bd);
+				b.CreateFixture(fd);
+				
+				var horvel:Number = ((bd.position.x<0)?Math.random()*8+2:-Math.random()*8-2);
+				b.SetLinearVelocity(new b2Vec2(horvel,Math.random()*12-35));
+				blist.push(b);
+				
+				var banan:ObjectContainer3D;
+				if(!skin)
+					banan = bananaClon.clone() as ObjectContainer3D;
+				else
+					banan = skinClon.clone() as ObjectContainer3D;
+				banan.mouseEnabled = true;
+				banan.addEventListener(MouseEvent3D.MOUSE_OVER,onMeshMouseOver);
+				banan.position = new Vector3D(-bd.position.x * 50+100, -bd.position.y * 50+100,0);
+				bananaHolder.addChild(banan);
+				//var rot:Vector3D = new Vector3D(Math.random()*8-4,Math.random()*8-4,Math.random()*8-4);
+				var rot:Vector3D = new Vector3D(0,Math.random()*8-4,Math.random()*8-4);
+				//var rot:Vector3D = new Vector3D(Math.random()*8-4,0,Math.random()*8-4);
+				rotlist.push(rot);
+			}
+			private function destroyBanan(i:int):void
+			{
+				bananaHolder.removeChild(bananaHolder.getChildAt(i));
+				blist.splice(i,1);
+				var usrData:String = blist[i].GetUserData(); 
+				if(usrData == "banan" || usrData == "skin")
+				{
+					currentBanans--;
+				}
+				rotlist.splice(i,1);
+			}
+			private function createSplittedBanan(pos:Point,rot:Vector3D,velocity:b2Vec2,rotDir:Vector3D):void
+			{
+				createBananHalf(true,pos,rot,velocity,rotDir);
+				createBananHalf(false,pos,rot,velocity,rotDir);
+			}
+			private function createBananHalf(first:Boolean,pos:Point,rot:Vector3D,velocity:b2Vec2,rotDir:Vector3D):void
+			{
+				var b:b2Body;
+				var fd:b2FixtureDef = new b2FixtureDef();
+				var bd:b2BodyDef = new b2BodyDef();
+				bd.type = b2Body.b2_dynamicBody;
+				var cd:b2CircleShape = new b2CircleShape();
+				cd.m_radius = 1/m_physScale;
+				fd.density = 2;
+				fd.restitution = 0.2;
+				fd.friction = 0.5;
+				fd.shape = cd;
+				bd.type = b2Body.b2_dynamicBody;
+				bd.userData = (first?"fhalf":"shalf");
+				bd.position.Set(pos.x,pos.y);
+				b = m_world.CreateBody(bd);
+				b.CreateFixture(fd);
+				
+				var obj:Object3D = new Object3D();
+				obj.rotateTo(rot.x,rot.y,rot.z);
+				var vel:b2Vec2;
+				
+				if(!first)
+					vel = new b2Vec2(velocity.x+obj.forwardVector.x*5,velocity.y+obj.forwardVector.y*5);
+				else
+					vel = new b2Vec2(velocity.x+obj.backVector.x*5,velocity.y+obj.backVector.y*5);
+				b.SetLinearVelocity(vel);
+				blist.push(b);
+				
+				var banan:ObjectContainer3D;
+				banan = (first?firstHalf.clone():secondHalf.clone()) as ObjectContainer3D;
+				banan.rotationX = rot.x;
+				banan.rotationY = rot.y;
+				banan.rotationZ = rot.z;
+				
+				banan.position = new Vector3D(-bd.position.x * 50+100, -bd.position.y * 50+100,0);
+				bananaHolder.addChild(banan);
+				//var rot:Vector3D = new Vector3D(Math.random()*8-4,Math.random()*8-4,Math.random()*8-4);
+				//var rotDir:Vector3D = new Vector3D(0,Math.random()*8-4,Math.random()*8-4);
+				//var rot:Vector3D = new Vector3D(Math.random()*8-4,0,Math.random()*8-4);
+				rotlist.push(rotDir);
+			}
+			
+			private var currentBanans:int = 0;
+			private var bananaMaxCount:int = 20;
+			private var bananaWaitTime:int = 200;
+			private var bananaCurrentWait:int = 0;
+			/**
+			 * Navigation and render loop
+			 */
+			private function onEnterFrame(event:Event):void
+			{				
+				bananaCurrentWait += (m_timeStep*1000.0);
+				
+				var physStart:uint = getTimer();
+				m_world.Step(m_timeStep, m_velocityIterations, m_positionIterations);
+				m_world.ClearForces();
+				for (var i:int = 0; i < blist.length; i++) 
+				{
+					
+					var pos:b2Vec2 = blist[i].GetPosition();
+					var banana:ObjectContainer3D = bananaHolder.getChildAt(i) as ObjectContainer3D;
+					//trace(pos.x,pos.y);
+					banana.x = -pos.x * 50+100;
+					banana.y = -pos.y * 50+100;
+					banana.rotationX += rotlist[i].x;
+					banana.rotationY += rotlist[i].y;
+					banana.rotationZ += rotlist[i].z;
+					//trace(banana.y);
+					if(banana.y<-800)destroyBanan(i);
+				}
+				if(bananaCurrentWait>bananaWaitTime&&bananaMaxCount>bananaHolder.numChildren)
+				{
+					bananaCurrentWait = 0;
+					createBanan((Math.random()>0.8?true:false));
+					currentBanans ++;
+				}
+				_view.render();
+			}
+			/**
+			 * stage listener for resize events
+			 */
+			private function onResize(event:Event = null):void
+			{
+				_view.width = stage.stageWidth;
+				_view.height = stage.stageHeight;
+			}
+			
+			protected function onComplete(event:LoaderEvent):void
+			{
+				
+				banana.removeEventListener(LoaderEvent.RESOURCE_COMPLETE,onComplete);
+				if((banana as Loader3D).numChildren > 0)
+				{
+					var mesh:Mesh = banana.getChildAt(0) as Mesh;
+					mesh.scale(100);
+					var mat:TextureMaterial = (mesh.material as TextureMaterial);
+					mat.ambient = 0.8;
+					mat.lightPicker = _lightPicker;
+					bananaClon = mesh.clone();
+				}
+				skinLoader = new Loader3D();
+				skinLoader.addEventListener(LoaderEvent.RESOURCE_COMPLETE,onSkinComplete);
+				skinLoader.load(new URLRequest("../assets/banana_skin.obj"));
+				
+			}
+			
+			protected function onSkinComplete(event:LoaderEvent):void
+			{
+				skinLoader.removeEventListener(LoaderEvent.RESOURCE_COMPLETE,onComplete);
+				if((banana as Loader3D).numChildren > 0)
+				{
+					var mesh:Mesh = skinLoader.getChildAt(0) as Mesh;
+					mesh.scale(100);
+					var mat:TextureMaterial = (mesh.material as TextureMaterial);
+					mat.ambient = 0.8;
+					mat.lightPicker = _lightPicker;
+					skinClon = mesh.clone();
+				}
+				halfsLoader = new Loader3D();
+				halfsLoader.addEventListener(LoaderEvent.RESOURCE_COMPLETE,onHalfsComplete);
+				halfsLoader.load(new URLRequest("../assets/banana_splitted.obj"));
+			}
+			
+			protected function onHalfsComplete(event:LoaderEvent):void
+			{
+				halfsLoader.removeEventListener(LoaderEvent.RESOURCE_COMPLETE,onComplete);
+				if((banana as Loader3D).numChildren > 0)
+				{
+					var mesh:Mesh = halfsLoader.getChildAt(0) as Mesh;
+					mesh.scale(100);
+					var mat:TextureMaterial = (mesh.material as TextureMaterial);
+					mat.ambient = 0.8;
+					mat.lightPicker = _lightPicker;
+					firstHalf = mesh.clone();
+					mesh = halfsLoader.getChildAt(1) as Mesh;
+					mesh.scale(100);
+					mat = (mesh.material as TextureMaterial);
+					mat.ambient = 0.8;
+					mat.lightPicker = _lightPicker;
+					secondHalf = mesh.clone();
+				}
+				setupWorld();
+			}
+			
+			private var mbd:Boolean = false;
+			protected function onMouseDown(event:MouseEvent):void
+			{
+				mbd = true;	
+			}
+			
+			protected function onMouseUp(event:MouseEvent):void
+			{
+				mbd = false;	
+			}
+			
+			protected function onMeshMouseOver(event:MouseEvent3D):void
+			{
+				if(mbd)
+				{
+					var banana:ObjectContainer3D = event.target as ObjectContainer3D;
+					for (var i:int = 0; i < bananaHolder.numChildren; i++) 
+					{
+						if(banana == bananaHolder.getChildAt(i))
+						{
+							var body:b2Body = blist[i];
+							var objType:String = body.GetUserData();
+							if(objType == "skin")
+							{
+								trace("slicing skin");
+							}
+							else if(objType == "banan")
+							{
+								var rot:Vector3D = new Vector3D(banana.rotationX,banana.rotationY,banana.rotationZ);
+								var pos:Point = new Point(body.GetPosition().x,body.GetPosition().y);
+								createSplittedBanan(pos,rot,body.GetLinearVelocity(),rotlist[i]);
+								destroyBanan(i);
+							}
+							break;
+						}
+					}
+				}
+			}
+			
+		]]>
+	</fx:Script>
+</s:Group>

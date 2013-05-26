@@ -15,14 +15,14 @@
 
 	<!-- A universally unique application identifier. Must be unique across all AIR applications.
 	Using a reverse DNS-style name as the id is recommended. (Eg. com.example.ExampleApplication.) Required. -->
-	<id>GalapagoshaTestScr</id>
+	<id>test</id>
 
 	<!-- Used as the filename for the application. Required. -->
-	<filename>GalapagoshaTestScr</filename>
+	<filename>test</filename>
 
 	<!-- The name that is displayed in the AIR application installer. 
 	May have multiple values for each language. See samples or xsd schema file. Optional. -->
-	<name>GalapagoshaTestScr</name>
+	<name>test</name>
 	
 	<!-- A string value of the format <0-999>.<0-999>.<0-999> that represents application version which can be used to check for application upgrade. 
 	Values can also be 1-part or 2-part. It is not necessary to have a 3-part value.
@@ -46,7 +46,7 @@
 	<initialWindow>
 		<!-- The main SWF or HTML file of the application. Required. -->
 		<!-- Note: In Flash Builder, the SWF reference is set automatically. -->
-		<content>GalapagoshaTestScr.swf</content>
+		<content>test.swf</content>
 		
 		<!-- The title of the main window. Optional. -->
 		<!-- <title></title> -->
@@ -101,13 +101,14 @@
 
         <!-- The render mode for the app (either auto, cpu, gpu, or direct). Optional. Default auto -->
 
-        <renderMode>gpu</renderMode>
+        <!-- <renderMode></renderMode> -->
 
 		<!-- Whether or not to pan when a soft keyboard is raised or lowered (either "pan" or "none").  Optional.  Defaults "pan." -->
 		<!-- <softKeyboardBehavior></softKeyboardBehavior> -->
-	<autoOrients>false</autoOrients>
+	<autoOrients>true</autoOrients>
         <fullScreen>false</fullScreen>
         <visible>false</visible>
+        <softKeyboardBehavior>none</softKeyboardBehavior>
     </initialWindow>
 
 	<!-- We recommend omitting the supportedProfiles element, -->

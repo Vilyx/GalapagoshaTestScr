@@ -113,7 +113,9 @@
 						currentVid = nextVid;
 						nextVid = -1;
 					}
-					if(currentState != "menu" && currentState != "greeting" && (currentVid == 6 || currentVid == 11))currentVid = 7;
+//осторожно костыль
+					if(currentVid == 7 || currentVid == 8) currentVid = 3;
+					if(currentState != "menu" && currentState != "greeting" && (currentVid == 6 || currentVid == 11))currentVid = 4;
 					var path:String = "../assets/"+currentVid.toString()+".flv";
 					trace(path);
 					ns.play(path);
@@ -122,7 +124,7 @@
 			}
 			protected function ns_onMetaData(item:Object):void 
 			{ 
-				/*beckonVideo.width = item.width;// Resize video instance.
+				beckonVideo.width = item.width;// Resize video instance.
 				beckonVideo.height = item.height;
 				/*beckonVideo.verticalCenter = 0;
 				beckonVideo.horizontalCenter = 0;*/
@@ -366,12 +368,12 @@
 		<s:Scroller includeIn="greeting,beckon,menu" width="1080"
 					height="1920">
 			<s:Group left="0" right="0" top="0" bottom="0">
-				<s:VideoDisplay id="beckonVideo" horizontalCenter="0"
-								rotation="90" scaleMode="letterbox" verticalCenter="0"
-								width="1920" height="1080"
-								source="assets/1.flv"
-								horizontalCenter.menu="0"
-								verticalCenter.menu="-200"/>
+				<s:VideoDisplay id="beckonVideo" horizontalCenter="0" rotation="90"
+								scaleMode="letterbox" verticalCenter="0"
+								source.beckon="assets/1.flv"
+								height.greeting="1080" source.greeting="assets/1.flv"
+								height.menu="1080" horizontalCenter.menu="0"
+								source.menu="assets/1.flv" verticalCenter.menu="-200"/>
 				<s:Image width="600" horizontalCenter="0" smooth="true"
 						 source="@Embed('../assets/winTrip.png')" verticalCenter="700"
 						 includeIn="beckon"/>

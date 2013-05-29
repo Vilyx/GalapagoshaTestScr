@@ -18,12 +18,30 @@
 					case "ecuador_friend":
 					case "ecuador_power":
 					case "ecuador_happy":
+						RecursiveStop(swfPlayer.content as MovieClip);
 						lessonChooser.currentState = this.currentState;
 						break;
 				}
 				
 			}
-			
+			private function RecursiveStop(mc:MovieClip):void
+			{
+				if(mc == null) {trace("null");return;}
+				for(var i:int = 0; i < mc.numChildren; i++)
+				{
+					var obj:Object = mc.getChildAt(i);
+					
+					trace(obj); // debugging
+					
+					if(mc.getChildAt(i) is MovieClip || getQualifiedSuperclassName(obj) == "flash.display::MovieClip")
+					{
+						RecursiveStop(obj as MovieClip);
+					}
+				}
+				var transform:SoundTransform = new SoundTransform(0);
+				mc.soundTransform = transform;
+				//mc.stop();
+			}
 			protected function ecuadoriconsun1_clickHandler(event:MouseEvent):void
 			{
 				currentState = "ecuador_sun";
@@ -67,8 +85,16 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+
 	<s:Image x="0" y="0" source="@Embed('../assets/Ecuador/bg.jpg')"
 			 styleName="headerSmaller"/>
+	<s:Scroller width="1080" height="1920" mouseEnabled="false" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+		<s:Group mouseEnabled="false">
+			<s:SWFLoader mouseEnabled="false" id="swfPlayer" excludeFrom="ecuador_next" alpha.ecuador_start="0" y="960" width="1080" height="1920" x="540"
+						 source.ecuador_happy="@Embed('../assets/beach.swf')" source.ecuador_sun="@Embed('../assets/sun.swf')" source.ecuador_power="@Embed('../assets/vulcan.swf')" source.ecuador_friend="@Embed('../assets/friendship.swf')"/>
+		</s:Group>
+		
+	</s:Scroller>
 	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_friend,ecuador_happy,ecuador_power,ecuador_sun" x="18" y="511"
 			 width="1044" height="202" color="#FFFFFF" styleName="headerBig" text="Солнце"
 			 text.ecuador_friend="Дружба"
@@ -129,6 +155,7 @@
 			 text="Поэтому в Эквадоре&#xd;самые вкусные&#xd;и полезные бананы&#xd;на свете"/>
 	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="312" y="1277" color="#FFFFFF" fontFamily="BananaFontItal"
 			 fontSize="50" lineHeight="90%" text="Выбирай следующий&#xd;рассказ:" textAlign="center"/>
+	
 	
 	
 	<s:Image top="80" width="554" height="414" horizontalCenter="0"

@@ -10,6 +10,8 @@
 			public var slicedBananas:int = 0;
 			public var slicedSkins:int = 0;
 			private var timer:Timer = new Timer(30000);
+			[Embed(source='../assets/ninja_win.mp3')] 		 
+			private var WinSound : Class; 
 			protected function group1_addedToStageHandler(event:Event):void
 			{
 				currentState = "start";
@@ -30,6 +32,7 @@
 						ninjaPlayCmp.addEventListener("skin",onSkinSlice);
 						break;
 					case "result":
+						(new WinSound() as Sound).play();
 						resultBanans.score = slicedBananas;	
 						break;
 				}

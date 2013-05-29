@@ -68,6 +68,8 @@
 			
 			[Embed(source="assets/Ninjas.jpg")]
 			public var backImg:Class;
+			[Embed(source='../assets/slice_banana.mp3')] 		 
+			private var MySound : Class; 
 			
 			protected function application1_addedToStageHandler(event:Event):void
 			{
@@ -370,11 +372,13 @@
 							if(objType == "skin")
 							{
 								trace("slicing skin");
+								(new MySound() as Sound).play();
 								destroyBanan(i);
 								dispatchEvent(new Event("skin"));
 							}
 							else if(objType == "banan")
 							{
+								(new MySound() as Sound).play();
 								var rot:Vector3D = new Vector3D(banana.rotationX,banana.rotationY,banana.rotationZ);
 								var pos:Point = new Point(body.GetPosition().x,body.GetPosition().y);
 								createSplittedBanan(pos,rot,body.GetLinearVelocity(),rotlist[i]);

@@ -42,6 +42,16 @@
 			private var ns:NetStream;
 			[Embed(source='assets/start-marimba.mp3')] 		 
 			private var MySound : Class; 
+			
+			[Embed(source='../assets/Ecuador_background.mp3')] 		 
+			private var EcuadorSound : Class; 
+			[Embed(source='../assets/VesRost_background.mp3')] 		 
+			private var VesRostSound : Class; 
+			[Embed(source='../assets/Ninja_background.mp3')] 		 
+			private var NinjaSound : Class; 
+			[Embed(source='../assets/Recipes_background.mp3')] 		 
+			private var RecipesSound : Class; 
+			
 			[Embed(source="assets/backBtnIc.png")] 
 			private var BackImage:Class;
 			[Bindable] 
@@ -51,6 +61,8 @@
 			private var sound:Sound = new MySound() as Sound;
 			private var soundChannel:SoundChannel;
 			
+			private var gameBackground:Sound;
+			private var gameSoundChannel:SoundChannel;
 			
 			
 			private function onSoundChannelSoundComplete(e:Event):void
@@ -101,6 +113,7 @@
 						currentVid = nextVid;
 						nextVid = -1;
 					}
+					if(currentState != "menu" && currentState != "greeting" && (currentVid == 6 || currentVid == 11))currentVid = 7;
 					var path:String = "../assets/"+currentVid.toString()+".flv";
 					trace(path);
 					ns.play(path);
@@ -109,7 +122,7 @@
 			}
 			protected function ns_onMetaData(item:Object):void 
 			{ 
-				beckonVideo.width = item.width;// Resize video instance.
+				/*beckonVideo.width = item.width;// Resize video instance.
 				beckonVideo.height = item.height;
 				/*beckonVideo.verticalCenter = 0;
 				beckonVideo.horizontalCenter = 0;*/
@@ -244,6 +257,62 @@
 						
 					}
 				}
+				if(gameSoundChannel != null)
+				{
+					
+					switch(currentState)
+					{
+						case "menu":
+						case "beckon":
+						case "greeting":
+							if(gameSoundChannel.soundTransform.volume!=0)
+							{
+								var t:Tween = new Tween(this,0.5,0,1000,-1,updGameBackground,updGameBackground);
+								//TweenLite.to(soundChannel.soundTransform,3,{volume:0.5});
+							}
+							break;
+						case "ecuador":
+							gameBackground = new EcuadorSound();
+							gameSoundChannel = gameBackground.play();
+							if(gameSoundChannel.soundTransform.volume!=0.5)
+							{
+								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
+							}
+							break;
+						case "recipe":
+							gameBackground = new RecipesSound();
+							gameSoundChannel = gameBackground.play();
+							if(gameSoundChannel.soundTransform.volume!=0.5)
+							{
+								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
+							}
+							break;
+						case "ninja":
+							gameBackground = new NinjaSound();
+							gameSoundChannel = gameBackground.play();
+							if(gameSoundChannel.soundTransform.volume!=0.5)
+							{
+								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
+							}
+							break;
+						case "weight":
+							gameBackground = new VesRostSound();
+							gameSoundChannel = gameBackground.play();
+							if(gameSoundChannel.soundTransform.volume!=0.5)
+							{
+								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
+							}
+							break;						
+						
+					}
+				}
+				else
+				{
+					gameBackground = new VesRostSound();
+					gameSoundChannel = gameBackground.play();
+					var transform:SoundTransform = new SoundTransform(0);
+					gameSoundChannel.soundTransform = transform;
+				}
 				switch(currentState)
 				{
 					case "menu":
@@ -264,7 +333,14 @@
 				var transform:SoundTransform = new SoundTransform(val);
 				soundChannel.soundTransform = transform;
 			}
-			
+			private function updGameBackground(val:Number):void
+			{
+				trace(val);
+				var transform:SoundTransform = new SoundTransform(val);
+				gameSoundChannel.soundTransform = transform;
+				if(val == 0)
+					gameSoundChannel.stop();
+			}
 			protected function windowedapplication1_clickHandler(event:MouseEvent):void
 			{
 				startUserInteraction();
@@ -290,9 +366,12 @@
 		<s:Scroller includeIn="greeting,beckon,menu" width="1080"
 					height="1920">
 			<s:Group left="0" right="0" top="0" bottom="0">
-				<s:VideoDisplay id="beckonVideo" width="1080" alpha="0.5" horizontalCenter="0" verticalCenter="0"
-								source="assets/7.flv" scaleMode="letterbox"
-								horizontalCenter.menu="0" verticalCenter.menu="-200"/>
+				<s:VideoDisplay id="beckonVideo" horizontalCenter="0"
+								rotation="90" scaleMode="letterbox" verticalCenter="0"
+								width="1920" height="1080"
+								source="assets/1.flv"
+								horizontalCenter.menu="0"
+								verticalCenter.menu="-200"/>
 				<s:Image width="600" horizontalCenter="0" smooth="true"
 						 source="@Embed('../assets/winTrip.png')" verticalCenter="700"
 						 includeIn="beckon"/>

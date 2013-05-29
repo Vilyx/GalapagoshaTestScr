@@ -2,22 +2,34 @@
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   xmlns:ns1="*" addedToStage="windowedapplication1_addedToStageHandler(event)"
-					   backgroundColor="0x6dcff6" currentState="beckon"
-					   width ="1080" height ="1920" alignmentBaseline="ideographicCenter" showStatusBar="false" backgroundAlpha.ninja="0" frameRate="24">
+					   xmlns:ns1="*"
+					   xmlns:btnbar="btnbar.*"
+					   width="1080" height="1920"
+					   addedToStage="windowedapplication1_addedToStageHandler(event)"
+					   alignmentBaseline="ideographicCenter" backgroundColor="0x6dcff6"
+					   currentState="beckon" frameRate="24" showStatusBar="false"
+					   click.greeting="videodisplay2_clickHandler(event)"
+					   backgroundAlpha.ninja="0"
+					   backgroundColor.weight="#FE5F00" stateChangeComplete="windowedapplication1_stateChangeCompleteHandler(event)" click.beckon="windowedapplication1_clickHandler(event)">
+	<fx:Style source="styles.css"/>
 	<s:states>
 		<s:State name="menu"/>
 		<s:State name="greeting"/>
 		<s:State name="beckon"/>
 		
-		<s:State name="equador"/>
+		<s:State name="ecuador"/>
 		<s:State name="recipe"/>
 		<s:State name="ninja"/>
 		<s:State name="weight"/>
 	</s:states>
 	<fx:Script>
 		<![CDATA[
+			import com.greensock.TweenLite;
+			
 			import flash.utils.setTimeout;
+			
+			import mx.effects.Tween;
+			import mx.events.FlexEvent;
 			
 			import org.osmf.events.MediaPlayerStateChangeEvent;
 			import org.osmf.events.TimeEvent;
@@ -28,12 +40,41 @@
 			private var video:Video = new Video(); 
 			private var count:Number = 0;
 			private var ns:NetStream;
+			[Embed(source='assets/start-marimba.mp3')] 		 
+			private var MySound : Class; 
+			[Embed(source="assets/backBtnIc.png")] 
+			private var BackImage:Class;
+			[Bindable] 
+			public var imgBack:Bitmap = new BackImage();
+			private var tracker:Tracker = new Tracker();
+			
+			private var sound:Sound = new MySound() as Sound;
+			private var soundChannel:SoundChannel;
+			
+			
+			
+			private function onSoundChannelSoundComplete(e:Event):void
+			{
+				e.currentTarget.removeEventListener(Event.SOUND_COMPLETE, onSoundChannelSoundComplete);
+				soundChannel = sound.play();
+				
+			}
 			
 			protected function windowedapplication1_addedToStageHandler(event:Event):void
 			{
+				soundChannel = sound.play();
+				var transform:SoundTransform = new SoundTransform(0.5);
+				soundChannel.soundTransform = transform;
+				soundChannel.addEventListener(Event.SOUND_COMPLETE, onSoundChannelSoundComplete);
+				
+				stage.scaleMode = StageScaleMode.SHOW_ALL;
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				addEventListener(Event.ENTER_FRAME,onEnterFrame);
 				
+				stage.addChild(tracker);
+				tracker.addEventListener(Tracker.USER_ENTER,onUserEnter);
+				tracker.addEventListener(Tracker.USER_LEAVE,onUserLeave);
+				tracker.addEventListener(Tracker.USER_STOP,onUserStop);
 				
 				
 				var nc:NetConnection = new NetConnection(); 
@@ -45,6 +86,7 @@
 				ns.play("../assets/1.flv");
 			}
 			private var lastVid:int = -1;
+			private var nextVid:int = -1;
 			protected function ns_onPlayStatus(event:NetStatusEvent):void 
 			{ 
 				//trace(event.info.code);
@@ -52,19 +94,25 @@
 				{ 
 					var currentVid:int = lastVid;
 					while(currentVid == lastVid)
-						currentVid = int(1+Math.random()*4.9);
+						currentVid = int(1+Math.random()*7.9);
 					lastVid = currentVid;
+					if(nextVid != -1)
+					{
+						currentVid = nextVid;
+						nextVid = -1;
+					}
 					var path:String = "../assets/"+currentVid.toString()+".flv";
 					trace(path);
 					ns.play(path);
 				}
 				
 			}
-			protected function ns_onMetaData(item:Object):void { 
-				
-				beckonVideo.width = 1080;// Resize video instance. 
-				beckonVideo.verticalCenter = 0;
-				beckonVideo.horizontalCenter = 0;
+			protected function ns_onMetaData(item:Object):void 
+			{ 
+				beckonVideo.width = item.width;// Resize video instance.
+				beckonVideo.height = item.height;
+				/*beckonVideo.verticalCenter = 0;
+				beckonVideo.horizontalCenter = 0;*/
 				
 				
 			} 
@@ -82,7 +130,7 @@
 			{
 				if(!beckonVideo.playing)
 				{
-					var path:String = "../assets/"+(int(Math.random()*5)).toString()+".flv";
+					var path:String = "../assets/"+(int(Math.random()*8)).toString()+".flv";
 					trace(path);
 					beckonVideo.source = path;
 					beckonVideo.play();
@@ -91,23 +139,19 @@
 			public function startUserInteraction():void
 			{
 				if(currentState == "beckon")
+				{
 					currentState = "greeting";
+					nextVid = 11;
+				}
 			}
 			public function backToMenu():void
 			{
 				currentState = "menu";
-			}
-			
-			protected function videodisplay1_clickHandler(event:MouseEvent):void
-			{
-				startUserInteraction();
-			}
-			
-			
+			}			
 			
 			protected function equadorBtn_clickHandler(event:MouseEvent):void
 			{
-				currentState = "equador";
+				currentState = "ecuador";
 			}
 			
 			protected function bananaWeightBtn_clickHandler(event:MouseEvent):void
@@ -118,7 +162,6 @@
 			protected function bananaNinjaBtn_clickHandler(event:MouseEvent):void
 			{
 				currentState = "ninja";
-				frameRate = 60;
 			}
 			
 			protected function bananaRecipeBtn_clickHandler(event:MouseEvent):void
@@ -129,20 +172,19 @@
 			protected function button1_clickHandler(event:MouseEvent):void
 			{
 				currentState = "menu";
-				frameRate = 24;
 			}
 			
-			protected var firstMenuTime:Date = new Date();
+			//protected var firstMenuTime:Date = new Date();
 			protected function onEnterFrame(event:Event):void
 			{
-				if(currentState == "menu")
+				/*if(currentState == "menu")
 				{
 					var elapsed:Number = new Date().time - firstMenuTime.time;
 					trace();
 					if(elapsed>5000)currentState = "beckon";
 					
 				}
-				else firstMenuTime = new Date();
+				else firstMenuTime = new Date();*/
 			}
 			
 			protected function videodisplay2_clickHandler(event:MouseEvent):void
@@ -153,111 +195,151 @@
 			
 			
 			
+			protected function onUserEnter(event:Event):void
+			{
+				nextVid = 6;
+			}
+			
+			protected function onUserLeave(event:Event):void
+			{
+				currentState = "beckon";
+			}
+			
+			protected function onUserStop(event:Event):void
+			{
+				startUserInteraction();
+			}
+			public function getWeight():Number
+			{
+				return tracker.getWeight();
+			}
+			public function getHeight():Number
+			{
+				return tracker.getHeight();
+			}
+			
+			protected function windowedapplication1_stateChangeCompleteHandler(event:FlexEvent):void
+			{
+				if(soundChannel != null)
+				{
+					switch(currentState)
+					{
+						case "menu":
+							TweenLite.from(beckonVideo,0.5,{verticalCenter:0});
+							TweenLite.from(background,0.5,{verticalCenter:300});
+							TweenLite.from(clouds,0.5,{verticalCenter:0});
+						case "beckon":
+						case "greeting":
+							if(soundChannel.soundTransform.volume!=0.5)
+							{
+								var t:Tween = new Tween(this,0,0.5,3000,-1,upd,upd);
+								//TweenLite.to(soundChannel.soundTransform,3,{volume:0.5});
+							}
+							break;
+						default:
+							if(soundChannel.soundTransform.volume!=0)
+							{
+								var t2:Tween = new Tween(this,0.5,0,3000,-1,upd,upd);
+							}
+						
+					}
+				}
+				switch(currentState)
+				{
+					case "menu":
+						TweenLite.from(bananaWeightBtn,0.5,{horizontalCenter:-100,alpha:0});
+						TweenLite.from(bananaRecipeBtn,0.5,{horizontalCenter:100,alpha:0});
+						TweenLite.from(bananaNinja,0.5,{verticalCenter:400,alpha:0});
+						TweenLite.from(equadorBtn,0.5,{verticalCenter:400,alpha:0});
+						break;
+					case "greeting":
+						TweenLite.from(clickMe,0.5,{alpha:0});
+						break;
+				}
+			}
+			
+			private function upd(val:Number):void
+			{
+				trace(val);
+				var transform:SoundTransform = new SoundTransform(val);
+				soundChannel.soundTransform = transform;
+			}
+			
+			protected function windowedapplication1_clickHandler(event:MouseEvent):void
+			{
+				startUserInteraction();
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
-		<s:Transition id="anim" >
+		<!--s:Transition id="anim" >
 			<mx:AnimateProperty fromValue="1" toValue="100" property="scaleX" target="{circleRecipe}" duration="1000" id="anim2">
 				
 			</mx:AnimateProperty>
-		</s:Transition>
+		</s:Transition-->
 	</fx:Declarations>
-	<s:Image includeIn="greeting,beckon" width="2000" height="1300"
-			 smooth="true" source="@Embed('../assets/background.png')" 
-			 horizontalCenter="0" verticalCenter="0"/>
-	<ns1:Clouds2 includeIn="greeting,beckon" width="1100" horizontalCenter="0" verticalCenter="0"/>
-	<s:Group includeIn="greeting,beckon,menu" left="0" right="0" top="0" bottom="0">
-		
-		
-		<s:VideoDisplay id="beckonVideo" width="1080" horizontalCenter="0"
-						verticalCenter="0"
-						click.beckon="videodisplay1_clickHandler(event)"
-						source="assets/1.flv"
-						click.greeting="videodisplay2_clickHandler(event)"/>
-		<s:Image includeIn="beckon" width="300" horizontalCenter="0" smooth="true"
-				 source="@Embed('../assets/expandSummer.png')" verticalCenter="600"/>		
-		<s:Image width="600" horizontalCenter="0" smooth="true"
-				 source="@Embed('../assets/winTrip.png')" verticalCenter="-600"/>
-		<ns1:TouchIT includeIn="greeting" horizontalCenter="0" verticalCenter="660"/>
+	<s:Group width="1080" height="1920">
+		<s:Image id="background" includeIn="greeting,beckon,menu" width="1080" horizontalCenter="0" smooth="true"
+				 source="@Embed('../assets/background.png')" verticalCenter="300"
+				 horizontalCenter.menu="0" verticalCenter.menu="100"/>
+		<ns1:Clouds2 id="clouds" includeIn="greeting,beckon,menu" width="1100" horizontalCenter="0"
+					 verticalCenter="0"
+					 width.menu="1080" horizontalCenter.menu="0" verticalCenter.menu="-220"/>
+		<s:Scroller includeIn="greeting,beckon,menu" width="1080"
+					height="1920">
+			<s:Group left="0" right="0" top="0" bottom="0">
+				<s:VideoDisplay id="beckonVideo" width="1080" alpha="0.5" horizontalCenter="0" verticalCenter="0"
+								source="assets/7.flv" scaleMode="letterbox"
+								horizontalCenter.menu="0" verticalCenter.menu="-200"/>
+				<s:Image width="600" horizontalCenter="0" smooth="true"
+						 source="@Embed('../assets/winTrip.png')" verticalCenter="700"
+						 includeIn="beckon"/>
+				<ns1:TouchIT id="clickMe" includeIn="greeting" horizontalCenter="0"
+							 verticalCenter="660"/>
+			</s:Group>
+		</s:Scroller>
+		<s:Group includeIn="menu" left="0" right="0" top="0" bottom="0">
+	
+			<s:Group id="bananaWeightBtn" y="1294" width="400" height="366"
+					 click="bananaWeightBtn_clickHandler(event)" horizontalCenter="340">
+				<s:TextArea y="260" width="400" height="120" borderVisible="false"
+							contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
+							mouseEnabled="false" selectable="false" styleName="headerSmall"
+							text="Банано&#xd;метр"/>
+				<s:Image x="66" y="0" smooth="true" source="@Embed('../assets/meterBtn.png')"/>
+			</s:Group>
+			<s:Group id="equadorBtn" x="340" width="400" height="352"
+					 click="equadorBtn_clickHandler(event)" verticalCenter="356">
+				<s:TextArea y="250" width="500" height="120" borderVisible="false"
+							contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
+							mouseEnabled="false" selectable="false" styleName="headerSmall"
+							text="Путешествие&#xd;в Эквадор"/>
+				<s:Image x="66" y="0" smooth="true" source="@Embed('../assets/equador.png')"/>
+			</s:Group>
+			<s:Group id="bananaRecipeBtn" y="1294" width="400" height="424"
+					 click="bananaRecipeBtn_clickHandler(event)" horizontalCenter="-340">
+				<s:TextArea y="258" width="300" height="150" borderVisible="false"
+							contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
+							mouseEnabled="false" selectable="false" styleName="headerSmall"
+							text="Банановые&#xd;рецепты"/>
+				<s:Image x="66" y="0" smooth="true" source="@Embed('../assets/recipesBtn.png')"/>
+			</s:Group>
+			<s:Group id="bananaNinja" x="340" width="400" height="356"
+					 click="bananaNinjaBtn_clickHandler(event)" verticalCenter="710">
+				<s:TextArea y="255" width="500" height="120" borderVisible="false"
+							contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
+							mouseEnabled="false" selectable="false" styleName="headerSmall"
+							text="Банановый&#xd;ниндзя"/>
+				<s:Image x="66" y="0" smooth="true" source="@Embed('../assets/ninjaBtn.png')"/>
+			</s:Group>
+		</s:Group>
+	
+		<ns1:NinjaScreen includeIn="ninja" left="0" top="0" bottom="0" right="0" />
+		<ns1:Recipe includeIn="recipe" left="0" top="0" bottom="0" right="0"/>
+		<ns1:VesRostComp includeIn="weight" left="0" top="0" bottom="0" right="0"/>
+		<ns1:Ecuador includeIn="ecuador" left="0" top="0" bottom="0" right="0"/>
+		<ns1:IconButton skinClass="BtnIconSkin2" click="button1_clickHandler(event)" horizontalCenter="0" bottom="20" icon="{imgBack}" excludeFrom="beckon,menu,greeting"/>
 	</s:Group>
-	<s:Group includeIn="menu" left="0" right="0" top="0" bottom="0">
-		<s:Group  left="0" right="0" top="0" bottom="0" id="bananaRecipe">
-			<s:Group left="0" right="0" top="0" bottom="0" mask="{circleRecipe}" click="bananaNinjaBtn_clickHandler(event)">
-				<s:Graphic x="0" y="0" width="1082" height="1920">
-					<s:Rect x="0" y="0" width="660" height="712">
-						<s:fill>
-							<s:SolidColor color="0xfbb03b" />
-						</s:fill>
-					</s:Rect>
-				</s:Graphic>
-			</s:Group>
-			<s:Group id="circleRecipe" width="73" height="73" horizontalCenter="-130" verticalCenter="700">
-				<s:Ellipse x="0" width="100%" height="100%">
-					<s:fill>
-						<s:SolidColor color="0"/>
-					</s:fill>
-				</s:Ellipse>
-			</s:Group>
-		</s:Group>
-		<s:Group  left="0" right="0" top="0" bottom="0" id="bananaWeight">
-			<s:Group left="0" right="0" top="0" bottom="0" mask="{circleWeight}" click="bananaWeightBtn_clickHandler(event)">
-				<s:Graphic x="0" y="0" width="1082" height="1920">
-					<s:Rect x="0" y="0" width="660" height="712">
-						<s:fill>
-							<s:SolidColor color="0xf15a24" />
-						</s:fill>
-					</s:Rect>
-				</s:Graphic>
-			</s:Group>
-			<s:Group id="circleWeight" width="73" height="73" horizontalCenter="130" verticalCenter="700">
-				<s:Ellipse x="0" width="100%" height="100%">
-					<s:fill>
-						<s:SolidColor color="0"/>
-					</s:fill>
-				</s:Ellipse>
-			</s:Group>
-		</s:Group>
-		<s:Group  left="0" right="0" top="0" bottom="0" id="equador">
-			<s:Group left="0" right="0" top="0" bottom="0" mask="{circleEquador}">
-				<s:Graphic x="0" y="0" width="1082" height="1920">
-					<s:Rect x="0" y="0" width="660" height="712">
-						<s:fill>
-							<s:SolidColor color="0x22b573" />
-						</s:fill>
-					</s:Rect>
-				</s:Graphic>
-			</s:Group>
-			<s:Group id="circleEquador" width="73" height="73" horizontalCenter="0" verticalCenter="600">
-				<s:Ellipse x="0" width="100%" height="100%">
-					<s:fill>
-						<s:SolidColor color="0"/>
-					</s:fill>
-				</s:Ellipse>
-			</s:Group>
-		</s:Group>
-		
-		<s:Group  left="0" right="0" top="0" bottom="0" id="bananaNinja">
-			<s:Group left="0" right="0" top="0" bottom="0" mask="{circleNinja}">
-				<s:Graphic x="0" y="0" width="1082" height="1920">
-					<s:Rect x="0" y="0" width="660" height="712">
-						<s:fill>
-							<s:SolidColor color="0x0081ff" />
-						</s:fill>
-					</s:Rect>
-				</s:Graphic>
-			</s:Group>
-			<s:Group id="circleNinja" width="73" height="73" horizontalCenter="0" verticalCenter="800">
-				<s:Ellipse x="0" width="100%" height="100%">
-					<s:fill>
-						<s:SolidColor color="0"/>
-					</s:fill>
-				</s:Ellipse>
-			</s:Group>
-		</s:Group>
-	</s:Group>
-
-	<ns1:BananaNinja includeIn="ninja" left="0" top="0" bottom="0" right="0"/>
-	<s:Button includeIn="equador,recipe,ninja,weight" x="10" y="10" label="Назад" click="button1_clickHandler(event)"/>
-
 </s:WindowedApplication>

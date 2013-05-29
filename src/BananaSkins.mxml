@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="250" height="60">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			[Embed(source="assets/skin.png")] 
+			private var Skin:Class;
+			[Bindable] 
+			public var skin:Bitmap = new Skin();
+			[Embed(source="assets/skin_shad.png")] 
+			private var Skin_shad:Class;
+			[Bindable] 
+			public var skin_shad:Bitmap = new Skin_shad();
+			public function setCatchedSkins(val:int):void
+			{
+				if(val > 0)
+					s1.source = skin;
+				if(val > 1)
+					s2.source = skin;
+				if(val > 2)
+					s3.source = skin;
+				if(val == 0)
+					s1.source = skin_shad;
+				if(val < 2)
+					s2.source = skin_shad;
+				if(val < 3)
+					s3.source = skin_shad;
+			}
+		]]>
+	</fx:Script>
+	<s:Image x="10" source="{skin_shad}" verticalCenter="0" id="s1"/>
+	<s:Image x="85" source="{skin_shad}" verticalCenter="0"  id="s2"/>
+	<s:Image x="160" source="{skin_shad}" verticalCenter="0"  id="s3"/>
+</s:Group>

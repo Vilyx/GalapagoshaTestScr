@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<mx:UIComponent xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1080" height="1920" addedToStage="application1_addedToStageHandler(event)">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1080" height="1920" initialize="application1_addedToStageHandler(event)" addedToStage="uicomponent1_addedToStageHandler(event)">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -33,6 +33,8 @@
 			import away3d.materials.TextureMaterial;
 			import away3d.materials.lightpickers.StaticLightPicker;
 			import away3d.textures.BitmapTexture;
+			
+			import mx.containers.Canvas;
 			
 			public var m_world:b2World;
 			public var m_bomb:b2Body;
@@ -74,7 +76,8 @@
 				
 				//setup the view
 				_view = new View3D();
-				stage.addChild(_view);
+				this.addChild(_view);
+				//stage.addChild(_view);
 				var bmd:BitmapData = new backImg().bitmapData;
 				_view.background = new BitmapTexture(bmd);   
 				_view.backgroundColor = 0x037cfe;
@@ -179,13 +182,14 @@
 			}
 			private function destroyBanan(i:int):void
 			{
-				bananaHolder.removeChild(bananaHolder.getChildAt(i));
-				blist.splice(i,1);
 				var usrData:String = blist[i].GetUserData(); 
 				if(usrData == "banan" || usrData == "skin")
 				{
 					currentBanans--;
 				}
+				bananaHolder.removeChild(bananaHolder.getChildAt(i));
+				blist.splice(i,1);
+				
 				rotlist.splice(i,1);
 			}
 			private function createSplittedBanan(pos:Point,rot:Vector3D,velocity:b2Vec2,rotDir:Vector3D):void
@@ -277,8 +281,11 @@
 			 */
 			private function onResize(event:Event = null):void
 			{
-				_view.width = stage.stageWidth;
-				_view.height = stage.stageHeight;
+				if(_view != null && stage != null)
+				{
+					_view.width = stage.stageWidth;
+					_view.height = stage.stageHeight;
+				}
 			}
 			
 			protected function onComplete(event:LoaderEvent):void
@@ -363,6 +370,8 @@
 							if(objType == "skin")
 							{
 								trace("slicing skin");
+								destroyBanan(i);
+								dispatchEvent(new Event("skin"));
 							}
 							else if(objType == "banan")
 							{
@@ -370,6 +379,7 @@
 								var pos:Point = new Point(body.GetPosition().x,body.GetPosition().y);
 								createSplittedBanan(pos,rot,body.GetLinearVelocity(),rotlist[i]);
 								destroyBanan(i);
+								dispatchEvent(new Event("banan"));
 							}
 							break;
 						}
@@ -377,6 +387,15 @@
 				}
 			}
 			
+			protected function uicomponent1_addedToStageHandler(event:Event):void
+			{
+				while(blist.length>0)
+				{
+					destroyBanan(0);
+				}
+				currentBanans = 0;
+			}
+			
 		]]>
 	</fx:Script>
-</s:Group>
+</mx:UIComponent>

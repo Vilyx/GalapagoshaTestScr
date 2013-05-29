@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			public function set score(val:int):void
+			{
+				scoreLbl.text = val.toString();
+				if(val>9&&val<20)
+				{
+					uderScoreLbl.text = "бананов";
+				}
+				else if(val%10 == 1)
+				{
+					uderScoreLbl.text = "банан";
+				}
+				else if(val%10 > 1 && val%10 < 5)
+				{
+					uderScoreLbl.text = "банана";
+				}
+				else
+				{
+					uderScoreLbl.text = "бананов";
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Style source="styles.css"/>
+	<s:VGroup horizontalAlign="center">
+		<s:HGroup>
+			<s:Image x="264" y="120" width="150" source="@Embed('../assets/bananScore.png')"/>
+			<s:Spacer width="10"/>
+			<s:Label styleName="headerBig" text="100" id="scoreLbl"/>
+			<s:Spacer width="10"/>
+			<s:Image x="264" y="120" width="150" source="@Embed('../assets/bananScoreSwap.png')"/>
+		</s:HGroup>
+		<s:Label styleName="metrTextMisc" text="бананов" id="uderScoreLbl"/>
+	</s:VGroup>
+</s:Group>

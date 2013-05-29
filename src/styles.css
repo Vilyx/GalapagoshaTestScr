@@ -1,0 +1,115 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+@namespace s "library://ns.adobe.com/flex/spark";
+@font-face { 
+	src: url("assets/Font/PFAgoraSlabPro-Reg.ttf"); 
+	fontFamily: BananaFontReg; 
+	advancedAntiAliasing: true;
+}	
+@font-face { 
+	src: url("assets/Font/PFAgoraSlabPro-Italic.ttf"); 
+	fontFamily: BananaFontItal; 
+	advancedAntiAliasing: true;
+}	
+@font-face { 
+	src: url("assets/Font/PFAgoraSlabPro-BlackItal.ttf"); 
+	fontFamily: BananaFontBlackItal; 
+	advancedAntiAliasing: true;
+}	
+@font-face { 
+	src: url("assets/Font/PFAgoraSlabPro-BoldItalic.ttf"); 
+	fontFamily: BananaFontBloldItal; 
+	advancedAntiAliasing: true;
+}	
+
+.headerBig {
+	fontFamily: BananaFontBlackItal;
+	font-size: 110px;
+	color: white;
+	text-align: center;		
+}
+
+.headerMed {
+	fontFamily: BananaFontBloldItal;
+	font-size: 70px;
+	color: white;
+	text-align: center;	
+}
+
+.headerSmall {
+	fontFamily: BananaFontBloldItal;
+	font-size: 50px;
+	color: white;
+	text-align: center;	
+}
+
+.headerSmaller {
+	fontFamily: BananaFontItal;
+	font-size: 40px;
+	color: white;
+	text-align: center;		
+}
+
+
+
+.metrHeader {
+	fontFamily: BananaFontBlackItal;
+	font-size: 110px;
+	color: yellow;
+	text-align: center;		
+}
+
+.metrText
+{
+	color: #FFFFFF;
+	fontFamily: BananaFontBloldItal;
+	fontSize: 70;
+	textAlign: center;
+}
+
+.metrTextMisc
+{
+	color: #FFFFFF;
+	fontFamily: BananaFontBloldItal;
+	fontSize: 50;
+	textAlign: center;
+}
+
+
+
+
+
+
+
+.recipeName
+{
+	color: #FFFFFF;
+	fontFamily: BananaFontBloldItal;
+	fontSize: 50;
+	textAlign: right;
+}
+.recipeName2
+{
+	color: #0081ff;
+	fontFamily: BananaFontBloldItal;
+	fontSize: 40;
+	textAlign: right;
+}
+.recipeDescr
+{
+	color: #FFFFFF;
+	fontFamily: BananaFontItal;
+	fontSize: 50;
+	textAlign: left;
+}
+
+.recipeMenu
+{
+	color: #FFFFFF;
+	fontFamily: BananaFontItal;
+	fontSize: 40;
+	textAlign: center;
+}
+	

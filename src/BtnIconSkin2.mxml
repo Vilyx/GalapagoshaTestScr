@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("IconButton")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+	<!-- Place non-visual elements (e.g., services, value objects) here -->
+	<s:DropShadowFilter id="dropShaText" distance="3" inner="true" angle="45" blurX="0"  blurY="0" alpha="0.55" color="0" />
+	
+	</fx:Declarations>
+	<!-- states -->
+	<s:states>
+		<s:State name="disabled" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="up" />
+	</s:states>
+	
+	<!-- SkinParts
+	name=iconDisplay, type=spark.primitives.BitmapImage, required=false
+	name=labelDisplay, type=spark.core.IDisplayText, required=false
+	-->
+	<s:Rect id="fill" left="0" right="0" top="0" bottom="0" radiusX="0" includeIn="down">
+		<s:fill>
+			<s:SolidColor color="0x00c0ff" alpha="0.4" >
+				
+			</s:SolidColor>
+		</s:fill>
+	</s:Rect>
+
+	<s:VGroup verticalAlign="middle" horizontalAlign="center" width="100%" height="100%">
+		<s:Spacer height="10" />
+		<s:Image id="imag" source="{ hostComponent.icon}" width="60%" height="80%" scaleMode="letterbox" smooth="true" />
+		<s:Label id="labelDisplay"
+				 color="0xffffff"
+				 textAlign="center"
+				 maxDisplayedLines="1" fontSize="18">
+		</s:Label>
+		<s:Spacer height="10" />
+	</s:VGroup>
+</s:Skin>

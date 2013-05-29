@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1080" height="1920" click.metr_start="touchitblinking1_clickHandler(event)" xmlns:local="*" stateChangeComplete="group1_stateChangeCompleteHandler(event)" addedToStage="group1_addedToStageHandler(event)" removedFromStage="group1_removedFromStageHandler(event)">
+	<fx:Style source="styles.css"/>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.greensock.TweenLite;
+			import com.greensock.easing.Elastic;
+			
+			import flash.utils.clearTimeout;
+			import flash.utils.setTimeout;
+			
+			import mx.core.FlexGlobals;
+			import mx.effects.Tween;
+			import mx.events.FlexEvent;
+			
+			private var tweenTime:Number = 0.5;
+			private var clicked:Boolean = false;
+			private var lastTimeoutId:int = -1;
+			protected function touchitblinking1_clickHandler(event:MouseEvent):void
+			{
+				fadeOut(bumMeryat);
+				fadeOut(pressAnim);
+				changeStateWithDelay("metr_rost");
+				fadeInWithDelay(rostGroup);
+				lastTimeoutId = setTimeout(setRostOkState,5000);
+				trace("ok");
+			}
+			private function changeStateWithDelay(newState:String):void
+			{
+				setTimeout(function():void{
+					currentState = newState;
+				},500);
+			}
+			private function fadeOutWithDelay(target:Object):void
+			{
+				setTimeout(fadeout,tweenTime*1000,target);
+			}
+			private function fadeInWithDelay(target:Object):void
+			{
+				setTimeout(fadein,tweenTime*1000,target);
+			}
+			private function fadeOut(target:Object):void
+			{
+				setTimeout(fadeout,1,target);
+			}
+			private function fadeIn(target:Object):void
+			{
+				setTimeout(fadein,1,target);
+			}
+			private function fadeout(target:Object):void
+			{
+				target.alpha = 1;
+				TweenLite.to(target, tweenTime, {alpha:0});
+			}
+			private function fadein(target:Object):void
+			{
+				target.alpha = 0;
+				TweenLite.to(target, tweenTime, {alpha:1,ease:Elastic.easeOut});
+				
+			}
+			private function setRostOkState():void
+			{
+				if(this != null && stage != null && this.parent!=null)
+				{
+					fadeOut(vstanText);
+					fadeInWithDelay(vstanText);
+					changeStateWithDelay("metr_rostok");
+					lastTimeoutId = setTimeout(setVesState,5000);
+					trace("ok2");
+				}
+			}
+			
+			private function setVesState():void
+			{
+				if(this != null && stage != null  && this.parent!=null)
+				{
+					fadeOut(rostGroup);
+					//fadeOut(caption);
+					//fadeInWithDelay(caption);
+					fadeInWithDelay(vesGroup);
+					changeStateWithDelay("metr_ves");
+					
+					lastTimeoutId = setTimeout(setVesOkState,5000);
+					trace("ok3");
+				}
+			}
+			
+			private function setVesOkState():void
+			{
+				if(this != null && stage != null  && this.parent!=null)
+				{
+					fadeOut(kruj);
+					fadeInWithDelay(otlich);
+					changeStateWithDelay("metr_vesok");
+					
+					lastTimeoutId = setTimeout(setResultState,5000);
+					trace("ok4");
+				}
+			}
+			
+			private function setResultState():void
+			{
+				if(this != null && stage != null  && this.parent!=null)
+				{
+					if(FlexGlobals.topLevelApplication is GalapagoshaTestScr)
+					{
+						var weight:Number = FlexGlobals.topLevelApplication.getWeight();
+						var height:Number = FlexGlobals.topLevelApplication.getHeight();
+						weightText.text = weight.toString();
+						heightText.text = height.toString(); 
+					}
+					fadeOut(vesGroup);
+					fadeInWithDelay(resultGroup);
+					changeStateWithDelay("metr_result");
+					lastTimeoutId = setTimeout(setOverState,5000);
+					trace("ok5");
+				}
+			}
+			
+			private function setOverState():void
+			{
+				if(this != null && stage != null  && this.parent!=null)
+				{
+					fadeOut(resultGroup);
+					fadeOut(caption);
+					fadeInWithDelay(resultText);
+					changeStateWithDelay("metr_over");
+					lastTimeoutId = -1;
+					trace("ok6");
+				}
+			}
+			
+			protected function group1_addedToStageHandler(event:Event):void
+			{
+				currentState = "metr_start";
+				lastTimeoutId = -1;
+				
+			}
+			
+			protected function group1_removedFromStageHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				if(lastTimeoutId != -1)
+					clearTimeout(lastTimeoutId);
+			}
+			
+			protected function group1_stateChangeCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				switch(currentState)
+				{
+					case "metr_start":
+						fadeIn(bumMeryat);
+						fadeIn(pressAnim);
+						break;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="metr_start"/>
+		<s:State name="metr_rost"/>
+		<s:State name="metr_rostok"/>
+		<s:State name="metr_ves"/>
+		<s:State name="metr_vesok"/>
+		<s:State name="metr_result"/>
+		<s:State name="metr_over"/>
+	</s:states>	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Image x="0" y="0" source="assets/bg.jpg"/>
+	<s:TextArea id="caption"
+				includeIn="metr_result,metr_rost,metr_rostok,metr_start,metr_ves,metr_vesok" x="236"
+				y="480" width="608" borderVisible="false" contentBackgroundAlpha="0.0"
+				editable="false" mouseEnabled="false" selectable="false" styleName="metrHeader"
+				text="Банано&#xd;метр"
+				color.metr_result="#FFFFFF"/>
+	<s:TextArea id="bumMeryat" includeIn="metr_start" x="188" y="915" width="728"
+				borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
+				mouseEnabled="false" selectable="false" styleName="metrText"
+				text="Будем измерять твой банановес и бананорост"/>
+	
+	
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="metr_over" x="236" y="565" width="608" color="#FFFFFF"
+				styleName="metrHeader" text="Спасибо!"/>
+	<s:TextArea id="resultText" includeIn="metr_over,metr_result" x="176" y="892" width="728" alpha.metr_result="0"
+				borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
+				mouseEnabled="false" selectable="false" styleName="metrText"
+				text="Чтобы всегда чувствовать себя прекрасно, тебе нужно есть &#xd;2 банана &#xd;в день!"/>
+	
+	
+	<local:MetrLevelRost includeIn="metr_result" x="193.2" y="1048"/>
+	<local:MetrLevelVes includeIn="metr_result" x="564" y="1220"/>
+	<s:Image top="80" width="554" height="414" horizontalCenter="0"
+			 source="@Embed('../assets/olushaUpper.png')" horizontalCenter.metr_over="0"/>
+	<local:TouchItBlinking id="pressAnim" includeIn="metr_start" bottom="300" horizontalCenter="0"/>
+	<s:Group id="rostGroup" includeIn="metr_rost,metr_rostok,metr_start" left="0" right="0" top="0" bottom="0" alpha.metr_start="0">
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" x="173" y="810" width="728" 
+					styleName="metrText" text="Измеряю&#xd;бананорост"/>
+		<s:TextArea id="vstanText" x="92" y="1256" width="934" borderVisible="false"
+					contentBackgroundAlpha="0.0" editable="false" mouseEnabled="false"
+					selectable="false" styleName="metrText"
+					text="Встань &#xd;на желтый кружочек&#xd;и улыбайся"
+					text.metr_rostok="Отлично!&#xd;Стой на месте"/>
+		<local:MetrIconRost x="564" y="1103"/>
+	</s:Group>
+	<s:Group id="vesGroup" includeIn="metr_ves,metr_vesok,metr_rostok" left="0" right="0" top="0" bottom="0" alpha.metr_rostok="0">
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="metr_ves,metr_vesok" x="173.99998" y="810" width="728" styleName="metrText"
+					text="Измеряю&#xd;банановес"/>
+		<s:TextArea id="kruj" includeIn="metr_ves,metr_vesok" x="178.025" y="1252" width="728" alpha.metr_vesok="0"
+					borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
+					mouseEnabled="false" selectable="false" styleName="metrText"
+					text="Покружись&#xd;на месте"/>
+		<local:MetrIconVes includeIn="metr_ves,metr_vesok" x="557" y="1141"/>
+		<s:TextArea id="otlich" includeIn="metr_vesok,metr_ves" x="178.025" y="1252" width="728" alpha.metr_ves="0"
+					borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
+					mouseEnabled="false" selectable="false" styleName="metrText"
+					text="Отлично!&#xd;Жди результат"/>
+	</s:Group>
+	<s:Group id="resultGroup" includeIn="metr_result,metr_vesok" left="0" right="0" top="0" bottom="0" alpha.metr_vesok="0">
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="metr_result" x="68.75" y="824" width="460" 
+					styleName="metrTextMisc" text="Бананорост"/>
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="metr_result" x="218.1" y="966" width="160"
+					styleName="metrTextMisc" text="шт."/>
+		<s:TextArea id="heightText" includeIn="metr_result,metr_vesok" x="163.2" y="875" width="268" alpha.metr_vesok="0"
+					borderVisible="false" color="#FFFFFF" contentBackgroundAlpha="0.0"
+					editable="false" mouseEnabled="false" selectable="false" styleName="metrHeader"
+					text="23"/>
+		<s:TextArea id="weightText" alpha.metr_vesok="0" selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="metr_result,metr_vesok" x="605" y="1079" width="268"  color="#FFFFFF"
+					styleName="metrHeader" text="348"/>
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="metr_result" x="656.95" y="1170" width="160" 
+					styleName="metrTextMisc" text="шт."/>
+		<s:TextArea includeIn="metr_result" x="510.95" y="1026" width="460" 
+					borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
+					mouseEnabled="false" selectable="false" styleName="metrTextMisc"
+					text="Банановес"/>
+	</s:Group>
+	
+</s:Group>

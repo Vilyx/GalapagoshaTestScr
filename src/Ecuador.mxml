@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:ns1="*"
+		 width="1080" height="1920"
+		 styleName.ecuador_start="headerMed" stateChangeComplete="group1_stateChangeCompleteHandler(event)" addedToStage="group1_addedToStageHandler(event)">
+	<fx:Style source="styles.css"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			protected function group1_stateChangeCompleteHandler(event:FlexEvent):void
+			{
+				switch(currentState)
+				{
+					case "ecuador_sun":
+					case "ecuador_friend":
+					case "ecuador_power":
+					case "ecuador_happy":
+						lessonChooser.currentState = this.currentState;
+						break;
+				}
+				
+			}
+			
+			protected function ecuadoriconsun1_clickHandler(event:MouseEvent):void
+			{
+				currentState = "ecuador_sun";
+			}
+			
+			protected function ecuadoriconhappy1_clickHandler(event:MouseEvent):void
+			{
+				currentState = "ecuador_happy";
+			}
+			
+			protected function ecuadoriconpower1_clickHandler(event:MouseEvent):void
+			{
+				currentState = "ecuador_power";
+			}
+			
+			protected function ecuadoriconfriend1_clickHandler(event:MouseEvent):void
+			{
+				currentState = "ecuador_friend";
+			}
+			
+			protected function lessonChooser_stateChangeCompleteHandler(event:FlexEvent):void
+			{
+				this.currentState = event.target.currentState;
+			}
+			
+			protected function group1_addedToStageHandler(event:Event):void
+			{
+				currentState = "ecuador_start";
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="ecuador_start"/>
+		<s:State name="ecuador_sun"/>
+		<s:State name="ecuador_friend"/>
+		<s:State name="ecuador_power"/>
+		<s:State name="ecuador_happy"/>
+		<s:State name="ecuador_next"/>
+	</s:states>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Image x="0" y="0" source="@Embed('../assets/Ecuador/bg.jpg')"
+			 styleName="headerSmaller"/>
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_friend,ecuador_happy,ecuador_power,ecuador_sun" x="18" y="511"
+			 width="1044" height="202" color="#FFFFFF" styleName="headerBig" text="Солнце"
+			 text.ecuador_friend="Дружба"
+			 text.ecuador_happy="Радость"
+			 text.ecuador_power="Сила"/>
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_friend,ecuador_happy,ecuador_power,ecuador_sun" x="17" y="625"
+			 width="1044" height="112" color="#FFFFFF" styleName="headerMed" text="Чудесные пляжи"
+			 text.ecuador_happy="Лес амазонии"
+			 text.ecuador_power="Эквадор - земля вулканов"
+			 text.ecuador_sun="Галапагосские острова"/>
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_start" x="18" y="561" width="1044" height="202" color="#FFFFFF"
+			 styleName="headerBig" text="Эквадор"/>
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_start" x="17" y="664" width="1044" height="112" color="#FFFFFF"
+			 styleName="headerMed" text="национальный парк"/>
+	<s:Group click="ecuadoriconsun1_clickHandler(event)"
+			 x.ecuador_start="168" y.ecuador_start="868" width.ecuador_start="355"
+			 height.ecuador_start="305">
+		<ns1:EcuadorIconSun includeIn="ecuador_start" horizontalCenter="0" verticalCenter="-40"/>
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_start" width="364" height="68" color="#FFFFFF"
+				 horizontalCenter="0" styleName="headerSmall" text="Солнце" verticalCenter="100"/>
+	</s:Group>
+	<s:Group click="ecuadoriconhappy1_clickHandler(event)"
+			 x.ecuador_start="512" y.ecuador_start="1256" width.ecuador_start="423"
+			 height.ecuador_start="307">
+		<ns1:EcuadorIconHappy includeIn="ecuador_start" top="50" horizontalCenter="0"/>
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_start" width="364" height="68" color="#FFFFFF"
+				 horizontalCenter="0" styleName="headerSmall" text="Радость" verticalCenter="100"/>
+	</s:Group>
+	<s:Group click="ecuadoriconpower1_clickHandler(event)"
+			 x.ecuador_start="168" y.ecuador_start="1256" width.ecuador_start="345"
+			 height.ecuador_start="306">
+		<ns1:EcuadorIconPower includeIn="ecuador_start" horizontalCenter="0" verticalCenter="-40"/>
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_start" width="364" height="68" color="#FFFFFF"
+				 horizontalCenter="0" styleName="headerSmall" text="Сила" verticalCenter="100"/>
+	</s:Group>
+	<s:Group click="ecuadoriconfriend1_clickHandler(event)"
+			 x.ecuador_start="508" y.ecuador_start="868" width.ecuador_start="422"
+			 height.ecuador_start="305">
+		<ns1:EcuadorIconFriend includeIn="ecuador_start" horizontalCenter="0" verticalCenter="-40"/>
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_start" width="364" height="68" color="#FFFFFF"
+				 horizontalCenter="0" styleName="headerSmall" text="Дружба" verticalCenter="100"/>
+	</s:Group>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<ns1:LessonChooser id="lessonChooser" excludeFrom="ecuador_start" width="100%"
+					   stateChangeComplete="lessonChooser_stateChangeCompleteHandler(event)"
+					   y="1408" height="300"/>
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="18" y="862" width="1044" height="230" color="#FFFFFF"
+			 styleName="headerBig" text="Продолжаем&#xd;путешествие!"/>
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="188" y="466" styleName="metrText"
+			 text="Поэтому в Эквадоре&#xd;самые вкусные&#xd;и полезные бананы&#xd;на свете"/>
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="312" y="1277" color="#FFFFFF" fontFamily="BananaFontItal"
+			 fontSize="50" lineHeight="90%" text="Выбирай следующий&#xd;рассказ:" textAlign="center"/>
+	
+	
+	<s:Image top="80" width="554" height="414" horizontalCenter="0"
+			 source="@Embed('../assets/olushaUpper.png')"/>
+	
+	
+	
+</s:Group>

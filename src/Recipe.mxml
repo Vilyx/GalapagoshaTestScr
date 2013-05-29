@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:ns1="*"
+		 width="1080" height="1920" currentState="recipe_start"
+		 textAlign.recipe_print="center" stateChangeComplete="group1_stateChangeCompleteHandler(event)">
+	<fx:Style source="styles.css"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			protected function group1_stateChangeCompleteHandler(event:FlexEvent):void
+			{
+				switch(currentState)
+				{
+					case "recipe_shake":
+					case "recipe_cream":
+					case "recipe_blin":
+					case "recipe_zhar":
+						recipeChooser.currentState = this.currentState;
+						break;
+				}
+				
+			}
+			
+			protected function recipeiconshake1_clickHandler(event:MouseEvent):void
+			{
+				currentState = "recipe_shake";
+			}
+			
+			protected function recipeiconblin1_clickHandler(event:MouseEvent):void
+			{
+				currentState = "recipe_blin";
+			}
+			
+			protected function recipeiconcream1_clickHandler(event:MouseEvent):void
+			{
+				currentState = "recipe_cream";
+			}
+			
+			protected function recipeiconzhar1_clickHandler(event:MouseEvent):void
+			{
+				currentState = "recipe_zhar";
+			}
+			
+			protected function recipeChooser_stateChangeCompleteHandler(event:FlexEvent):void
+			{
+				this.currentState = event.target.currentState;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="recipe_start"/>
+		<s:State name="recipe_shake"/>
+		<s:State name="recipe_cream"/>
+		<s:State name="recipe_blin"/>
+		<s:State name="recipe_zhar"/>
+		<s:State name="recipe_print"/>
+		<s:State name="recipe_next"/>
+	</s:states>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	
+	
+	<s:Image x="0" y="0" source="@Embed('../assets/Recipe/bg.jpg')"
+			 x.recipe_start="0" y.recipe_start="0"/>
+	<s:Group left="0" top="0"  width="1080" bottom="0" includeIn="recipe_start">	
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_start" x="695" y="1507" styleName="recipeDescr"
+				 text="Жареные&#xd;бананы"/>
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_start" x="695" y="843" styleName="recipeDescr"
+				 text="Банановый&#xd;шейк"/>
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_start" x="695" y="1268" styleName="recipeDescr"
+				 text="Банановое&#xd;мороженое"/>
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_start" x="695" y="1049" styleName="recipeDescr"
+				 text="Банановые&#xd;блинчики"/>
+		<s:TextArea includeIn="recipe_start" y="451" height="319" borderVisible="false"
+					color="#FFFFFF" contentBackgroundAlpha="0.0" editable="false"
+					horizontalCenter="0" mouseEnabled="false" selectable="false"
+					styleName="metrHeader" text="Бананы&#xd;каждый день"/>
+		<s:TextArea includeIn="recipe_start" x="171" y="843" width="246" height="146"
+					borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
+					mouseEnabled="false" selectable="false" styleName="recipeName" text="Для&#xd;тонуса"/>
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_start" x="113" y="1049"  width="304" height="146" styleName="recipeName" text="Для&#xd;завтрака"/>
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_start" x="95" y="1268"  width="324" height="146" styleName="recipeName" text="Для&#xd;вечеринки"/>
+		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_start" x="65" y="1499"  width="354" height="146" styleName="recipeName" text="Всем&#xd;на радость"/>	
+		<ns1:RecipeIconShake includeIn="recipe_start" x="485.55" y="806" click="recipeiconshake1_clickHandler(event)"/>
+		<ns1:RecipeIconBlin includeIn="recipe_start" x="479" y="1053" click="recipeiconblin1_clickHandler(event)"/>
+		<ns1:RecipeIconCream includeIn="recipe_start" x="508.95" y="1222" height="191.55" click="recipeiconcream1_clickHandler(event)"/>
+		<ns1:RecipeIconZhar includeIn="recipe_start" x="479.3" y="1499" click="recipeiconzhar1_clickHandler(event)"/>
+	</s:Group>
+	
+	
+	
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_blin,recipe_cream,recipe_shake,recipe_zhar" x="12" y="551"
+			 width="1044" color="#FFFFFF" styleName="metrHeader"
+			 text="Банановый&#xd;шейк"
+			 text.recipe_blin="Банановые&#xd;блинчики"
+			 text.recipe_cream="Банановое&#xd;мороженное"
+			 text.recipe_zhar="Жареные&#xd;бананы"/>
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_next,recipe_print" horizontalCenter="0" y="466" styleName="metrText" text="Поэтому в Эквадоре&#xd;самые вкусные&#xd;и полезные бананы&#xd;на свете"/>
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_print" horizontalCenter="0" y="1157" color="#FFFFFF"
+			 fontFamily="BananaFontBloldItal" fontSize="50" lineHeight="90%"
+			 text="Распечатай&#xd;рецепт &#xd;и приготовь&#xd;дома!"/>
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_print" horizontalCenter="0" y="1027" color="#00AC04"
+			 fontFamily="BananaFontBloldItal" fontSize="50" lineHeight="90%"
+			 text="иконка руки"/>
+	<s:TextArea includeIn="recipe_next" x="18" y="985" width="1044" borderVisible="false"
+				color="#FFFFFF" contentBackgroundAlpha="0.0" editable="false" mouseEnabled="false"
+				selectable="false" styleName="metrHeader" text="Приятного&#xd;аппетита!"/>
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_next" horizontalCenter="0" y="1285" color="#FFFFFF"
+			 fontFamily="BananaFontItal" fontSize="50" lineHeight="90%"
+			 text="Выбирай следующий&#xd;рецепт:" textAlign="center"/>
+	
+	<s:Image top="80" width="554" height="414" horizontalCenter="0"
+			 source="@Embed('../assets/olushaUpper.png')"/>
+	<ns1:RecipeChooser id="recipeChooser" excludeFrom="recipe_start" y="1408" left="0" right="0" height="300" stateChangeComplete="recipeChooser_stateChangeCompleteHandler(event)"/>
+	
+</s:Group>

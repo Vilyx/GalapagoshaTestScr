@@ -117,6 +117,7 @@
 					if(currentVid == 7 || currentVid == 8) currentVid = 3;
 					if(currentState != "menu" && currentState != "greeting" && (currentVid == 6 || currentVid == 11))currentVid = 4;
 					var path:String = "../assets/"+currentVid.toString()+".flv";
+					//var path:String = "../assets/milliard_bitreyt.flv";
 					trace(path);
 					ns.play(path);
 				}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:UIComponent xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1080" height="1920" initialize="application1_addedToStageHandler(event)" addedToStage="uicomponent1_addedToStageHandler(event)">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1080" height="1920" initialize="application1_addedToStageHandler(event)" addedToStage="uicomponent1_addedToStageHandler(event)" removedFromStage="uicomponent1_removedFromStageHandler(event)">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -246,11 +246,13 @@
 			private var bananaMaxCount:int = 20;
 			private var bananaWaitTime:int = 200;
 			private var bananaCurrentWait:int = 0;
+			private var pause:Boolean = true;
 			/**
 			 * Navigation and render loop
 			 */
 			private function onEnterFrame(event:Event):void
-			{				
+			{		
+				if(pause)return;
 				bananaCurrentWait += (m_timeStep*1000.0);
 				
 				var physStart:uint = getTimer();
@@ -398,6 +400,12 @@
 					destroyBanan(0);
 				}
 				currentBanans = 0;
+				pause = false;
+			}
+			
+			protected function uicomponent1_removedFromStageHandler(event:Event):void
+			{
+				pause = true;
 			}
 			
 		]]>

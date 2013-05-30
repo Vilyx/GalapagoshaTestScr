@@ -15,6 +15,8 @@
 			private var timer:Timer = new Timer(18000);
 			[Embed(source='../assets/recipe_complete.mp3')] 		 
 			private var MySound : Class; 
+			
+			private var currentRecipe:String;
 			protected function group1_stateChangeCompleteHandler(event:FlexEvent):void
 			{
 				switch(currentState)
@@ -25,7 +27,7 @@
 					case "recipe_zhar":
 						timer.start();
 						RecursiveStop(swfPlayer.content as MovieClip);
-						recipeChooser.currentState = this.currentState;
+						currentRecipe = recipeChooser.currentState = this.currentState;
 						break;
 					default:
 						timer.reset();
@@ -53,25 +55,25 @@
 			protected function recipeiconshake1_clickHandler(event:MouseEvent):void
 			{
 				RecursiveStop(swfPlayer.content as MovieClip);
-				currentState = "recipe_shake";
+				currentRecipe = currentState = "recipe_shake";
 			}
 			
 			protected function recipeiconblin1_clickHandler(event:MouseEvent):void
 			{
 				RecursiveStop(swfPlayer.content as MovieClip);
-				currentState = "recipe_blin";
+				currentRecipe = currentState = "recipe_blin";
 			}
 			
 			protected function recipeiconcream1_clickHandler(event:MouseEvent):void
 			{
 				RecursiveStop(swfPlayer.content as MovieClip);
-				currentState = "recipe_cream";
+				currentRecipe = currentState = "recipe_cream";
 			}
 			
 			protected function recipeiconzhar1_clickHandler(event:MouseEvent):void
 			{
 				RecursiveStop(swfPlayer.content as MovieClip);
-				currentState = "recipe_zhar";
+				currentRecipe = currentState = "recipe_zhar";
 			}
 			
 			protected function recipeChooser_stateChangeCompleteHandler(event:FlexEvent):void
@@ -85,14 +87,31 @@
 				timer.addEventListener(TimerEvent.TIMER,onTimer);
 				timer.reset();
 				currentState = "recipe_start";
+				currentRecipe = null;
 			}
 			
 			protected function printGroup_clickHandler(event:MouseEvent):void
 			{
+				switch(currentRecipe)
+				{
+					case "recipe_shake":
+						trace("Шейк");
+						break;
+					case "recipe_cream":
+						trace("Мороженка");
+						break;
+					case "recipe_blin":
+						trace("Блины");
+						break;
+					case "recipe_zhar":
+						trace("Жареный банан");
+						break;
+				}
 				timer.removeEventListener(TimerEvent.TIMER,onTimer);
 				timer.addEventListener(TimerEvent.TIMER,onTimer);
 				timer.reset();
 				currentState = "recipe_start";
+				currentRecipe = null;
 			}
 			
 			protected function onTimer(event:TimerEvent):void

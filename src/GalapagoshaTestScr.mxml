@@ -370,10 +370,9 @@
 			<s:Group left="0" right="0" top="0" bottom="0">
 				<s:VideoDisplay id="beckonVideo" horizontalCenter="0" rotation="90"
 								scaleMode="letterbox" verticalCenter="0"
-								source.beckon="assets/1.flv"
-								height.greeting="1080" source.greeting="assets/1.flv"
-								height.menu="1080" horizontalCenter.menu="0"
-								source.menu="assets/1.flv" verticalCenter.menu="-200"/>
+								source="assets/1.flv"
+								height.greeting="1080" 
+								height.menu="1080" horizontalCenter.menu="0" verticalCenter.menu="-200"/>
 				<s:Image width="600" horizontalCenter="0" smooth="true"
 						 source="@Embed('../assets/winTrip.png')" verticalCenter="700"
 						 includeIn="beckon"/>

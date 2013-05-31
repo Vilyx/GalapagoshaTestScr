@@ -116,21 +116,10 @@
 				stage.addEventListener(MouseEvent.CLICK,detectMotion);
 				stage.addEventListener(MouseEvent.MOUSE_MOVE,detectMotion);
 			}
-			private var lastTimeActive:Date; 
+			private var lastTimeActive:Date = new Date(); 
 			private function detectMotion(e:MouseEvent):void
 			{
-				if(lastTimeActive == null)
-				{
-					lastTimeActive = new Date();
-					return;
-				}
-				var currentTime:Date = new Date();
-				var delta:Number = currentTime.time - lastTimeActive.time;
-				if(delta > 30000) 
-				{
-					if(currentState != "beckon" || currentState != "greeting")
-						onUserLeave(null);
-				}
+				lastTimeActive = new Date();
 			}
 			private var lastVid:int = -1;
 			private var nextVid:int = -1;
@@ -208,6 +197,18 @@
 			//protected var firstMenuTime:Date = new Date();
 			protected function onEnterFrame(event:Event):void
 			{
+				if(lastTimeActive == null)
+				{
+					lastTimeActive = new Date();
+					return;
+				}
+				var currentTime:Date = new Date();
+				var delta:Number = currentTime.time - lastTimeActive.time;
+				if(delta > 30000) 
+				{
+					if(currentState != "beckon" || currentState != "greeting")
+						onUserLeave(null);
+				}
 				/*if(currentState == "menu")
 				{
 					var elapsed:Number = new Date().time - firstMenuTime.time;

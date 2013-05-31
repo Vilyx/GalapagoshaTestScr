@@ -34,6 +34,9 @@
 			import org.osmf.events.MediaPlayerStateChangeEvent;
 			import org.osmf.events.TimeEvent;
 			import org.osmf.layout.ScaleMode;
+			
+			import com.junkbyte.console.Cc;
+			
 			// Выход из режима привлечения внимания - startUserInteraction, переходим в режим приветствия
 			// Возврат в режим меню - backToMenu
 			// Если находимся в режиме меню больше 5 секунд - включается режим завлекания
@@ -56,7 +59,7 @@
 			private var BackImage:Class;
 			[Bindable] 
 			public var imgBack:Bitmap = new BackImage();
-			private var tracker:Tracker = new Tracker();
+			private var tracker:Tracker;
 			
 			private var sound:Sound = new MySound() as Sound;
 			private var soundChannel:SoundChannel;
@@ -74,6 +77,8 @@
 			
 			protected function windowedapplication1_addedToStageHandler(event:Event):void
 			{
+				Cc.startOnStage(stage,"l");
+				
 				soundChannel = sound.play();
 				var transform:SoundTransform = new SoundTransform(0.5);
 				soundChannel.soundTransform = transform;
@@ -83,6 +88,7 @@
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				addEventListener(Event.ENTER_FRAME,onEnterFrame);
 				
+				tracker = new Tracker(stage, Cc.log);
 				stage.addChild(tracker);
 				tracker.addEventListener(Tracker.USER_ENTER,onUserEnter);
 				tracker.addEventListener(Tracker.USER_LEAVE,onUserLeave);

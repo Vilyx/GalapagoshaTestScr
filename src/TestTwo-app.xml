@@ -229,4 +229,7 @@
     <!-- </android> -->
 	<!-- End of the schema for adding the android specific tags in AndroidManifest.xml file -->
 
+<extensions>
+        <extensionID>com.as3nui.nativeExtensions.air.kinect</extensionID>
+    </extensions>
 </application>

@@ -60,6 +60,7 @@
 			
 			private var sound:Sound = new MySound() as Sound;
 			private var soundChannel:SoundChannel;
+			private var musicStopped:Boolean = false;
 			
 			private var gameBackground:Sound;
 			private var gameSoundChannel:SoundChannel;
@@ -67,13 +68,21 @@
 			
 			private function onSoundChannelSoundComplete(e:Event):void
 			{
-				e.currentTarget.removeEventListener(Event.SOUND_COMPLETE, onSoundChannelSoundComplete);
-				soundChannel = sound.play();
-				
+				if(soundChannel.soundTransform.volume != 0)
+				{
+					//e.currentTarget.removeEventListener(Event.SOUND_COMPLETE, onSoundChannelSoundComplete);
+					soundChannel = sound.play();
+					
+				}
+				else
+				{
+					musicStopped = true;
+				}
 			}
 			
 			protected function windowedapplication1_addedToStageHandler(event:Event):void
 			{
+				removeEventListener(Event.ADDED_TO_STAGE,windowedapplication1_addedToStageHandler);
 				soundChannel = sound.play();
 				var transform:SoundTransform = new SoundTransform(0.5);
 				soundChannel.soundTransform = transform;
@@ -241,6 +250,13 @@
 					switch(currentState)
 					{
 						case "menu":
+							if(musicStopped)
+							{
+								soundChannel = sound.play();
+								var transform:SoundTransform = new SoundTransform(0);
+								soundChannel.soundTransform = transform;
+								var t:Tween = new Tween(this,0,0.5,3000,-1,upd,upd);
+							}
 							TweenLite.from(beckonVideo,0.5,{verticalCenter:0});
 							TweenLite.from(background,0.5,{verticalCenter:300});
 							TweenLite.from(clouds,0.5,{verticalCenter:0});
@@ -279,6 +295,8 @@
 							gameSoundChannel = gameBackground.play();
 							if(gameSoundChannel.soundTransform.volume!=0.5)
 							{
+								var transform:SoundTransform = new SoundTransform(0.001);
+								gameSoundChannel.soundTransform = transform;
 								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
 							}
 							break;
@@ -287,6 +305,8 @@
 							gameSoundChannel = gameBackground.play();
 							if(gameSoundChannel.soundTransform.volume!=0.5)
 							{
+								var transform:SoundTransform = new SoundTransform(0.001);
+								gameSoundChannel.soundTransform = transform;
 								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
 							}
 							break;
@@ -295,6 +315,8 @@
 							gameSoundChannel = gameBackground.play();
 							if(gameSoundChannel.soundTransform.volume!=0.5)
 							{
+								var transform:SoundTransform = new SoundTransform(0.001);
+								gameSoundChannel.soundTransform = transform;
 								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
 							}
 							break;
@@ -303,6 +325,8 @@
 							gameSoundChannel = gameBackground.play();
 							if(gameSoundChannel.soundTransform.volume!=0.5)
 							{
+								var transform:SoundTransform = new SoundTransform(0.001);
+								gameSoundChannel.soundTransform = transform;
 								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
 							}
 							break;						

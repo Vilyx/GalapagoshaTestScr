@@ -18,17 +18,17 @@
 			public function setCatchedSkins(val:int):void
 			{
 				if(val > 0)
-					s1.source = skin;
+					s3.source = skin;
 				if(val > 1)
 					s2.source = skin;
 				if(val > 2)
-					s3.source = skin;
+					s1.source = skin;
 				if(val == 0)
-					s1.source = skin_shad;
+					s3.source = skin_shad;
 				if(val < 2)
 					s2.source = skin_shad;
 				if(val < 3)
-					s3.source = skin_shad;
+					s1.source = skin_shad;
 			}
 		]]>
 	</fx:Script>

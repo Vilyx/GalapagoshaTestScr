@@ -93,21 +93,32 @@
 			
 			protected function printGroup_clickHandler(event:MouseEvent):void
 			{
+				var page:Sprite;
 				switch(currentRecipe)
 				{
 					case "recipe_shake":
-						trace("Шейк");
+						page = new RecipePrintShake();
 						break;
 					case "recipe_cream":
-						trace("Мороженка");
+						page = new RecipePrintCream();
 						break;
 					case "recipe_blin":
-						trace("Блины");
+						page = new RecipePrintBlin();
 						break;
 					case "recipe_zhar":
-						trace("Жареный банан");
+						page = new RecipePrintZhar();
 						break;
 				}
+				
+				var pj:PrintJob = new PrintJob();
+				var started:Boolean = pj.start2(null, false);
+				if(started)
+				{
+					pj.addPage(page);
+					pj.send();
+				};
+				pj = null;
+				
 				timer.removeEventListener(TimerEvent.TIMER,onTimer);
 				timer.addEventListener(TimerEvent.TIMER,onTimer);
 				timer.reset();

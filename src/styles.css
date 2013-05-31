@@ -45,6 +45,13 @@
 	text-align: center;	
 }
 
+.menu {
+	fontFamily: BananaFontBloldItal;
+	font-size: 40px;
+	color: white;
+	text-align: center;	
+}
+
 .headerSmaller {
 	fontFamily: BananaFontItal;
 	font-size: 40px;

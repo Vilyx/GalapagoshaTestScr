@@ -103,14 +103,34 @@
 				tracker.addEventListener(Tracker.USER_LEAVE,onUserLeave);
 				tracker.addEventListener(Tracker.USER_STOP,onUserStop);
 				
-				
+				beckonVideo.videoObject = new Video(1920,1080);
 				var nc:NetConnection = new NetConnection(); 
 				nc.connect(null); 
 				ns = new NetStream(nc); 
 				ns.client = {onMetaData:ns_onMetaData, NetStatusEvent:ns_onPlayStatus}; 
-				ns.addEventListener(NetStatusEvent.NET_STATUS, ns_onPlayStatus); 
+				ns.addEventListener(NetStatusEvent.NET_STATUS, ns_onPlayStatus);
+				trace(beckonVideo,beckonVideo.videoObject,ns);
 				beckonVideo.videoObject.attachNetStream(ns);
+				
 				ns.play("../assets/1.flv");
+				stage.addEventListener(MouseEvent.CLICK,detectMotion);
+				stage.addEventListener(MouseEvent.MOUSE_MOVE,detectMotion);
+			}
+			private var lastTimeActive:Date; 
+			private function detectMotion(e:MouseEvent):void
+			{
+				if(lastTimeActive == null)
+				{
+					lastTimeActive = new Date();
+					return;
+				}
+				var currentTime:Date = new Date();
+				var delta:Number = currentTime.time - lastTimeActive.time;
+				if(delta > 30000) 
+				{
+					if(currentState != "beckon" || currentState != "greeting")
+						onUserLeave(null);
+				}
 			}
 			private var lastVid:int = -1;
 			private var nextVid:int = -1;
@@ -147,26 +167,6 @@
 				
 				
 			} 
-			protected function onVideoStateChange(event:MediaPlayerStateChangeEvent):void
-			{
-				trace(event.state);
-				switch(event.state)
-				{
-					case "ready":
-						setTimeout(playNext,1);
-						break;
-				}
-			}
-			private function playNext():void
-			{
-				if(!beckonVideo.playing)
-				{
-					var path:String = "../assets/"+(int(Math.random()*8)).toString()+".flv";
-					trace(path);
-					beckonVideo.source = path;
-					beckonVideo.play();
-				}
-			}
 			public function startUserInteraction():void
 			{
 				if(currentState == "beckon")
@@ -270,7 +270,7 @@
 						case "greeting":
 							if(soundChannel.soundTransform.volume!=0.5)
 							{
-								var t:Tween = new Tween(this,0,0.5,3000,-1,upd,upd);
+								var t3:Tween = new Tween(this,0,0.5,3000,-1,upd,upd);
 								//TweenLite.to(soundChannel.soundTransform,3,{volume:0.5});
 							}
 							break;
@@ -301,8 +301,8 @@
 							gameSoundChannel = gameBackground.play();
 							if(gameSoundChannel.soundTransform.volume!=0.5)
 							{
-								var transform:SoundTransform = new SoundTransform(0.001);
-								gameSoundChannel.soundTransform = transform;
+								var transform2:SoundTransform = new SoundTransform(0.001);
+								gameSoundChannel.soundTransform = transform2;
 								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
 							}
 							break;
@@ -311,8 +311,8 @@
 							gameSoundChannel = gameBackground.play();
 							if(gameSoundChannel.soundTransform.volume!=0.5)
 							{
-								var transform:SoundTransform = new SoundTransform(0.001);
-								gameSoundChannel.soundTransform = transform;
+								var transform3:SoundTransform = new SoundTransform(0.001);
+								gameSoundChannel.soundTransform = transform3;
 								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
 							}
 							break;
@@ -321,8 +321,8 @@
 							gameSoundChannel = gameBackground.play();
 							if(gameSoundChannel.soundTransform.volume!=0.5)
 							{
-								var transform:SoundTransform = new SoundTransform(0.001);
-								gameSoundChannel.soundTransform = transform;
+								var transform4:SoundTransform = new SoundTransform(0.001);
+								gameSoundChannel.soundTransform = transform4;
 								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
 							}
 							break;
@@ -331,8 +331,8 @@
 							gameSoundChannel = gameBackground.play();
 							if(gameSoundChannel.soundTransform.volume!=0.5)
 							{
-								var transform:SoundTransform = new SoundTransform(0.001);
-								gameSoundChannel.soundTransform = transform;
+								var transform5:SoundTransform = new SoundTransform(0.001);
+								gameSoundChannel.soundTransform = transform5;
 								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
 							}
 							break;						
@@ -343,8 +343,8 @@
 				{
 					gameBackground = new VesRostSound();
 					gameSoundChannel = gameBackground.play();
-					var transform:SoundTransform = new SoundTransform(0);
-					gameSoundChannel.soundTransform = transform;
+					var transform6:SoundTransform = new SoundTransform(0);
+					gameSoundChannel.soundTransform = transform6;
 				}
 				switch(currentState)
 				{
@@ -399,9 +399,7 @@
 		<s:Scroller includeIn="greeting,beckon,menu" width="1080"
 					height="1920">
 			<s:Group left="0" right="0" top="0" bottom="0">
-				<s:VideoDisplay id="beckonVideo" horizontalCenter="0" rotation="90"
-								scaleMode="letterbox" verticalCenter="0"
-								source="assets/1.flv"
+				<ns1:VideoPlace id="beckonVideo" horizontalCenter="0" rotation="90" verticalCenter="0"
 								height.greeting="1080" 
 								height.menu="1080" horizontalCenter.menu="0" verticalCenter.menu="-200"/>
 				<s:Image width="600" horizontalCenter="0" smooth="true"

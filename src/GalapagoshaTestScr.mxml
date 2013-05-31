@@ -68,6 +68,8 @@
 			private var gameBackground:Sound;
 			private var gameSoundChannel:SoundChannel;
 			
+			private var lastTimeActive:Date = new Date(); 
+			
 			
 			private function onSoundChannelSoundComplete(e:Event):void
 			{
@@ -85,9 +87,9 @@
 			
 			protected function windowedapplication1_addedToStageHandler(event:Event):void
 			{
-				Cc.startOnStage(stage,"l");
+				Cc.startOnStage(stage,"l");				
+				Mouse.hide();
 				
-				removeEventListener(Event.ADDED_TO_STAGE,windowedapplication1_addedToStageHandler);
 				soundChannel = sound.play();
 				var transform:SoundTransform = new SoundTransform(0.5);
 				soundChannel.soundTransform = transform;
@@ -95,7 +97,7 @@
 				
 				stage.scaleMode = StageScaleMode.SHOW_ALL;
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-				addEventListener(Event.ENTER_FRAME,onEnterFrame);
+				
 				
 				tracker = new Tracker(stage, Cc.log);
 				stage.addChild(tracker);
@@ -113,10 +115,13 @@
 				beckonVideo.videoObject.attachNetStream(ns);
 				
 				ns.play("../assets/1.flv");
-				stage.addEventListener(MouseEvent.CLICK,detectMotion);
-				stage.addEventListener(MouseEvent.MOUSE_MOVE,detectMotion);
+				
+				removeEventListener(Event.ADDED_TO_STAGE,windowedapplication1_addedToStageHandler);
+				stage.addEventListener(MouseEvent.CLICK, detectMotion);
+				stage.addEventListener(MouseEvent.MOUSE_MOVE, detectMotion);
+				addEventListener(Event.ENTER_FRAME,onEnterFrame);
 			}
-			private var lastTimeActive:Date = new Date(); 
+			
 			private function detectMotion(e:MouseEvent):void
 			{
 				lastTimeActive = new Date();
@@ -137,7 +142,7 @@
 						currentVid = nextVid;
 						nextVid = -1;
 					}
-//осторожно костыль
+					//осторожно костыль
 					if(currentVid == 7 || currentVid == 8) currentVid = 3;
 					if(currentState != "menu" && currentState != "greeting" && (currentVid == 6 || currentVid == 11))currentVid = 4;
 					var path:String = "../assets/"+currentVid.toString()+".flv";
@@ -223,10 +228,7 @@
 			{
 				currentState = "menu";
 			}
-			
-			
-			
-			
+
 			protected function onUserEnter(event:Event):void
 			{
 				nextVid = 6;
@@ -264,9 +266,10 @@
 								soundChannel.soundTransform = transform;
 								var t:Tween = new Tween(this,0,0.5,3000,-1,upd,upd);
 							}
-							TweenLite.from(beckonVideo,0.5,{verticalCenter:0});
-							TweenLite.from(background,0.5,{verticalCenter:300});
-							TweenLite.from(clouds,0.5,{verticalCenter:0});
+							// Тормозит, убрал пока
+							//TweenLite.from(beckonVideo,0.5,{verticalCenter:0});
+							//TweenLite.from(background,0.5,{verticalCenter:300});
+							//TweenLite.from(clouds,0.5,{verticalCenter:0});
 						case "beckon":
 						case "greeting":
 							if(soundChannel.soundTransform.volume!=0.5)
@@ -392,19 +395,18 @@
 	</fx:Declarations>
 	<s:Group width="1080" height="1920">
 		<s:Image id="background" includeIn="greeting,beckon,menu" width="1080" horizontalCenter="0" smooth="true"
-				 source="@Embed('../assets/background.png')" verticalCenter="300"
-				 horizontalCenter.menu="0" verticalCenter.menu="100"/>
-		<ns1:Clouds2 id="clouds" includeIn="greeting,beckon,menu" width="1100" horizontalCenter="0"
-					 verticalCenter="0"
-					 width.menu="1080" horizontalCenter.menu="0" verticalCenter.menu="-220"/>
+				 source="@Embed('../assets/background.png')" verticalCenter="200"
+				 />
+		<ns1:Clouds2 id="clouds" includeIn="greeting,beckon,menu" width="1100" 
+					 width.menu="1080" horizontalCenter = "0" verticalCenter ="-220"/>
 		<s:Scroller includeIn="greeting,beckon,menu" width="1080"
 					height="1920">
 			<s:Group left="0" right="0" top="0" bottom="0">
-				<ns1:VideoPlace id="beckonVideo" horizontalCenter="0" rotation="90" verticalCenter="0"
+				<ns1:VideoPlace id="beckonVideo" horizontalCenter="0" rotation="90" verticalCenter="-100"
 								height.greeting="1080" 
-								height.menu="1080" horizontalCenter.menu="0" verticalCenter.menu="-200"/>
+								height.menu="1080" />
 				<s:Image width="600" horizontalCenter="0" smooth="true"
-						 source="@Embed('../assets/winTrip.png')" verticalCenter="700"
+						 source="@Embed('../assets/winTrip.png')" verticalCenter="600"
 						 includeIn="beckon"/>
 				<ns1:TouchIT id="clickMe" includeIn="greeting" horizontalCenter="0"
 							 verticalCenter="660"/>
@@ -416,7 +418,7 @@
 					 click="bananaWeightBtn_clickHandler(event)" horizontalCenter="340">
 				<s:TextArea y="260" width="400" height="120" borderVisible="false"
 							contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
-							mouseEnabled="false" selectable="false" styleName="headerSmall"
+							mouseEnabled="false" selectable="false" styleName="menu"
 							text="Банано&#xd;метр"/>
 				<s:Image x="66" y="0" smooth="true" source="@Embed('../assets/meterBtn.png')"/>
 			</s:Group>
@@ -424,7 +426,7 @@
 					 click="equadorBtn_clickHandler(event)" verticalCenter="356">
 				<s:TextArea y="250" width="500" height="120" borderVisible="false"
 							contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
-							mouseEnabled="false" selectable="false" styleName="headerSmall"
+							mouseEnabled="false" selectable="false" styleName="menu"
 							text="Путешествие&#xd;в Эквадор"/>
 				<s:Image x="66" y="0" smooth="true" source="@Embed('../assets/equador.png')"/>
 			</s:Group>
@@ -432,7 +434,7 @@
 					 click="bananaRecipeBtn_clickHandler(event)" horizontalCenter="-340">
 				<s:TextArea y="258" width="300" height="150" borderVisible="false"
 							contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
-							mouseEnabled="false" selectable="false" styleName="headerSmall"
+							mouseEnabled="false" selectable="false" styleName="menu"
 							text="Банановые&#xd;рецепты"/>
 				<s:Image x="66" y="0" smooth="true" source="@Embed('../assets/recipesBtn.png')"/>
 			</s:Group>
@@ -440,7 +442,7 @@
 					 click="bananaNinjaBtn_clickHandler(event)" verticalCenter="710">
 				<s:TextArea y="255" width="500" height="120" borderVisible="false"
 							contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
-							mouseEnabled="false" selectable="false" styleName="headerSmall"
+							mouseEnabled="false" selectable="false" styleName="menu"
 							text="Банановый&#xd;ниндзя"/>
 				<s:Image x="66" y="0" smooth="true" source="@Embed('../assets/ninjaBtn.png')"/>
 			</s:Group>

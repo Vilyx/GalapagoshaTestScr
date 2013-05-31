@@ -19,6 +19,7 @@
 			private var tweenTime:Number = 0.5;
 			private var clicked:Boolean = false;
 			private var lastTimeoutId:int = -1;
+			
 			protected function touchitblinking1_clickHandler(event:MouseEvent):void
 			{
 				fadeOut(bumMeryat);

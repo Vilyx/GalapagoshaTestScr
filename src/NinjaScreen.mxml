@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1080" height="1980" xmlns:local="*" addedToStage="group1_addedToStageHandler(event)" stateChangeComplete="group1_stateChangeCompleteHandler(event)" click.start="group1_clickHandler(event)">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1080" height="1980" xmlns:local="*" addedToStage="group1_addedToStageHandler(event)" enterFrame.play="group1_enterFrameHandler(event)" stateChangeComplete="group1_stateChangeCompleteHandler(event)" click.start="group1_clickHandler(event)">
 	<fx:Style source="styles.css"/>
 	
 	<fx:Script>
@@ -9,7 +9,8 @@
 			import mx.events.FlexEvent;
 			public var slicedBananas:int = 0;
 			public var slicedSkins:int = 0;
-			private var timer:Timer = new Timer(30000);
+			private var timer:Timer = new Timer(60000);
+			private var startTime:Date;
 			[Embed(source='../assets/ninja_win.mp3')] 		 
 			private var WinSound : Class; 
 			protected function group1_addedToStageHandler(event:Event):void
@@ -68,6 +69,7 @@
 				currentState = "play";
 				timer.addEventListener(TimerEvent.TIMER,onTimeElapsed);
 				timer.start();
+				startTime = new Date();
 			}
 			protected function repeat_clickHandler(event:MouseEvent):void
 			{
@@ -83,6 +85,11 @@
 			{
 				if(this != null && this.parent != null)
 					finish();
+			}
+			
+			protected function group1_enterFrameHandler(event:Event):void
+			{
+				timerText.text = (int(60 - (new Date().time-startTime.time)/1000)).toString();
 			}
 			
 		]]>
@@ -131,5 +138,9 @@
 	</local:BananScoreCmp>
 	<local:BananaSkins includeIn="play" right="41" top="400" id="bananaSkins">
 	</local:BananaSkins>
+	<s:TextArea id="timerText" includeIn="play" right="783" top="400" width="263" height="164"
+				borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
+				mouseEnabled="false" selectable="false" styleName="headerBig" text="60"/>	
+	
 	
 </s:Group>

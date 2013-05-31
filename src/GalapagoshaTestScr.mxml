@@ -76,12 +76,13 @@
 			{
 				if(soundChannel.soundTransform.volume != 0)
 				{
-					//e.currentTarget.removeEventListener(Event.SOUND_COMPLETE, onSoundChannelSoundComplete);
+					e.currentTarget.removeEventListener(Event.SOUND_COMPLETE, onSoundChannelSoundComplete);
 					soundChannel = sound.play();
-					
+					soundChannel.addEventListener(Event.SOUND_COMPLETE,onSoundChannelSoundComplete);
 				}
 				else
 				{
+					e.currentTarget.removeEventListener(Event.SOUND_COMPLETE, onSoundChannelSoundComplete);
 					musicStopped = true;
 				}
 			}
@@ -145,7 +146,7 @@
 					}
 					//осторожно костыль
 					if(currentVid == 7 || currentVid == 8) currentVid = 3;
-					if(currentState != "menu" && currentState != "greeting" && (currentVid == 6 || currentVid == 11))currentVid = 4;
+					if(currentState != "beckon" && currentState != "menu" && currentState != "greeting" && (currentVid == 6 || currentVid == 11))currentVid = 4;
 					var path:String = "../assets/"+currentVid.toString()+".flv";
 					//var path:String = "../assets/milliard_bitreyt.flv";
 					trace(path);
@@ -263,6 +264,7 @@
 							if(musicStopped)
 							{
 								soundChannel = sound.play();
+								soundChannel.addEventListener(Event.SOUND_COMPLETE,onSoundChannelSoundComplete);
 								var transform:SoundTransform = new SoundTransform(0);
 								soundChannel.soundTransform = transform;
 								var t:Tween = new Tween(this,0,0.5,3000,-1,upd,upd);

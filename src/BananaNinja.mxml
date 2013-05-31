@@ -173,8 +173,8 @@
 					banan = bananaClon.clone() as ObjectContainer3D;
 				else
 					banan = skinClon.clone() as ObjectContainer3D;
-				banan.mouseEnabled = true;
-				banan.addEventListener(MouseEvent3D.MOUSE_OVER,onMeshMouseOver);
+				//banan.mouseEnabled = true;
+				//banan.addEventListener(MouseEvent3D.MOUSE_OVER,onMeshMouseOver);
 				banan.position = new Vector3D(-bd.position.x * 50+100, -bd.position.y * 50+100,0);
 				bananaHolder.addChild(banan);
 				//var rot:Vector3D = new Vector3D(Math.random()*8-4,Math.random()*8-4,Math.random()*8-4);
@@ -355,14 +355,52 @@
 			protected function onMouseDown(event:MouseEvent):void
 			{
 				mbd = true;	
+				_view.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
 			}
-			
+			protected function onMouseMove(event:MouseEvent):void
+			{
+				for (var i:int = 0; i < blist.length; i++) 
+				{
+					var body:b2Body = blist[i];
+					var bananPos:b2Vec2 = worldPosToScreen(body.GetPosition().Copy());
+					//trace(bananPos.x,bananPos.y+"  ",event.stageX,event.stageY);
+					var banana:ObjectContainer3D = bananaHolder.getChildAt(i);
+					var position:Vector3D = _view.project(banana.position);
+					
+					var posi:b2Vec2 = new b2Vec2(position.x,position.y);
+					posi.Subtract(new b2Vec2(event.stageX,event.stageY));
+					var dist:Number = Math.abs(posi.Length());
+					trace(dist);
+					if(dist<40) 
+					{
+						var objType:String = body.GetUserData();
+						if(objType == "skin")
+						{
+							trace("slicing skin");
+							(new MySound() as Sound).play();
+							destroyBanan(i);
+							dispatchEvent(new Event("skin"));
+						}
+						else if(objType == "banan")
+						{
+							(new MySound() as Sound).play();
+							var rot:Vector3D = new Vector3D(banana.rotationX,banana.rotationY,banana.rotationZ);
+							var pos:Point = new Point(body.GetPosition().x,body.GetPosition().y);
+							createSplittedBanan(pos,rot,body.GetLinearVelocity(),rotlist[i]);
+							destroyBanan(i);
+							dispatchEvent(new Event("banan"));
+						}
+					}
+				}
+				trace(event.stageX,event.stageY,"\n\n");
+			}
 			protected function onMouseUp(event:MouseEvent):void
 			{
+				_view.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
 				mbd = false;	
 			}
 			
-			protected function onMeshMouseOver(event:MouseEvent3D):void
+			/*protected function onMeshMouseOver(event:MouseEvent3D):void
 			{
 				if(mbd)
 				{
@@ -393,7 +431,7 @@
 						}
 					}
 				}
-			}
+			}*/
 			
 			protected function uicomponent1_addedToStageHandler(event:Event):void
 			{
@@ -408,6 +446,12 @@
 			protected function uicomponent1_removedFromStageHandler(event:Event):void
 			{
 				pause = true;
+			}
+			
+			private function worldPosToScreen(param0:b2Vec2):b2Vec2
+			{
+				// TODO Auto Generated method stub
+				return param0;
 			}
 			
 		]]>

@@ -25,6 +25,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.greensock.TweenLite;
+			import com.junkbyte.console.Cc;
 			
 			import flash.utils.setTimeout;
 			
@@ -34,8 +35,6 @@
 			import org.osmf.events.MediaPlayerStateChangeEvent;
 			import org.osmf.events.TimeEvent;
 			import org.osmf.layout.ScaleMode;
-			
-			import com.junkbyte.console.Cc;
 			
 			// Выход из режима привлечения внимания - startUserInteraction, переходим в режим приветствия
 			// Возврат в режим меню - backToMenu
@@ -70,6 +69,8 @@
 			
 			private var lastTimeActive:Date = new Date(); 
 			
+			private var production:Boolean = false;
+			
 			
 			private function onSoundChannelSoundComplete(e:Event):void
 			{
@@ -88,7 +89,7 @@
 			protected function windowedapplication1_addedToStageHandler(event:Event):void
 			{
 				Cc.startOnStage(stage,"l");				
-				Mouse.hide();
+				if (production) Mouse.hide();
 				
 				soundChannel = sound.play();
 				var transform:SoundTransform = new SoundTransform(0.5);

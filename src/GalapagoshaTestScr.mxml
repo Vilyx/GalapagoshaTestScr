@@ -264,7 +264,7 @@
 						case "greeting":
 							if(soundChannel.soundTransform.volume!=0.5)
 							{
-								var t:Tween = new Tween(this,0,0.5,3000,-1,upd,upd);
+								var t3:Tween = new Tween(this,0,0.5,3000,-1,upd,upd);
 								//TweenLite.to(soundChannel.soundTransform,3,{volume:0.5});
 							}
 							break;
@@ -295,8 +295,8 @@
 							gameSoundChannel = gameBackground.play();
 							if(gameSoundChannel.soundTransform.volume!=0.5)
 							{
-								var transform:SoundTransform = new SoundTransform(0.001);
-								gameSoundChannel.soundTransform = transform;
+								var transform2:SoundTransform = new SoundTransform(0.001);
+								gameSoundChannel.soundTransform = transform2;
 								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
 							}
 							break;
@@ -305,8 +305,8 @@
 							gameSoundChannel = gameBackground.play();
 							if(gameSoundChannel.soundTransform.volume!=0.5)
 							{
-								var transform:SoundTransform = new SoundTransform(0.001);
-								gameSoundChannel.soundTransform = transform;
+								var transform3:SoundTransform = new SoundTransform(0.001);
+								gameSoundChannel.soundTransform = transform3;
 								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
 							}
 							break;
@@ -315,8 +315,8 @@
 							gameSoundChannel = gameBackground.play();
 							if(gameSoundChannel.soundTransform.volume!=0.5)
 							{
-								var transform:SoundTransform = new SoundTransform(0.001);
-								gameSoundChannel.soundTransform = transform;
+								var transform4:SoundTransform = new SoundTransform(0.001);
+								gameSoundChannel.soundTransform = transform4;
 								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
 							}
 							break;
@@ -325,8 +325,8 @@
 							gameSoundChannel = gameBackground.play();
 							if(gameSoundChannel.soundTransform.volume!=0.5)
 							{
-								var transform:SoundTransform = new SoundTransform(0.001);
-								gameSoundChannel.soundTransform = transform;
+								var transform5:SoundTransform = new SoundTransform(0.001);
+								gameSoundChannel.soundTransform = transform5;
 								new Tween(this,0.001,0.5,3000,-1,updGameBackground,updGameBackground);
 							}
 							break;						
@@ -337,8 +337,8 @@
 				{
 					gameBackground = new VesRostSound();
 					gameSoundChannel = gameBackground.play();
-					var transform:SoundTransform = new SoundTransform(0);
-					gameSoundChannel.soundTransform = transform;
+					var transform6:SoundTransform = new SoundTransform(0);
+					gameSoundChannel.soundTransform = transform6;
 				}
 				switch(currentState)
 				{

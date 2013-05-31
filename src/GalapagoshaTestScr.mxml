@@ -59,7 +59,7 @@
 			private var BackImage:Class;
 			[Bindable] 
 			public var imgBack:Bitmap = new BackImage();
-			private var tracker:Tracker;
+			//private var tracker:Tracker;
 			
 			private var sound:Sound = new MySound() as Sound;
 			private var soundChannel:SoundChannel;
@@ -99,11 +99,11 @@
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				
 				
-				tracker = new Tracker(stage, Cc.log);
+				/*tracker = new Tracker(stage, Cc.log);
 				stage.addChild(tracker);
 				tracker.addEventListener(Tracker.USER_ENTER,onUserEnter);
 				tracker.addEventListener(Tracker.USER_LEAVE,onUserLeave);
-				tracker.addEventListener(Tracker.USER_STOP,onUserStop);
+				tracker.addEventListener(Tracker.USER_STOP,onUserStop);*/
 				
 				beckonVideo.videoObject = new Video(1920,1080);
 				var nc:NetConnection = new NetConnection(); 
@@ -245,11 +245,11 @@
 			}
 			public function getWeight():Number
 			{
-				return tracker.getWeight();
+				return 0//tracker.getWeight();
 			}
 			public function getHeight():Number
 			{
-				return tracker.getHeight();
+				return 0//tracker.getHeight();
 			}
 			
 			protected function windowedapplication1_stateChangeCompleteHandler(event:FlexEvent):void
@@ -296,7 +296,7 @@
 						case "greeting":
 							if(gameSoundChannel.soundTransform.volume!=0)
 							{
-								var t:Tween = new Tween(this,0.5,0,1000,-1,updGameBackground,updGameBackground);
+								var t5:Tween = new Tween(this,0.5,0,1000,-1,updGameBackground,updGameBackground);
 								//TweenLite.to(soundChannel.soundTransform,3,{volume:0.5});
 							}
 							break;

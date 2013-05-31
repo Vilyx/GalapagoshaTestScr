@@ -12,6 +12,7 @@ tmp/
 *.bak
 *.swp
 *~.nib
+*.air
 local.properties
 .classpath
 .settings/
@@ -46,6 +47,7 @@ local.properties
 
 [Dd]ebug/
 [Rr]elease/
+bin-debug/
 x64/
 build/
 [Bb]in/

@@ -25,6 +25,7 @@
 					case "recipe_cream":
 					case "recipe_blin":
 					case "recipe_zhar":
+						timer.reset();
 						timer.start();
 						RecursiveStop(swfPlayer.content as MovieClip);
 						currentRecipe = recipeChooser.currentState = this.currentState;

@@ -24,6 +24,8 @@
 					case "start":
 						break;
 					case "play":
+						currentBananasDisp.score = 0;
+						bananaSkins.setCatchedSkins(0);
 						ninjaPlayCmp.removeEventListener("banan",onBananaSlice);
 						ninjaPlayCmp.removeEventListener("skin",onSkinSlice);
 						slicedBananas = 0;
@@ -41,6 +43,7 @@
 			protected function onBananaSlice(event:Event):void
 			{
 				slicedBananas++;
+				currentBananasDisp.score = slicedBananas;
 			}
 			
 			protected function onSkinSlice(event:Event):void
@@ -124,9 +127,9 @@
 						 verticalCenter="-8">
 	</local:BananScoreCmp>
 	<local:TouchItBlinking2 id="repeat" includeIn="result" bottom="170" horizontalCenter="0" click="repeat_clickHandler(event)"/>
-	<local:BananScoreCmp includeIn="play" bottom="220" horizontalCenter="0">
+	<local:BananScoreCmp id="currentBananasDisp" includeIn="play" bottom="220" horizontalCenter="0">
 	</local:BananScoreCmp>
-	<local:BananaSkins includeIn="play" right="41" top="300" id="bananaSkins">
+	<local:BananaSkins includeIn="play" right="41" top="400" id="bananaSkins">
 	</local:BananaSkins>
 	
 </s:Group>

@@ -104,10 +104,9 @@
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				
 				
-				tracker = new Tracker(stage, Cc.log);
-				stage.addChild(tracker);
+				tracker = new Tracker(stage, Cc.log);				
 				tracker.addEventListener(Tracker.USER_ENTER,onUserEnter);
-				tracker.addEventListener(Tracker.USER_LEAVE,onUserLeave);
+				//tracker.addEventListener(Tracker.USER_LEAVE,onUserLeave);
 				tracker.addEventListener(Tracker.USER_STOP,onUserStop);
 				
 				beckonVideo.videoObject = new Video(1920,1080);

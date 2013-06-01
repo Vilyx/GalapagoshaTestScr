@@ -211,7 +211,7 @@
 			 width="1044" color="#FFFFFF" styleName="metrHeader"
 			 text="Банановый&#xd;шейк"
 			 text.recipe_blin="Банановые&#xd;блинчики"
-			 text.recipe_cream="Банановое&#xd;мороженное"
+			 text.recipe_cream="Банановое&#xd;мороженое"
 			 text.recipe_zhar="Жареные&#xd;бананы"/>
 	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_next,recipe_print" horizontalCenter="0" y="466" styleName="metrText" text="Поэтому в Эквадоре&#xd;самые вкусные&#xd;и полезные бананы&#xd;на свете"/>
 	<s:TextArea includeIn="recipe_next" x="18" y="985" width="1044" borderVisible="false"

@@ -5,7 +5,7 @@
 					   xmlns:ns1="*"
 					   width="1080" height="900"
 					   addedToStage="windowedapplication1_addedToStageHandler(event)"
-					   currentState="Ecuador" showStatusBar="false">
+					   currentState="Recipe" showStatusBar="false">
 	
 	<fx:Script>
 		<![CDATA[

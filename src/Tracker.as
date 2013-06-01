@@ -51,6 +51,8 @@ package
 			
 			renderData = new BitmapData(camw, camh, false, 0xff000000);
 			render = new Bitmap(renderData);
+			render.y = 100;
+			addChild(render);
 			
 			if (f != null) {
 				logFunction = f;
@@ -69,10 +71,7 @@ package
 				settings.pointCloudResolution = CameraResolution.RESOLUTION_320_240;
 				settings.pointCloudDensity = 5;
 				device.start(settings);
-				
-				render.y = 100;
-				addChild(render);
-				
+								
 				// info
 				
 				wText = new TextField();

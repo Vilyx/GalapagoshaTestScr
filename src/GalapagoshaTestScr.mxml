@@ -24,6 +24,8 @@
 	</s:states>
 	<fx:Script>
 		<![CDATA[
+			import Tracker;
+			
 			import com.greensock.TweenLite;
 			import com.junkbyte.console.Cc;
 			
@@ -58,7 +60,7 @@
 			private var BackImage:Class;
 			[Bindable] 
 			public var imgBack:Bitmap = new BackImage();
-			//private var tracker:Tracker;
+			private var tracker:Tracker;
 			
 			private var sound:Sound = new MySound() as Sound;
 			private var soundChannel:SoundChannel;
@@ -76,6 +78,7 @@
 			{
 				if(soundChannel.soundTransform.volume != 0)
 				{
+					soundChannel.stop();
 					e.currentTarget.removeEventListener(Event.SOUND_COMPLETE, onSoundChannelSoundComplete);
 					soundChannel = sound.play();
 					soundChannel.addEventListener(Event.SOUND_COMPLETE,onSoundChannelSoundComplete);
@@ -101,11 +104,11 @@
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				
 				
-				/*tracker = new Tracker(stage, Cc.log);
+				tracker = new Tracker(stage, Cc.log);
 				stage.addChild(tracker);
 				tracker.addEventListener(Tracker.USER_ENTER,onUserEnter);
 				tracker.addEventListener(Tracker.USER_LEAVE,onUserLeave);
-				tracker.addEventListener(Tracker.USER_STOP,onUserStop);*/
+				tracker.addEventListener(Tracker.USER_STOP,onUserStop);
 				
 				beckonVideo.videoObject = new Video(1920,1080);
 				var nc:NetConnection = new NetConnection(); 
@@ -122,6 +125,7 @@
 				stage.addEventListener(MouseEvent.CLICK, detectMotion);
 				stage.addEventListener(MouseEvent.MOUSE_MOVE, detectMotion);
 				addEventListener(Event.ENTER_FRAME,onEnterFrame);
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, control);
 			}
 			
 			private function detectMotion(e:MouseEvent):void
@@ -263,6 +267,7 @@
 						case "menu":
 							if(musicStopped)
 							{
+								soundChannel.stop();
 								soundChannel = sound.play();
 								soundChannel.addEventListener(Event.SOUND_COMPLETE,onSoundChannelSoundComplete);
 								var transform:SoundTransform = new SoundTransform(0);
@@ -384,6 +389,18 @@
 			protected function windowedapplication1_clickHandler(event:MouseEvent):void
 			{
 				startUserInteraction();
+			}
+			
+			protected function control(event:KeyboardEvent):void
+			{
+				if (event.keyCode == Keyboard.K) {
+					if (stage.contains(tracker)) {
+						stage.removeChild(tracker);
+					} else {
+						stage.addChild(tracker);
+					}
+				}
+				
 			}
 			
 		]]>

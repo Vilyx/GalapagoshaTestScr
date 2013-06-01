@@ -76,6 +76,7 @@
 			{
 				if(soundChannel.soundTransform.volume != 0)
 				{
+					soundChannel.stop();
 					e.currentTarget.removeEventListener(Event.SOUND_COMPLETE, onSoundChannelSoundComplete);
 					soundChannel = sound.play();
 					soundChannel.addEventListener(Event.SOUND_COMPLETE,onSoundChannelSoundComplete);
@@ -263,6 +264,7 @@
 						case "menu":
 							if(musicStopped)
 							{
+								soundChannel.stop();
 								soundChannel = sound.play();
 								soundChannel.addEventListener(Event.SOUND_COMPLETE,onSoundChannelSoundComplete);
 								var transform:SoundTransform = new SoundTransform(0);

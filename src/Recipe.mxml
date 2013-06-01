@@ -124,6 +124,7 @@
 				timer.reset();
 				currentState = "recipe_start";
 				currentRecipe = null;
+				trace("print");
 			}
 			
 			protected function onTimer(event:TimerEvent):void
@@ -213,7 +214,11 @@
 			 text.recipe_blin="Банановые&#xd;блинчики"
 			 text.recipe_cream="Банановое&#xd;мороженное"
 			 text.recipe_zhar="Жареные&#xd;бананы"/>
-	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="recipe_next,recipe_print" horizontalCenter="0" y="466" styleName="metrText" text="Поэтому в Эквадоре&#xd;самые вкусные&#xd;и полезные бананы&#xd;на свете"/>
+	<s:TextArea includeIn="recipe_next,recipe_print" y="466" borderVisible="false"
+				contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
+				mouseEnabled="false" selectable="false" styleName="metrText"
+				text="Поэтому в Эквадоре&#xd;самые вкусные&#xd;и полезные бананы&#xd;на свете"
+				height.recipe_print="346" horizontalCenter.recipe_print="0"/>
 	<s:TextArea includeIn="recipe_next" x="18" y="985" width="1044" borderVisible="false"
 				color="#FFFFFF" contentBackgroundAlpha="0.0" editable="false" mouseEnabled="false"
 				selectable="false" styleName="metrHeader" text="Приятного&#xd;аппетита!"/>
@@ -226,9 +231,10 @@
 	<ns1:RecipeChooser id="recipeChooser" excludeFrom="recipe_start" y="1408" left="0" right="0" height="300" stateChangeComplete="recipeChooser_stateChangeCompleteHandler(event)"/>
 	
 	<s:Group id="printGroup" includeIn="recipe_print" x="111" y="820" width="820" height="544" click="printGroup_clickHandler(event)">
-		<s:TextArea includeIn="recipe_print" x="52" y="333" borderVisible="false" color="#FFFFFF"
-					contentBackgroundAlpha="0.0" editable="false" fontFamily="BananaFontBloldItal"
-					fontSize="50" lineHeight="90%" mouseEnabled="false" selectable="false"
+		<s:TextArea includeIn="recipe_print" x="52" y="333" height="201" borderVisible="false"
+					color="#FFFFFF" contentBackgroundAlpha="0.0" editable="false"
+					fontFamily="BananaFontBloldItal" fontSize="50" lineHeight="90%"
+					mouseEnabled="false" selectable="false"
 					text="Распечатай&#xd;рецепт &#xd;и приготовь&#xd;дома!"/>
 		<ns1:TouchItBlinking3 includeIn="recipe_print" x="246" y="38"/>
 	</s:Group>

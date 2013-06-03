@@ -250,11 +250,11 @@
 			}
 			public function getWeight():Number
 			{
-				return 0//tracker.getWeight();
+				return tracker.getWeight();
 			}
 			public function getHeight():Number
 			{
-				return 0//tracker.getHeight();
+				return tracker.getHeight();
 			}
 			
 			protected function windowedapplication1_stateChangeCompleteHandler(event:FlexEvent):void
@@ -360,6 +360,7 @@
 				switch(currentState)
 				{
 					case "menu":
+						// глючит
 						TweenLite.from(bananaWeightBtn,0.5,{horizontalCenter:-100,alpha:0});
 						TweenLite.from(bananaRecipeBtn,0.5,{horizontalCenter:100,alpha:0});
 						TweenLite.from(bananaNinja,0.5,{verticalCenter:400,alpha:0});

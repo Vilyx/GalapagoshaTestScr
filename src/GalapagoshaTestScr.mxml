@@ -155,11 +155,7 @@
 			protected function ns_onMetaData(item:Object):void 
 			{ 
 				beckonVideo.width = item.width;// Resize video instance.
-				beckonVideo.height = item.height;
-				/*beckonVideo.verticalCenter = 0;
-				beckonVideo.horizontalCenter = 0;*/
-				
-				
+				beckonVideo.height = item.height;				
 			} 
 			public function startUserInteraction():void
 			{
@@ -200,8 +196,10 @@
 			}
 			
 			protected function button1_clickHandler(event:MouseEvent):void
-			{
+			{	
 				currentState = "menu";
+				nextVid = Math.round(21 + Math.random()*3);
+				trace("next",nextVid);
 			}
 			
 			//protected var firstMenuTime:Date = new Date();

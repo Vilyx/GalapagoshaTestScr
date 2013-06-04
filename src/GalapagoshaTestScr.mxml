@@ -136,18 +136,17 @@
 				{ 
 					var currentVid:int = lastVid;
 					while(currentVid == lastVid)
-						currentVid = int(1+Math.random()*7.9);
-					lastVid = currentVid;
+						currentVid = int(1+Math.random()*9.9);
+						lastVid = currentVid;
 					if(nextVid != -1)
 					{
 						currentVid = nextVid;
 						nextVid = -1;
 					}
-					//осторожно костыль
-					if(currentVid == 7 || currentVid == 8) currentVid = 3;
-					if(currentState != "beckon" && currentState != "menu" && currentState != "greeting" && (currentVid == 6 || currentVid == 11))currentVid = 4;
+					
+					if(currentState != "beckon" && currentState != "menu" && currentState != "greeting" && (currentVid == 6 || currentVid == 11)) currentVid = 4;
 					var path:String = "../assets/"+currentVid.toString()+".flv";
-					//var path:String = "../assets/milliard_bitreyt.flv";
+				
 					trace(path);
 					ns.play(path);
 				}

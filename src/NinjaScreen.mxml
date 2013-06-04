@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
@@ -161,3 +162,168 @@
 	
 	
 </s:Group>
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1080" height="1980" xmlns:local="*" initialize="group1_initializeHandler(event)" addedToStage="group1_addedToStageHandler(event)" enterFrame.play="group1_enterFrameHandler(event)" stateChangeComplete="group1_stateChangeCompleteHandler(event)" click.start="group1_clickHandler(event)">
+	<fx:Style source="styles.css"/>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			public var slicedBananas:int = 0;
+			public var slicedSkins:int = 0;
+			private var timer:Timer = new Timer(30000);
+			private var startTime:Date;
+			[Embed(source='../assets/ninja_win.mp3')] 		 
+			private var WinSound : Class; 
+			
+			private var msgs:Array = new Array(); 
+			protected function group1_addedToStageHandler(event:Event):void
+			{
+				currentState = "start";
+			}
+			
+			protected function group1_stateChangeCompleteHandler(event:FlexEvent):void
+			{
+				switch(currentState)
+				{
+					case "start":
+						break;
+					case "play":
+						currentBananasDisp.score = 0;
+						bananaSkins.setCatchedSkins(0);
+						ninjaPlayCmp.removeEventListener("banan",onBananaSlice);
+						ninjaPlayCmp.removeEventListener("skin",onSkinSlice);
+						slicedBananas = 0;
+						slicedSkins = 0;
+						ninjaPlayCmp.addEventListener("banan",onBananaSlice);
+						ninjaPlayCmp.addEventListener("skin",onSkinSlice);
+						break;
+					case "result":
+						(new WinSound() as Sound).play();
+						resultBanans.score = slicedBananas;	
+						goodbyeMsg.text = msgs[int(Math.random()*7.9)+1];
+						break;
+				}
+			}
+			
+			protected function onBananaSlice(event:Event):void
+			{
+				slicedBananas++;
+				currentBananasDisp.score = slicedBananas;
+			}
+			
+			protected function onSkinSlice(event:Event):void
+			{
+				slicedSkins++;
+				bananaSkins.setCatchedSkins(slicedSkins);
+				if(slicedSkins>2)
+				{
+					finish();
+				}
+			}
+			protected function finish():void
+			{
+				timer.removeEventListener(TimerEvent.TIMER,onTimeElapsed);
+				ninjaPlayCmp.removeEventListener("banan",onBananaSlice);
+				ninjaPlayCmp.removeEventListener("skin",onSkinSlice);
+				currentState = "result";
+				timer.reset();
+			}
+			protected function start():void
+			{
+				currentState = "play";
+				timer.addEventListener(TimerEvent.TIMER,onTimeElapsed);
+				timer.start();
+				startTime = new Date();
+			}
+			protected function repeat_clickHandler(event:MouseEvent):void
+			{
+				start();
+			}
+			
+			protected function group1_clickHandler(event:MouseEvent):void
+			{
+				start();
+			}
+			
+			protected function onTimeElapsed(event:TimerEvent):void
+			{
+				if(this != null && this.parent != null)
+					finish();
+			}
+			
+			protected function group1_enterFrameHandler(event:Event):void
+			{
+				timerText.text = (int(30 - (new Date().time-startTime.time)/1000)).toString();
+				
+			}
+			
+			protected function group1_initializeHandler(event:FlexEvent):void
+			{
+				msgs.push('Хватит на 10 дней без подзарядки!');
+				msgs.push('Не человек, а ядерный реактор!');
+				msgs.push('Ого-го! Даже у супермена было меньше!');
+				msgs.push('Мама может тобой гордиться!'); 
+				msgs.push('Этого хватит, чтобы переплыть Атлантический океан!');
+				msgs.push('Сможешь целый день прыгать на скакалке!');
+				msgs.push('Как говорит мой дед: "На первый раз сойдет", но пора вводить банановый рацион!'); 
+				msgs.push('Нам еще есть, над чем поработать. Бананчики взял?');
+
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:states>
+		<s:State name="start"/>
+		<s:State name="play"/>
+		<s:State name="result"/>
+	</s:states>
+	<s:Image includeIn="result,start" left="0" right="0" top="0" bottom="0" scaleMode="stretch"
+			 smooth="true" source="@Embed('../assets/ninjaBG.png')"/>
+	<s:TextArea includeIn="result" top="500" width="736" height="272" borderVisible="false"
+				contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
+				mouseEnabled="false" selectable="false" styleName="headerBig"
+				text="Твоя энергия"/>
+	
+	<s:TextArea includeIn="start" top="500" width="736" height="272" borderVisible="false"
+				contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
+				mouseEnabled="false" selectable="false" styleName="headerBig" text="Банановый ниндзя"/>
+	<s:TextArea includeIn="start" top="1050" width="624" height="420" borderVisible="false"
+				contentBackgroundAlpha="0.0" editable="false" horizontalCenter="4"
+				mouseEnabled="false" selectable="false" styleName="metrText"
+				text="Ты - ниндзя! Сбивай бананы и познай силу банановой энергии"/>
+	<s:Image includeIn="result,start" top="80" width="554" height="414" horizontalCenter="0"
+			 smooth="true" source="@Embed('../assets/olushaUpper.png')"/>
+	<local:BananaNinja includeIn="play" width="100%" height="100%" id="ninjaPlayCmp"/>
+	<local:TouchItBlinking includeIn="start" bottom="220" width="250" height="250"
+						   horizontalCenter="0"/>
+	<local:VectBananNinja includeIn="start" y="850" horizontalCenter="0"/>
+	<s:Image includeIn="result" width="686" height="322" horizontalCenter="0" smooth="true"
+			 source="@Embed('../assets/blob.png')" verticalCenter="265"/>
+	<s:TextArea id="goodbyeMsg" includeIn="result" width="448" height="168" borderVisible="false"
+				contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
+				mouseEnabled="false" selectable="false" styleName="recipeName2"
+				text="Теперь ты можешь легко обежать земной шар!" textAlign="center"
+				verticalCenter="296"/>
+	<local:BananScoreCmp id="resultBanans" includeIn="result" horizontalCenter="-8"
+						 verticalCenter="-8">
+	</local:BananScoreCmp>
+	<local:TouchItBlinking2 id="repeat" includeIn="result" bottom="170" horizontalCenter="0" click="repeat_clickHandler(event)"/>
+	<local:BananScoreCmp id="currentBananasDisp" includeIn="play" bottom="220" horizontalCenter="0">
+	</local:BananScoreCmp>
+	<local:BananaSkins includeIn="play" right="41" top="400" id="bananaSkins">
+	</local:BananaSkins>
+	<s:TextArea id="timerText" includeIn="play" right="783" top="400" width="263" height="164"
+				borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
+				mouseEnabled="false" selectable="false" styleName="headerBig" text="60"/>	
+	
+	
+</s:Group>
+>>>>>>> 6da25a5e9c2d0cc923489310460b1fd9d3b29dcf

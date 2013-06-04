@@ -83,6 +83,7 @@
 				var bmd:BitmapData = new backImg().bitmapData;
 				_view.background = new BitmapTexture(bmd);   
 				_view.backgroundColor = 0x037cfe;
+				_view.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
 				_scene = _view.scene;
 				_camera = _view.camera;
 				
@@ -352,11 +353,11 @@
 				setupWorld();
 			}
 			
-			private var mbd:Boolean = false;
+			//private var mbd:Boolean = false;
 			protected function onMouseDown(event:MouseEvent):void
 			{
-				mbd = true;	
-				_view.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+				//mbd = true;	
+				//_view.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
 			}
 			protected function onMouseMove(event:MouseEvent):void
 			{
@@ -373,7 +374,7 @@
 					var dist:Number = Math.abs(posi.Length());
 					trace(dist);
 					
-					if(dist<100) 
+					if(dist<50) 
 					{
 						var objType:String = body.GetUserData();
 						if(objType == "skin"&&(dist<40))
@@ -398,8 +399,8 @@
 			}
 			protected function onMouseUp(event:MouseEvent):void
 			{
-				_view.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
-				mbd = false;	
+				//_view.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+				//mbd = false;	
 			}
 			
 			/*protected function onMeshMouseOver(event:MouseEvent3D):void
@@ -437,6 +438,11 @@
 			
 			protected function uicomponent1_addedToStageHandler(event:Event):void
 			{
+				if(_view)
+				{
+					_view.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+					_view.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+				}
 				while(blist.length>0)
 				{
 					destroyBanan(0);
@@ -447,6 +453,7 @@
 			
 			protected function uicomponent1_removedFromStageHandler(event:Event):void
 			{
+				_view.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
 				pause = true;
 			}
 			

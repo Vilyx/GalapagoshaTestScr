@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1080" height="1980" xmlns:local="*" addedToStage="group1_addedToStageHandler(event)" enterFrame.play="group1_enterFrameHandler(event)" stateChangeComplete="group1_stateChangeCompleteHandler(event)" click.start="group1_clickHandler(event)">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1080" height="1980" xmlns:local="*" initialize="group1_initializeHandler(event)" addedToStage="group1_addedToStageHandler(event)" enterFrame.play="group1_enterFrameHandler(event)" stateChangeComplete="group1_stateChangeCompleteHandler(event)" click.start="group1_clickHandler(event)">
 	<fx:Style source="styles.css"/>
 	
 	<fx:Script>
@@ -13,6 +13,8 @@
 			private var startTime:Date;
 			[Embed(source='../assets/ninja_win.mp3')] 		 
 			private var WinSound : Class; 
+			
+			private var msgs:Array = new Array(); 
 			protected function group1_addedToStageHandler(event:Event):void
 			{
 				currentState = "start";
@@ -37,6 +39,7 @@
 					case "result":
 						(new WinSound() as Sound).play();
 						resultBanans.score = slicedBananas;	
+						goodbyeMsg.text = msgs[int(Math.random()*7.9)+1];
 						break;
 				}
 			}
@@ -93,6 +96,19 @@
 				
 			}
 			
+			protected function group1_initializeHandler(event:FlexEvent):void
+			{
+				msgs.push('Хватит на 10 дней без подзарядки!');
+				msgs.push('Не человек, а ядерный реактор!');
+				msgs.push('Ого-го! Даже у супермена было меньше!');
+				msgs.push('Мама может тобой гордиться!'); 
+				msgs.push('Этого хватит, чтобы переплыть Атлантический океан!');
+				msgs.push('Сможешь целый день прыгать на скакалке!');
+				msgs.push('Как говорит мой дед: "На первый раз сойдет", но пора вводить банановый рацион!'); 
+				msgs.push('Нам еще есть, над чем поработать. Бананчики взял?');
+
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -126,7 +142,7 @@
 	<local:VectBananNinja includeIn="start" y="850" horizontalCenter="0"/>
 	<s:Image includeIn="result" width="686" height="322" horizontalCenter="0" smooth="true"
 			 source="@Embed('../assets/blob.png')" verticalCenter="265"/>
-	<s:TextArea includeIn="result" width="448" height="168" borderVisible="false"
+	<s:TextArea id="goodbyeMsg" includeIn="result" width="448" height="168" borderVisible="false"
 				contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
 				mouseEnabled="false" selectable="false" styleName="recipeName2"
 				text="Теперь ты можешь легко обежать земной шар!" textAlign="center"

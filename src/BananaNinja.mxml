@@ -192,7 +192,8 @@
 				var bann:ObjectContainer3D = bananaHolder.getChildAt(i);
 				bananaHolder.removeChild(bann);
 				bann.dispose();
-				blist.splice(i,1);
+				
+				m_world.DestroyBody(blist.splice(i,1)[0]);
 				
 				rotlist.splice(i,1);
 			}

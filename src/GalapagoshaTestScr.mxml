@@ -198,7 +198,7 @@
 			protected function button1_clickHandler(event:MouseEvent):void
 			{	
 				currentState = "menu";
-				nextVid = Math.round(21 + Math.random()*3);
+				nextVid = Math.round(21 + Math.random()*4);
 				trace("next",nextVid);
 			}
 			

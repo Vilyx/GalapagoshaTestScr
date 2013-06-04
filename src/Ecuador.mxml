@@ -8,12 +8,13 @@
 	<fx:Style source="styles.css"/>
 	<fx:Script>
 		<![CDATA[
-			import flash.utils.setTimeout;
 			import flash.utils.clearTimeout;
+			import flash.utils.setTimeout;
 			
 			import mx.events.FlexEvent;
 			
 			private var nextTO:uint;
+			private var lastMov:MovieClip;
 			
 			protected function group1_stateChangeCompleteHandler(event:FlexEvent):void
 			{
@@ -23,6 +24,13 @@
 					case "ecuador_friend":
 					case "ecuador_power":
 					case "ecuador_happy":
+						if(lastMov != null)
+						{
+							lastMov.removeEventListener("stopped",onMovieStop,false);
+							lastMov = null;
+						}
+						setTimeout(run,500);
+						
 						RecursiveStop(swfPlayer.content as MovieClip);
 						lessonChooser.currentState = this.currentState;
 						break;
@@ -47,48 +55,64 @@
 				mc.soundTransform = transform;
 				//mc.stop();
 			}
+			protected function run():void
+			{
+				var mov:MovieClip = (swfPlayer.content as MovieClip);
+				if(mov != null)
+				{
+					var ob:MovieClip = mov.getChildAt(0) as MovieClip;
+					ob.addEventListener("stopped",onMovieStop,false,0,true);
+					lastMov = ob;
+					trace("listener added");
+				}
+			}
+			protected function onMovieStop(event:Event):void
+			{
+				currentState = "ecuador_next";
+				
+			}
 			protected function ecuadoriconsun1_clickHandler(event:MouseEvent):void
 			{
 				currentState = "ecuador_sun";
-				showNextTO();
+				//showNextTO();
 			}
 			
 			protected function ecuadoriconhappy1_clickHandler(event:MouseEvent):void
 			{
 				currentState = "ecuador_happy";
-				showNextTO();
+				//showNextTO();
 			}
 			
 			protected function ecuadoriconpower1_clickHandler(event:MouseEvent):void
 			{
 				currentState = "ecuador_power";
-				showNextTO();
+				//showNextTO();
 			}
 			
 			protected function ecuadoriconfriend1_clickHandler(event:MouseEvent):void
 			{
 				currentState = "ecuador_friend";
-				showNextTO();
+				//showNextTO();
 			}
 			
 			protected function lessonChooser_stateChangeCompleteHandler(event:FlexEvent):void
 			{
 				this.currentState = event.target.currentState;
-				clearTimeout(nextTO);
-				showNextTO();
+				//clearTimeout(nextTO);
+				//showNextTO();
 			}
 			
 			protected function group1_addedToStageHandler(event:Event):void
 			{
 				currentState = "ecuador_start";
 			}
-			private function showNextTO():void {
+			/*private function showNextTO():void {
 				clearTimeout(nextTO);
 				nextTO = setTimeout(showNext, 21000);
 			}
 			private function showNext():void {				
 				currentState = "ecuador_next";
-			}
+			}*/
 			
 		]]>
 	</fx:Script>
@@ -166,7 +190,7 @@
 	
 	
 	
-	<ns1:LessonChooser id="lessonChooser" excludeFrom="ecuador_start" width="100%"
+	<ns1:LessonChooser id="lessonChooser" excludeFrom="ecuador_start" width="100%" alpha="0" alpha.ecuador_start="0" alpha.ecuador_next="0"
 					   stateChangeComplete="lessonChooser_stateChangeCompleteHandler(event)"
 					   y="1408" height="300"/>
 	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="18" y="862" width="1044" height="278" color="#FFFFFF"

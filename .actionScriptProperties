@@ -10,6 +10,8 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
+      <libraryPathEntry kind="3" linkType="1" path="libs/airkinect-2-core-openni.ane" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="5" linkType="2" path="libs/airkinect-2-core-openni.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -29,9 +31,11 @@
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
   <buildTargets>
     <buildTarget buildTargetName="default">
-      <airSettings airCertificatePath="C:/ActiveCodeWorks/lol.p12" airTimestamp="true" anePathSet="true" version="1">
+      <airSettings airCertificatePath="/Users/enthusiast/Programing/Flash/hc.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes/>
-        <anePaths/>
+        <anePaths>
+          <anePathEntry path="/Users/enthusiast/Проекты Hello/BananaStand/GalapagoshaTestScr/libs/airkinect-2-core-openni.ane"/>
+        </anePaths>
       </airSettings>
       <actionScriptSettings version="1"/>
     </buildTarget>

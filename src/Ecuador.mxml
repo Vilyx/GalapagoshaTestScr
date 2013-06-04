@@ -8,7 +8,12 @@
 	<fx:Style source="styles.css"/>
 	<fx:Script>
 		<![CDATA[
+			import flash.utils.setTimeout;
+			import flash.utils.clearTimeout;
+			
 			import mx.events.FlexEvent;
+			
+			private var nextTO:uint;
 			
 			protected function group1_stateChangeCompleteHandler(event:FlexEvent):void
 			{
@@ -45,31 +50,44 @@
 			protected function ecuadoriconsun1_clickHandler(event:MouseEvent):void
 			{
 				currentState = "ecuador_sun";
+				showNextTO();
 			}
 			
 			protected function ecuadoriconhappy1_clickHandler(event:MouseEvent):void
 			{
 				currentState = "ecuador_happy";
+				showNextTO();
 			}
 			
 			protected function ecuadoriconpower1_clickHandler(event:MouseEvent):void
 			{
 				currentState = "ecuador_power";
+				showNextTO();
 			}
 			
 			protected function ecuadoriconfriend1_clickHandler(event:MouseEvent):void
 			{
 				currentState = "ecuador_friend";
+				showNextTO();
 			}
 			
 			protected function lessonChooser_stateChangeCompleteHandler(event:FlexEvent):void
 			{
 				this.currentState = event.target.currentState;
+				clearTimeout(nextTO);
+				showNextTO();
 			}
 			
 			protected function group1_addedToStageHandler(event:Event):void
 			{
 				currentState = "ecuador_start";
+			}
+			private function showNextTO():void {
+				clearTimeout(nextTO);
+				nextTO = setTimeout(showNext, 21000);
+			}
+			private function showNext():void {				
+				currentState = "ecuador_next";
 			}
 			
 		]]>
@@ -92,6 +110,8 @@
 		<s:Group mouseEnabled="false">
 			<s:SWFLoader mouseEnabled="false" id="swfPlayer" excludeFrom="ecuador_next" alpha.ecuador_start="0" y="960" width="1080" height="1920" x="540"
 						 source.ecuador_happy="@Embed('../assets/beach.swf')" source.ecuador_sun="@Embed('../assets/sun.swf')" source.ecuador_power="@Embed('../assets/vulcan.swf')" source.ecuador_friend="@Embed('../assets/friendship.swf')"/>
+			<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="8" y="466" styleName="metrText"
+					 text="Поэтому в Эквадоре&#xd;самые вкусные&#xd;и полезные бананы&#xd;на свете"/>
 		</s:Group>
 		
 	</s:Scroller>
@@ -149,14 +169,12 @@
 	<ns1:LessonChooser id="lessonChooser" excludeFrom="ecuador_start" width="100%"
 					   stateChangeComplete="lessonChooser_stateChangeCompleteHandler(event)"
 					   y="1408" height="300"/>
-	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="18" y="862" width="1044" height="230" color="#FFFFFF"
+	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="18" y="862" width="1044" height="278" color="#FFFFFF"
 			 styleName="headerBig" text="Продолжаем&#xd;путешествие!"/>
-	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="188" y="466" styleName="metrText"
-			 text="Поэтому в Эквадоре&#xd;самые вкусные&#xd;и полезные бананы&#xd;на свете"/>
-	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="312" y="1277" color="#FFFFFF" fontFamily="BananaFontItal"
-			 fontSize="50" lineHeight="90%" text="Выбирай следующий&#xd;рассказ:" textAlign="center"/>
-	
-	
+	<s:TextArea includeIn="ecuador_next" x="162" y="1161" height="122" borderVisible="false"
+				color="#FFFFFF" contentBackgroundAlpha="0.0" editable="false"
+				fontFamily="BananaFontItal" fontSize="50" lineHeight="90%" mouseEnabled="false"
+				selectable="false" text="Выбирай следующий&#xd;рассказ:" textAlign="center"/>
 	
 	<s:Image top="80" width="554" height="414" horizontalCenter="0"
 			 source="@Embed('../assets/olushaUpper.png')"/>

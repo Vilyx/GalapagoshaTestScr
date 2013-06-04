@@ -24,6 +24,8 @@
 	</s:states>
 	<fx:Script>
 		<![CDATA[
+			import Tracker;
+			
 			import com.greensock.TweenLite;
 			import com.junkbyte.console.Cc;
 			
@@ -58,7 +60,7 @@
 			private var BackImage:Class;
 			[Bindable] 
 			public var imgBack:Bitmap = new BackImage();
-			//private var tracker:Tracker;
+			private var tracker:Tracker;
 			
 			private var sound:Sound = new MySound() as Sound;
 			private var soundChannel:SoundChannel;
@@ -102,11 +104,10 @@
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				
 				
-				/*tracker = new Tracker(stage, Cc.log);
-				stage.addChild(tracker);
+				tracker = new Tracker(stage, Cc.log);				
 				tracker.addEventListener(Tracker.USER_ENTER,onUserEnter);
-				tracker.addEventListener(Tracker.USER_LEAVE,onUserLeave);
-				tracker.addEventListener(Tracker.USER_STOP,onUserStop);*/
+				//tracker.addEventListener(Tracker.USER_LEAVE,onUserLeave);
+				tracker.addEventListener(Tracker.USER_STOP,onUserStop);
 				
 				beckonVideo.videoObject = new Video(1920,1080);
 				var nc:NetConnection = new NetConnection(); 
@@ -123,6 +124,7 @@
 				stage.addEventListener(MouseEvent.CLICK, detectMotion);
 				stage.addEventListener(MouseEvent.MOUSE_MOVE, detectMotion);
 				addEventListener(Event.ENTER_FRAME,onEnterFrame);
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, control);
 			}
 			
 			private function detectMotion(e:MouseEvent):void
@@ -248,11 +250,11 @@
 			}
 			public function getWeight():Number
 			{
-				return 0//tracker.getWeight();
+				return tracker.getWeight();
 			}
 			public function getHeight():Number
 			{
-				return 0//tracker.getHeight();
+				return tracker.getHeight();
 			}
 			
 			protected function windowedapplication1_stateChangeCompleteHandler(event:FlexEvent):void
@@ -358,6 +360,7 @@
 				switch(currentState)
 				{
 					case "menu":
+						// глючит
 						TweenLite.from(bananaWeightBtn,0.5,{horizontalCenter:-100,alpha:0});
 						TweenLite.from(bananaRecipeBtn,0.5,{horizontalCenter:100,alpha:0});
 						TweenLite.from(bananaNinja,0.5,{verticalCenter:400,alpha:0});
@@ -386,6 +389,18 @@
 			protected function windowedapplication1_clickHandler(event:MouseEvent):void
 			{
 				startUserInteraction();
+			}
+			
+			protected function control(event:KeyboardEvent):void
+			{
+				if (event.keyCode == Keyboard.K) {
+					if (stage.contains(tracker)) {
+						stage.removeChild(tracker);
+					} else {
+						stage.addChild(tracker);
+					}
+				}
+				
 			}
 			
 		]]>

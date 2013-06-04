@@ -9,7 +9,7 @@
 			import mx.events.FlexEvent;
 			public var slicedBananas:int = 0;
 			public var slicedSkins:int = 0;
-			private var timer:Timer = new Timer(60000);
+			private var timer:Timer = new Timer(30000);
 			private var startTime:Date;
 			[Embed(source='../assets/ninja_win.mp3')] 		 
 			private var WinSound : Class; 
@@ -89,7 +89,7 @@
 			
 			protected function group1_enterFrameHandler(event:Event):void
 			{
-				timerText.text = (int(60 - (new Date().time-startTime.time)/1000)).toString();
+				timerText.text = (int(30 - (new Date().time-startTime.time)/1000)).toString();
 			}
 			
 		]]>
@@ -140,7 +140,7 @@
 	</local:BananaSkins>
 	<s:TextArea id="timerText" includeIn="play" right="783" top="400" width="263" height="164"
 				borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
-				mouseEnabled="false" selectable="false" styleName="headerBig" text="60"/>	
+				mouseEnabled="false" selectable="false" styleName="headerBig" text="30"/>	
 	
 	
 </s:Group>

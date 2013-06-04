@@ -191,51 +191,58 @@
 					color="#FFFFFF" contentBackgroundAlpha="0.0" editable="false"
 					horizontalCenter="0" mouseEnabled="false" selectable="false"
 					styleName="metrHeader" text="Бананы&#xd;каждый день"/>
-		<s:Group y="780" left="0" right="0" height="200" click="recipeiconshake1_clickHandler(event)">
-			<s:TextArea includeIn="recipe_start" x="703" y="63" width="341" height="165"
+		<s:VGroup y="1200" left="580" width="400" height="350"
+				  click="recipeiconshake1_clickHandler(event)" horizontalAlign="center">
+			<ns1:RecipeIconShake/>
+			<s:Spacer height="30" />
+			<s:TextArea includeIn="recipe_start" x="59" width="283" height="85"
 						borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
-						mouseEnabled="false" selectable="false" styleName="recipeDescr"
-						text="Банановый&#xd;шейк"/>
-			<s:TextArea includeIn="recipe_start" x="179" y="63" width="246" height="146"
-						borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
-						mouseEnabled="false" selectable="false" styleName="recipeName" text="Для&#xd;тонуса"/>
-			<ns1:RecipeIconShake includeIn="recipe_start" x="493.55" y="26"
-								 />
-		</s:Group>
-		<s:Group y="1016" left="0" right="0" height="210" click="recipeiconblin1_clickHandler(event)">
-			<s:TextArea includeIn="recipe_start" x="701" y="41" width="325" height="146"
-						borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
-						mouseEnabled="false" selectable="false" styleName="recipeDescr"
-						text="Банановые&#xd;блинчики"/>
-			<s:TextArea includeIn="recipe_start" x="119" y="41" width="304" height="146"
+						fontSize="40" mouseEnabled="false" selectable="false" styleName="recipeName"
+						text="Банановый шейк" textAlign="center"/>
+			<s:TextArea includeIn="recipe_start" width="368" height="62" borderVisible="false"
+						contentBackgroundAlpha="0.0" editable="false" mouseEnabled="false"
+						selectable="false" styleName="recipeDescr" text="Для тонуса"
+						textAlign="center"/>
+			
+		</s:VGroup>
+		<s:VGroup x="100" y="800" width="400" height="350"
+				  click="recipeiconblin1_clickHandler(event)" horizontalAlign="center">
+			<ns1:RecipeIconBlin includeIn="recipe_start" />
+			<s:Spacer height="30" />
+			<s:TextArea includeIn="recipe_start" x="80" width="301" height="85"
 						borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
 						mouseEnabled="false" selectable="false" styleName="recipeName"
-						text="Для&#xd;завтрака"/>
-			<ns1:RecipeIconBlin includeIn="recipe_start" x="485" y="45"
-								/>
-		</s:Group>
-		<s:Group y="1238" left="0" right="0" height="200" click="recipeiconcream1_clickHandler(event)">
-			<s:TextArea x="699" y="30" width="325" height="150" borderVisible="false"
-						contentBackgroundAlpha="0.0" editable="false" mouseEnabled="false"
-						selectable="false" styleName="recipeDescr" text="Банановое&#xd;мороженое"/>
-			<s:TextArea x="99" y="30" width="324" height="146" borderVisible="false"
-						contentBackgroundAlpha="0.0" editable="false" mouseEnabled="false"
-						selectable="false" styleName="recipeName" text="Для&#xd;вечеринки"/>
-			<ns1:RecipeIconCream x="512.95" y="-16" height="191.55"
-								 />
-		</s:Group>
-		<s:Group y="1472" left="0" right="0" height="206" click="recipeiconzhar1_clickHandler(event)">
-			<s:TextArea includeIn="recipe_start" x="693" y="35" width="325" height="148"
+						text="Банановые блинчики"/>
+			<s:TextArea includeIn="recipe_start" x="62" width="340" height="52"
 						borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
 						mouseEnabled="false" selectable="false" styleName="recipeDescr"
+						text="Для завтрака"/>			
+		</s:VGroup>
+		<s:VGroup y="1200" left="100" width="400" height="350"
+				  click="recipeiconcream1_clickHandler(event)" horizontalAlign="center">
+			<ns1:RecipeIconCream x="512.95" y="-16"/>
+			<s:Spacer height="30" />
+			<s:TextArea width="349" height="85" borderVisible="false" contentBackgroundAlpha="0.0"
+						editable="false" mouseEnabled="false" selectable="false"
+						styleName="recipeName" text="Банановое&#xd;мороженое"/>
+			<s:TextArea x="-1" y="30" width="352" height="50" borderVisible="false"
+						contentBackgroundAlpha="0.0" editable="false" mouseEnabled="false"
+						selectable="false" styleName="recipeDescr" text="Для вечеринки"/>			
+		</s:VGroup>
+		<s:VGroup y="800" right="100" width="400" height="350"
+				  click="recipeiconzhar1_clickHandler(event)" horizontalAlign="center">
+			<ns1:RecipeIconZhar includeIn="recipe_start" x="477.3" y="27" />
+			<s:Spacer height="30" />
+			<s:TextArea includeIn="recipe_start" x="693" y="35" width="325" height="85"
+						borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
+						mouseEnabled="false" selectable="false" styleName="recipeName"
 						text="Жареные&#xd;бананы"/>
-			<s:TextArea includeIn="recipe_start" x="63" y="27" width="354" height="146"
+			<s:TextArea includeIn="recipe_start" x="17" y="27" width="366" height="56"
 						borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
-						mouseEnabled="false" selectable="false" styleName="recipeName"
-						text="Всем&#xd;на радость"/>
-			<ns1:RecipeIconZhar includeIn="recipe_start" x="477.3" y="27"
-								/>
-		</s:Group>
+						mouseEnabled="false" selectable="false" styleName="recipeDescr"
+						text="Всем на радость"/>
+			
+		</s:VGroup>		
 	</s:Group>
 	
 	
@@ -264,12 +271,11 @@
 	<ns1:RecipeChooser id="recipeChooser" excludeFrom="recipe_start" y="1408" left="0" right="0" height="300" stateChangeComplete="recipeChooser_stateChangeCompleteHandler(event)"/>
 	
 	<s:Group id="printGroup" includeIn="recipe_print" x="415" y="820" width="516" height="544" click="printGroup_clickHandler(event)">
-		<s:TextArea includeIn="recipe_print" x="52" y="333" height="201" borderVisible="false"
-					color="#FFFFFF" contentBackgroundAlpha="0.0" editable="false"
-					fontFamily="BananaFontBloldItal" fontSize="50" lineHeight="90%"
-					mouseEnabled="false" selectable="false"
+		<s:TextArea x="-34" y="272" height="201" borderVisible="false" color="#FFFFFF"
+					contentBackgroundAlpha="0.0" editable="false" fontFamily="BananaFontBloldItal"
+					fontSize="50" lineHeight="90%" mouseEnabled="false" selectable="false"
 					text="Распечатай&#xd;рецепт &#xd;и приготовь&#xd;дома!"/>
-		<ns1:TouchItBlinking3 includeIn="recipe_print" x="246" y="38"/>
+		<ns1:TouchItBlinking3 x="156" y="37"/>
 	</s:Group>
 	
 </s:Group>

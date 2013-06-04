@@ -36,23 +36,28 @@
 	</s:states>
 	<s:HGroup left="0" top="0" bottom="0" right="0" horizontalAlign="center" >	
 		<s:VGroup width="300" height="300" horizontalAlign="center"  excludeFrom="recipe_blin" id="blin" click="blin_clickHandler(event)">
+			<s:Spacer height="20"/>
+			<local:RecipeIconBlin x="0" y="14"/>
 			<s:Spacer height="10"/>
-			<local:RecipeIconBlin x="242" y="14"/>
 			<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" width="300" height="100" styleName="recipeMenu"
 						text="Банановые&#xd;блинчики"/>
 		</s:VGroup>
 		<s:VGroup width="300" height="300" horizontalAlign="center" excludeFrom="recipe_cream" id="cream" click="cream_clickHandler(event)">
-			<local:RecipeIconCream x="540" y="17"  />
+			<local:RecipeIconCream x="540" y="17"/>
+			<s:Spacer height="10"/>
 			<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" styleName="recipeMenu"
 						text="Банановое&#xd;мороженое"/>
 		</s:VGroup>
 		<s:VGroup width="300" height="300" horizontalAlign="center" excludeFrom="recipe_shake" id="shake" click="shake_clickHandler(event)">
 			<local:RecipeIconShake x="-36" y="10"/>
+			<s:Spacer height="10"/>
 			<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" styleName="recipeMenu"
 						text="Банановый&#xd;шейк"/>
 		</s:VGroup>
 		<s:VGroup width="300" height="300" horizontalAlign="center" excludeFrom="recipe_zhar" id="banana" click="banana_clickHandler(event)">
+			<s:Spacer height="20"/>
 			<local:RecipeIconZhar x="617" y="1263"/>
+			<s:Spacer height="10"/>
 			<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" styleName="recipeMenu"
 						text="Жареные&#xd;бананы"/>
 		</s:VGroup>

@@ -151,7 +151,7 @@
 				 horizontalCenter="0" styleName="headerSmall" text="Сила" verticalCenter="100"/>
 	</s:Group>
 	<s:Group click="ecuadoriconfriend1_clickHandler(event)"
-			 x.ecuador_start="508" y.ecuador_start="868" width.ecuador_start="422"
+			 x.ecuador_start="522" y.ecuador_start="868" width.ecuador_start="408"
 			 height.ecuador_start="305">
 		<ns1:EcuadorIconFriend includeIn="ecuador_start" horizontalCenter="0" verticalCenter="-40"/>
 		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_start" width="364" height="68" color="#FFFFFF"

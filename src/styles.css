@@ -94,8 +94,13 @@
 {
 	color: #FFFFFF;
 	fontFamily: BananaFontBloldItal;
-	fontSize: 50;
-	textAlign: right;
+	fontSize: 40;
+	textAlign: center;
+	lineHeight: 40;
+	paddingBottom: 0;
+	paddingRight: 0;
+	paddingLeft: 0;
+	paddingTop: 0;
 }
 .recipeName2
 {
@@ -108,8 +113,13 @@
 {
 	color: #FFFFFF;
 	fontFamily: BananaFontItal;
-	fontSize: 50;
-	textAlign: left;
+	fontSize: 40;
+	textAlign: center;
+	lineHeight: 40;
+	paddingBottom: 0;
+	paddingRight: 0;
+	paddingLeft: 0;
+	paddingTop: 0;
 }
 
 .recipeMenu

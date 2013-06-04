@@ -36,8 +36,7 @@
 		<s:State name="ecuador_happy"/>
 	</s:states>
 	<s:HGroup left="0" top="0" bottom="0" right="0" horizontalAlign="center" >	
-		<s:VGroup width="300" height="300" horizontalAlign="center"  excludeFrom="ecuador_sun" id="sun" click="sun_clickHandler(event)">
-			
+		<s:VGroup width="300" height="300" horizontalAlign="center"  excludeFrom="ecuador_sun" id="sun" click="sun_clickHandler(event)">			
 			<local:EcuadorIconSun/>
 			<s:Spacer height="10"/>
 			<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" color="#FFFFFF" styleName="headerSmaller" text="Солнце"/>
@@ -46,19 +45,19 @@
 		<s:VGroup width="300" height="300" horizontalAlign="center" excludeFrom="ecuador_happy" id="happy" click="happy_clickHandler(event)">
 			<s:Spacer height="30"/>
 			<local:EcuadorIconHappy/>
-			<s:Spacer height="35"/>
+			<s:Spacer height="10"/>
 			<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" color="#FFFFFF" styleName="headerSmaller" text="Радость"/>
 		</s:VGroup>
 		<s:VGroup width="300" height="300" horizontalAlign="center" excludeFrom="ecuador_power" id="power" click="power_clickHandler(event)">
-			<s:Spacer height="20"/>
+			<s:Spacer height="30"/>
 			<local:EcuadorIconPower/>
-			<s:Spacer height="20"/>
+			<s:Spacer height="10"/>
 			<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" color="#FFFFFF" styleName="headerSmaller" text="Сила"/>
 		</s:VGroup>
 		<s:VGroup width="300" height="300" horizontalAlign="center" excludeFrom="ecuador_friend" id="friend" click="friend_clickHandler(event)">
-			<s:Spacer height="20"/>
+			<s:Spacer height="30"/>
 			<local:EcuadorIconFriend/>
-			<s:Spacer height="40"/>
+			<s:Spacer height="10"/>
 			<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" color="#FFFFFF" styleName="headerSmaller" text="Дружба"/>
 		</s:VGroup>
 	</s:HGroup>

@@ -413,11 +413,11 @@
 				<ns1:VideoPlace id="beckonVideo" horizontalCenter="0" rotation="90" verticalCenter="-100"
 								height.greeting="1080" 
 								height.menu="1080" />
-				<s:Image width="600" horizontalCenter="0" smooth="true"
-						 source="@Embed('../assets/winTrip.png')" verticalCenter="600"
-						 includeIn="beckon"/>
 				<ns1:TouchIT id="clickMe" includeIn="greeting" horizontalCenter="0"
-							 verticalCenter="660"/>
+							 verticalCenter="660"/>				
+				<s:Label includeIn="beckon" y="1500" width="1000" height="300" fontSize="60"
+						 horizontalCenter="0" styleName="headerBig"
+						 text="Прикоснись &#xd;и выиграй путешествие&#xd;в Эквадор!"/>
 			</s:Group>
 		</s:Scroller>
 		<s:Group includeIn="menu" left="0" right="0" top="0" bottom="0">

@@ -253,12 +253,10 @@
 			 text.recipe_blin="Банановые&#xd;блинчики"
 			 text.recipe_cream="Банановое&#xd;мороженное"
 			 text.recipe_zhar="Жареные&#xd;бананы"/>
-	<s:TextArea includeIn="recipe_next,recipe_print" y="466" borderVisible="false"
-				contentBackgroundAlpha="0.0" editable="false"
-				mouseEnabled="false" selectable="false"
-				text="Приятного аппетита!"
-				width="884" height="346" horizontalCenter="0"
-				styleName="headerBig"/>
+	<s:TextArea includeIn="recipe_next,recipe_print" y="551" width="884" height="346" borderVisible="false"
+				contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
+				mouseEnabled="false" selectable="false" styleName="headerBig"
+				text="Приятного аппетита!"/>
 	<s:TextArea includeIn="recipe_next" x="18" y="985" width="1044" borderVisible="false"
 				color="#FFFFFF" contentBackgroundAlpha="0.0" editable="false" mouseEnabled="false"
 				selectable="false" styleName="metrHeader" text="Приятного&#xd;аппетита!"/>

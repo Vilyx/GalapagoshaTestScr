@@ -194,6 +194,11 @@
 				currentState = "recipe";
 			}
 			
+			protected function bananaTermsBtn_clickHandler(event:MouseEvent):void
+			{
+				currentState = "recipe";
+			}
+			
 			protected function button1_clickHandler(event:MouseEvent):void
 			{
 				currentState = "menu";
@@ -356,10 +361,10 @@
 				{
 					case "menu":
 						// глючит
-						TweenLite.from(bananaWeightBtn,0.5,{horizontalCenter:-100,alpha:0});
-						TweenLite.from(bananaRecipeBtn,0.5,{horizontalCenter:100,alpha:0});
-						TweenLite.from(bananaNinja,0.5,{verticalCenter:400,alpha:0});
-						TweenLite.from(equadorBtn,0.5,{verticalCenter:400,alpha:0});
+						TweenLite.from(bananaWeightBtn,0.5,{horizontalCenter:0,verticalCenter:500,alpha:0});
+						TweenLite.from(bananaRecipeBtn,0.5,{horizontalCenter:0,verticalCenter:500,alpha:0});
+						TweenLite.from(bananaNinja,0.5,{horizontalCenter:0,verticalCenter:500,alpha:0});
+						TweenLite.from(equadorBtn,0.5,{horizontalCenter:0,verticalCenter:500,alpha:0});
 						break;
 					case "greeting":
 						TweenLite.from(clickMe,0.5,{alpha:0});
@@ -422,37 +427,48 @@
 		</s:Scroller>
 		<s:Group includeIn="menu" left="0" right="0" top="0" bottom="0">
 	
-			<s:Group id="bananaWeightBtn" y="1294" width="400" height="366"
-					 click="bananaWeightBtn_clickHandler(event)" horizontalCenter="340">
-				<s:TextArea y="260" width="400" height="120" borderVisible="false"
+			<s:Group id="bananaWeightBtn" width="250" height="366"
+					 click="bananaWeightBtn_clickHandler(event)" horizontalCenter="-374"
+					 verticalCenter="550">
+				<s:TextArea y="248" width="400" height="120" borderVisible="false"
 							contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
 							mouseEnabled="false" selectable="false" styleName="menu"
 							text="Банано&#xd;метр"/>
-				<s:Image x="66" y="0" smooth="true" source="@Embed('../assets/meterBtn.png')"/>
+				<s:Image x="21" y="48" width="228" height="204" smooth="true"
+						 source="@Embed('../assets/meterBtn.png')"/>
 			</s:Group>
-			<s:Group id="equadorBtn" x="340" width="400" height="352"
-					 click="equadorBtn_clickHandler(event)" verticalCenter="356">
-				<s:TextArea y="250" width="500" height="120" borderVisible="false"
+			<s:Group id="equadorBtn" width="250" height="352" click="equadorBtn_clickHandler(event)"
+					 horizontalCenter="-125" verticalCenter="600">
+				<s:TextArea y="223" width="250" height="120" borderVisible="false"
 							contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
 							mouseEnabled="false" selectable="false" styleName="menu"
 							text="Путешествие&#xd;в Эквадор"/>
-				<s:Image x="66" y="0" smooth="true" source="@Embed('../assets/equador.png')"/>
+				<s:Image x="17" y="11" width="244" height="219" smooth="true"
+						 source="@Embed('../assets/equador.png')"/>
 			</s:Group>
-			<s:Group id="bananaRecipeBtn" y="1294" width="400" height="424"
-					 click="bananaRecipeBtn_clickHandler(event)" horizontalCenter="-340">
-				<s:TextArea y="258" width="300" height="150" borderVisible="false"
+			<s:Group id="bananaRecipeBtn" width="250" height="350"
+					 click="bananaRecipeBtn_clickHandler(event)" horizontalCenter="125"
+					 verticalCenter="600">
+				<s:TextArea y="222" width="300" height="150" borderVisible="false"
 							contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
 							mouseEnabled="false" selectable="false" styleName="menu"
 							text="Банановые&#xd;рецепты"/>
-				<s:Image x="66" y="0" smooth="true" source="@Embed('../assets/recipesBtn.png')"/>
+				<s:Image x="16" y="20" width="244" height="203" smooth="true"
+						 source="@Embed('../assets/recipesBtn.png')"/>
 			</s:Group>
-			<s:Group id="bananaNinja" x="340" width="400" height="356"
-					 click="bananaNinjaBtn_clickHandler(event)" verticalCenter="710">
-				<s:TextArea y="255" width="500" height="120" borderVisible="false"
+			<s:Group id="bananaNinja" width="250" height="356"
+					 click="bananaNinjaBtn_clickHandler(event)" horizontalCenter="375"
+					 verticalCenter="550">
+				<s:TextArea y="253" width="250" height="120" borderVisible="false"
 							contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
 							mouseEnabled="false" selectable="false" styleName="menu"
 							text="Банановый&#xd;ниндзя"/>
-				<s:Image x="66" y="0" smooth="true" source="@Embed('../assets/ninjaBtn.png')"/>
+				<s:Image x="24" y="66" width="221" height="184" smooth="true"
+						 source="@Embed('../assets/ninjaBtn.png')"/>
+			</s:Group>
+			<s:Group width="500" height="100" horizontalCenter="0" verticalCenter="850" click="bananaTermsBtn_clickHandler(event)">			
+			<s:Label horizontalCenter="0" styleName="headerSmall" text="Условия акции"
+					 textDecoration="underline" verticalCenter="0"/>
 			</s:Group>
 		</s:Group>
 	

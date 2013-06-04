@@ -60,6 +60,7 @@
 				var mov:MovieClip = (swfPlayer.content as MovieClip);
 				if(mov != null)
 				{
+					trace();
 					var ob:MovieClip = mov.getChildAt(0) as MovieClip;
 					ob.addEventListener("stopped",onMovieStop,false,0,true);
 					lastMov = ob;
@@ -181,13 +182,6 @@
 		<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_start" width="364" height="68" color="#FFFFFF"
 				 horizontalCenter="0" styleName="headerSmall" text="Дружба" verticalCenter="100"/>
 	</s:Group>
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	<ns1:LessonChooser id="lessonChooser" excludeFrom="ecuador_start" width="100%" alpha="0" alpha.ecuador_start="0" alpha.ecuador_next="0"

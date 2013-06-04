@@ -371,6 +371,7 @@
 					posi.Subtract(new b2Vec2(event.stageX,event.stageY));
 					var dist:Number = Math.abs(posi.Length());
 					trace(dist);
+					
 					if(dist<100) 
 					{
 						var objType:String = body.GetUserData();

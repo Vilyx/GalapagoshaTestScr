@@ -76,6 +76,7 @@
 			{
 				(new MySound() as Sound).play();
 				currentState = "recipe_print";
+				
 			}
 			private function RecursiveStop(mc:MovieClip):void
 			{

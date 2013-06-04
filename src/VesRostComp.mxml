@@ -84,7 +84,7 @@
 					fadeInWithDelay(vesGroup);
 					changeStateWithDelay("metr_ves");
 					
-					lastTimeoutId = setTimeout(setVesOkState,5000);
+					lastTimeoutId = setTimeout(setVesOkState,10000);
 					trace("ok3");
 				}
 			}

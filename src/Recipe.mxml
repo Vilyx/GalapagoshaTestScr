@@ -10,11 +10,14 @@
 		<![CDATA[
 			import avmplus.getQualifiedClassName;
 			
+			import flash.utils.setTimeout;
+			
 			import mx.events.FlexEvent;
 			
-			private var timer:Timer = new Timer(18000);
+			//private var timer:Timer = new Timer(18000);
 			[Embed(source='../assets/recipe_complete.mp3')] 		 
 			private var MySound : Class; 
+			private var lastMov:MovieClip;
 			
 			private var currentRecipe:String;
 			protected function group1_stateChangeCompleteHandler(event:FlexEvent):void
@@ -25,15 +28,54 @@
 					case "recipe_cream":
 					case "recipe_blin":
 					case "recipe_zhar":
-						timer.reset();
-						timer.start();
+						if(lastMov != null)
+						{
+							lastMov.removeEventListener("stopped",onMovieStop,false);
+							lastMov = null;
+						}
+						setTimeout(run,500);
+						
+						
 						RecursiveStop(swfPlayer.content as MovieClip);
 						currentRecipe = recipeChooser.currentState = this.currentState;
 						break;
 					default:
-						timer.reset();
+						break;
 				}
-				
+				//source.recipe_cream="../assets/iceCream.swf" source.recipe_shake="../assets/shakeRecipe.swf" source.recipe_blin="../assets/pancakes.swf" source.recipe_zhar="../assets/friedRecipe.swf"
+				switch(currentState)
+				{
+					case "recipe_shake":
+						swfPlayer.source = "../assets/shakeRecipe.swf";
+						break;
+					case "recipe_cream":
+						swfPlayer.source = "../assets/iceCream.swf";
+						break;
+					case "recipe_blin":
+						swfPlayer.source = "../assets/pancakes.swf";
+						break;
+					case "recipe_zhar":
+						swfPlayer.source = "../assets/friedRecipe.swf";
+						break;
+					default:
+						break;
+				}
+			}
+			protected function run():void
+			{
+				var mov:MovieClip = (swfPlayer.content as MovieClip);
+				if(mov != null)
+				{
+					var ob:MovieClip = mov.getChildAt(0) as MovieClip;
+					ob.addEventListener("stopped",onMovieStop,false,0,true);
+					lastMov = ob;
+					trace("listener added");
+				}
+			}
+			protected function onMovieStop(event:Event):void
+			{
+				(new MySound() as Sound).play();
+				currentState = "recipe_print";
 			}
 			private function RecursiveStop(mc:MovieClip):void
 			{
@@ -51,7 +93,7 @@
 				}
 				var transform:SoundTransform = new SoundTransform(0);
 				mc.soundTransform = transform;
-				//mc.stop();
+				mc.stop();
 			}
 			protected function recipeiconshake1_clickHandler(event:MouseEvent):void
 			{
@@ -84,9 +126,6 @@
 			
 			protected function group1_addedToStageHandler(event:Event):void
 			{
-				timer.removeEventListener(TimerEvent.TIMER,onTimer);
-				timer.addEventListener(TimerEvent.TIMER,onTimer);
-				timer.reset();
 				currentState = "recipe_start";
 				currentRecipe = null;
 			}
@@ -119,19 +158,11 @@
 				};
 				pj = null;
 				
-				timer.removeEventListener(TimerEvent.TIMER,onTimer);
-				timer.addEventListener(TimerEvent.TIMER,onTimer);
-				timer.reset();
 				currentState = "recipe_start";
 				currentRecipe = null;
 				trace("print");
 			}
 			
-			protected function onTimer(event:TimerEvent):void
-			{
-				(new MySound() as Sound).play();
-				currentState = "recipe_print";
-			}
 			
 		]]>
 	</fx:Script>
@@ -152,8 +183,8 @@
 	
 	<s:Image x="0" y="0" source="@Embed('../assets/Recipe/bg.jpg')"
 			 x.recipe_start="0" y.recipe_start="0"/>
-	<s:SWFLoader id="swfPlayer" excludeFrom="recipe_print,recipe_next" alpha.recipe_start="0" y="900" width="472" height="268" horizontalCenter="230"
-				 source.recipe_cream="@Embed('../assets/iceCream.swf')" source.recipe_shake="@Embed('../assets/shakeRecipe.swf')" source.recipe_blin="@Embed('../assets/pancakes.swf')" source.recipe_zhar="@Embed('../assets/friedRecipe.swf')"/>
+	<s:SWFLoader id="swfPlayer" excludeFrom="recipe_next" alpha.recipe_start="0" y="900" width="472" height="268" horizontalCenter="230"
+				 />
 	<s:Group left="0" top="0"  width="1080" bottom="0" includeIn="recipe_start">	
 		<s:TextArea includeIn="recipe_start" y="451" height="319" borderVisible="false"
 					color="#FFFFFF" contentBackgroundAlpha="0.0" editable="false"
@@ -215,10 +246,11 @@
 			 text.recipe_cream="Банановое&#xd;мороженное"
 			 text.recipe_zhar="Жареные&#xd;бананы"/>
 	<s:TextArea includeIn="recipe_next,recipe_print" y="466" borderVisible="false"
-				contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
-				mouseEnabled="false" selectable="false" styleName="metrText"
-				text="Поэтому в Эквадоре&#xd;самые вкусные&#xd;и полезные бананы&#xd;на свете"
-				height.recipe_print="346" horizontalCenter.recipe_print="0"/>
+				contentBackgroundAlpha="0.0" editable="false"
+				mouseEnabled="false" selectable="false"
+				text="Приятного аппетита!"
+				width="884" height="346" horizontalCenter="0"
+				styleName="headerBig"/>
 	<s:TextArea includeIn="recipe_next" x="18" y="985" width="1044" borderVisible="false"
 				color="#FFFFFF" contentBackgroundAlpha="0.0" editable="false" mouseEnabled="false"
 				selectable="false" styleName="metrHeader" text="Приятного&#xd;аппетита!"/>
@@ -230,7 +262,7 @@
 			 source="@Embed('../assets/olushaUpper.png')"/>
 	<ns1:RecipeChooser id="recipeChooser" excludeFrom="recipe_start" y="1408" left="0" right="0" height="300" stateChangeComplete="recipeChooser_stateChangeCompleteHandler(event)"/>
 	
-	<s:Group id="printGroup" includeIn="recipe_print" x="111" y="820" width="820" height="544" click="printGroup_clickHandler(event)">
+	<s:Group id="printGroup" includeIn="recipe_print" x="415" y="820" width="516" height="544" click="printGroup_clickHandler(event)">
 		<s:TextArea includeIn="recipe_print" x="52" y="333" height="201" borderVisible="false"
 					color="#FFFFFF" contentBackgroundAlpha="0.0" editable="false"
 					fontFamily="BananaFontBloldItal" fontSize="50" lineHeight="90%"

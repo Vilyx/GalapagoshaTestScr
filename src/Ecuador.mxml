@@ -163,7 +163,7 @@
 	<ns1:VideoPlace id="danceVideo" height="1080" horizontalCenter="0" rotation="90" verticalCenter="400"/>
 	<s:Scroller width="1080" height="1920" mouseEnabled="false" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 		<s:Group mouseEnabled="false">
-			<s:SWFLoader mouseEnabled="false" id="swfPlayer" excludeFrom="ecuador_next" alpha.ecuador_start="0" y="960" width="1080" height="1920" x="540"
+			<s:SWFLoader mouseEnabled="false" id="swfPlayer" excludeFrom="ecuador_next" alpha.ecuador_start="0" y="960" x="540"
 						 source.ecuador_happy='../assets/beach.swf' source.ecuador_sun='../assets/sun.swf' source.ecuador_power='../assets/vulcan.swf' source.ecuador_friend='../assets/friendship.swf'/>
 			<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="8" y="466" styleName="metrText"
 					 text="Поэтому в Эквадоре&#xd;самые вкусные&#xd;и полезные бананы&#xd;на свете"/>

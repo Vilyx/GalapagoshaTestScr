@@ -160,7 +160,7 @@
 
 	<s:Image x="0" y="0" source="@Embed('../assets/Ecuador/bg.jpg')"
 			 styleName="headerSmaller"/>
-	<ns1:VideoPlace id="danceVideo" height="1080" horizontalCenter="0" rotation="90" verticalCenter="400"/>
+	<ns1:VideoPlace id="danceVideo" height="1080" horizontalCenter="0" rotation="90" verticalCenter="400" excludeFrom="ecuador_next"/>
 	<s:Scroller width="1080" height="1920" mouseEnabled="false" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 		<s:Group mouseEnabled="false">
 			<s:SWFLoader mouseEnabled="false" id="swfPlayer" excludeFrom="ecuador_next" alpha.ecuador_start="0" y="960" x="540"

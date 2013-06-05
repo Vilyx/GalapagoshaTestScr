@@ -213,7 +213,7 @@
 				}
 				var currentTime:Date = new Date();
 				var delta:Number = currentTime.time - lastTimeActive.time;
-				if(delta > 30000) 
+				if(delta > 60000) 
 				{
 					if(currentState != "beckon" || currentState != "greeting")
 						onUserLeave(null);

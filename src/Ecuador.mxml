@@ -4,9 +4,16 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:ns1="*"
 		 width="1080" height="1920" addedToStage="group1_addedToStageHandler(event)"
-		 stateChangeComplete="group1_stateChangeCompleteHandler(event)"
-		 styleName.ecuador_start="headerMed">
+		 stateChangeComplete="group1_stateChangeCompleteHandler(event)">
 	<fx:Style source="styles.css"/>
+	<s:states>
+		<s:State name="ecuador_start"/>
+		<s:State name="ecuador_sun"/>
+		<s:State name="ecuador_friend"/>
+		<s:State name="ecuador_power"/>
+		<s:State name="ecuador_happy"/>
+		<s:State name="ecuador_next"/>
+	</s:states>
 	<fx:Script>
 		<![CDATA[
 			import flash.utils.clearTimeout;
@@ -19,6 +26,7 @@
 			
 			protected function group1_stateChangeCompleteHandler(event:FlexEvent):void
 			{
+				trace("dv",danceVideo);
 				switch(currentState)
 				{
 					case "ecuador_sun":
@@ -114,9 +122,7 @@
 			protected function group1_addedToStageHandler(event:Event):void
 			{
 				currentState = "ecuador_start";
-				trace("vvvvvvv",danceVideo);
-				setupVideo(danceVideo);
-										
+				setupVideo(danceVideo);							
 			}
 			
 			private function setupVideo(vid:VideoPlace) {
@@ -146,21 +152,13 @@
 			
 		]]>
 	</fx:Script>
-	<s:states>
-		<s:State name="ecuador_start"/>
-		<s:State name="ecuador_sun"/>
-		<s:State name="ecuador_friend"/>
-		<s:State name="ecuador_power"/>
-		<s:State name="ecuador_happy"/>
-		<s:State name="ecuador_next"/>
-	</s:states>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 
 	<s:Image x="0" y="0" source="@Embed('../assets/Ecuador/bg.jpg')"
 			 styleName="headerSmaller"/>
-	<ns1:VideoPlace id="danceVideo" height="1080" horizontalCenter="0" rotation="90" verticalCenter="400" />
+	<ns1:VideoPlace id="danceVideo" height="1080" horizontalCenter="0" rotation="90" verticalCenter="400" alpha.ecuador_next="0"/>
 	<s:Scroller width="1080" height="1920" mouseEnabled="false" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 		<s:Group mouseEnabled="false">
 			<s:SWFLoader mouseEnabled="false" id="swfPlayer" excludeFrom="ecuador_next" alpha.ecuador_start="0" y="960" x="540"

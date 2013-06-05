@@ -211,8 +211,8 @@
 	</s:Group>
 	
 	
-	<ns1:LessonChooser id="lessonChooser" excludeFrom="ecuador_start" width="100%" alpha="0" alpha.ecuador_start="0" alpha.ecuador_next="0"
-					   stateChangeComplete="lessonChooser_stateChangeCompleteHandler(event)"
+	<ns1:LessonChooser id="lessonChooser" excludeFrom="ecuador_start" width="100%" alpha="0" alpha.ecuador_next="1" enabled="false" enabled.ecuador_next="true"
+					   stateChangeComplete="lessonChooser_stateChangeCompleteHandler(event)" 
 					   y="1408" height="300"/>
 	<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="18" y="862" width="1044" height="278" color="#FFFFFF"
 			 styleName="headerBig" text="Продолжаем&#xd;путешествие!"/>

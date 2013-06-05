@@ -17,7 +17,7 @@
 
 			public function set videoObject(value:Video):void
 			{
-				removeChild(_video);
+				if (contains(_video)) removeChild(_video);
 				_video = value;
 				addChild(_video);
 				group1_resizeHandler(null);

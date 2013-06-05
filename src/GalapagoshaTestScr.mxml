@@ -41,12 +41,10 @@
 			// Выход из режима привлечения внимания - startUserInteraction, переходим в режим приветствия
 			// Возврат в режим меню - backToMenu
 			// Если находимся в режиме меню больше 5 секунд - включается режим завлекания
-			private var video:Video = new Video(); 
-			private var count:Number = 0;
 			private var ns:NetStream;
-			[Embed(source='assets/start-marimba.mp3')] 		 
-			private var MySound : Class; 
 			
+			[Embed(source='assets/start-marimba.mp3')] 		 
+			private var MySound : Class; 			
 			[Embed(source='../assets/Ecuador_background.mp3')] 		 
 			private var EcuadorSound : Class; 
 			[Embed(source='../assets/VesRost_background.mp3')] 		 
@@ -102,18 +100,8 @@
 				stage.scaleMode = StageScaleMode.SHOW_ALL;
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				
-				
-
-				
-				beckonVideo.videoObject = new Video(1920,1080);
-				var nc:NetConnection = new NetConnection(); 
-				nc.connect(null); 
-				ns = new NetStream(nc); 
-				ns.client = {onMetaData:ns_onMetaData, NetStatusEvent:ns_onPlayStatus}; 
-				ns.addEventListener(NetStatusEvent.NET_STATUS, ns_onPlayStatus);
-				trace(beckonVideo,beckonVideo.videoObject,ns);
-				beckonVideo.videoObject.attachNetStream(ns);
-				
+				// вынес чтобы скопировать фугкцию в эквадор
+				setupVideo(beckonVideo);				
 				ns.play("../assets/1.flv");
 				
 				removeEventListener(Event.ADDED_TO_STAGE,windowedapplication1_addedToStageHandler);
@@ -129,6 +117,18 @@
 			}
 			private var lastVid:int = -1;
 			private var nextVid:int = -1;
+			
+			private function setupVideo(vid:VideoPlace) {
+				vid.videoObject = new Video(1920,1080);
+				var nc:NetConnection = new NetConnection(); 
+				nc.connect(null); 
+				ns = new NetStream(nc); 
+				ns.client = {onMetaData:ns_onMetaData, NetStatusEvent:ns_onPlayStatus}; 
+				ns.addEventListener(NetStatusEvent.NET_STATUS, ns_onPlayStatus);
+				trace(vid,vid.videoObject,ns);
+				vid.videoObject.attachNetStream(ns);
+			}
+			
 			protected function ns_onPlayStatus(event:NetStatusEvent):void 
 			{ 
 				//trace(event.info.code);
@@ -157,6 +157,7 @@
 				beckonVideo.width = item.width;// Resize video instance.
 				beckonVideo.height = item.height;				
 			} 
+			
 			public function startUserInteraction():void
 			{
 				if(currentState == "beckon")
@@ -446,7 +447,8 @@
 							mouseEnabled="false" selectable="false" styleName="menu"
 							text="Путешествие&#xd;в Эквадор"/>
 				<s:Image x="17" y="11" width="244" height="219" smooth="true"
-						 source="@Embed('../assets/equador.png')"/>
+						 source="@Embed('../assets/equador.png')"
+						 x.menu="6" y.menu="11"/>
 			</s:Group>
 			<s:Group id="bananaRecipeBtn" width="250" height="350"
 					 click="bananaRecipeBtn_clickHandler(event)" horizontalCenter="125"
@@ -456,7 +458,8 @@
 							mouseEnabled="false" selectable="false" styleName="menu"
 							text="Банановые&#xd;рецепты"/>
 				<s:Image x="16" y="20" width="244" height="203" smooth="true"
-						 source="@Embed('../assets/recipesBtn.png')"/>
+						 source="@Embed('../assets/recipesBtn.png')"
+						 x.menu="25" y.menu="13"/>
 			</s:Group>
 			<s:Group id="bananaNinja" width="250" height="356"
 					 click="bananaNinjaBtn_clickHandler(event)" fontSize="50" horizontalCenter="375"

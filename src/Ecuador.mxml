@@ -42,6 +42,7 @@
 						lessonChooser.currentState = this.currentState;				
 						break;
 				}
+				swfPlayer.source = null;
 				switch(currentState)
 				{
 					case "ecuador_sun":
@@ -78,15 +79,24 @@
 			}
 			protected function run():void
 			{
-				var mov:MovieClip = (swfPlayer.content as MovieClip);
-				if(mov != null)
+				//source.ecuador_happy='../assets/beach.swf' source.ecuador_sun='../assets/sun.swf' source.ecuador_power='../assets/vulcan.swf' source.ecuador_friend='../assets/friendship.swf'
+				switch(currentState)
 				{
-					trace();
-					var ob:MovieClip = mov.getChildAt(0) as MovieClip;
-					ob.addEventListener("stopped",onMovieStop,false,0,true);
-					lastMov = ob;
-					trace("listener added");
+					case "ecuador_sun":
+						swfPlayer.source = 	"../assets/sun.swf";			
+						break;
+					case "ecuador_friend":
+						swfPlayer.source = 	"../assets/friendship.swf";						
+						break;
+					case "ecuador_power":
+						swfPlayer.source = 	"../assets/vulcan.swf";					
+						break;
+					case "ecuador_happy":
+						swfPlayer.source = 	"../assets/beach.swf";					
+						break;
 				}
+				swfPlayer.addEventListener(Event.INIT,onInit);
+				
 			}
 			protected function onMovieStop(event:Event):void
 			{
@@ -125,7 +135,8 @@
 				setupVideo(danceVideo);							
 			}
 			
-			private function setupVideo(vid:VideoPlace) {
+			private function setupVideo(vid:VideoPlace):void 
+			{
 				vid.videoObject = new Video(1920,1080);
 				var nc:NetConnection = new NetConnection(); 
 				nc.connect(null); 
@@ -150,6 +161,19 @@
 			} 
 			
 			
+			protected function onInit(event:Event):void
+			{
+				var mov:MovieClip = (swfPlayer.content as MovieClip);
+				if(mov != null)
+				{
+					trace();
+					var ob:MovieClip = mov.getChildAt(0) as MovieClip;
+					ob.addEventListener("stopped",onMovieStop,false,0,true);
+					lastMov = ob;
+					trace("listener added");
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -162,7 +186,7 @@
 	<s:Scroller width="1080" height="1920" mouseEnabled="false" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 		<s:Group mouseEnabled="false">
 			<s:SWFLoader mouseEnabled="false" id="swfPlayer" excludeFrom="ecuador_next" alpha.ecuador_start="0" y="960" x="540"
-						 source.ecuador_happy='../assets/beach.swf' source.ecuador_sun='../assets/sun.swf' source.ecuador_power='../assets/vulcan.swf' source.ecuador_friend='../assets/friendship.swf'/>
+						 />
 			<s:TextArea selectable="false" mouseEnabled="false" borderVisible="false" contentBackgroundAlpha="0.0" editable="false" includeIn="ecuador_next" x="8" y="466" styleName="metrText"
 					 text="Поэтому в Эквадоре&#xd;самые вкусные&#xd;и полезные бананы&#xd;на свете"/>
 		</s:Group>

@@ -118,7 +118,8 @@
 			private var lastVid:int = -1;
 			private var nextVid:int = -1;
 			
-			private function setupVideo(vid:VideoPlace) {
+			private function setupVideo(vid:VideoPlace):void 
+			{
 				vid.videoObject = new Video(1920,1080);
 				var nc:NetConnection = new NetConnection(); 
 				nc.connect(null); 
@@ -247,7 +248,7 @@
 			{
 				return 0;
 			}
-			
+			private var videoPaused:Boolean = false;
 			protected function windowedapplication1_stateChangeCompleteHandler(event:FlexEvent):void
 			{
 				if(soundChannel != null)
@@ -270,6 +271,11 @@
 							//TweenLite.from(clouds,0.5,{verticalCenter:0});
 						case "beckon":
 						case "greeting":
+							if(videoPaused)
+							{
+								videoPaused = false;
+								ns.resume();
+							}
 							if(soundChannel.soundTransform.volume!=0.5)
 							{
 								var t3:Tween = new Tween(this,0,0.5,3000,-1,upd,upd);
@@ -277,6 +283,11 @@
 							}
 							break;
 						default:
+							if(!videoPaused)
+							{
+								videoPaused = true;
+								ns.pause();
+							}
 							if(soundChannel.soundTransform.volume!=0)
 							{
 								var t2:Tween = new Tween(this,0.5,0,3000,-1,upd,upd);

@@ -213,19 +213,11 @@
 				}
 				var currentTime:Date = new Date();
 				var delta:Number = currentTime.time - lastTimeActive.time;
-				if(delta > 60000) 
+				if ((currentState == "ecuador" && delta > 60000) || (currentState != "ecuador" && delta > 30000))
 				{
 					if(currentState != "beckon" || currentState != "greeting")
 						onUserLeave(null);
 				}
-				/*if(currentState == "menu")
-				{
-					var elapsed:Number = new Date().time - firstMenuTime.time;
-					trace();
-					if(elapsed>5000)currentState = "beckon";
-					
-				}
-				else firstMenuTime = new Date();*/
 			}
 			
 			protected function videodisplay2_clickHandler(event:MouseEvent):void

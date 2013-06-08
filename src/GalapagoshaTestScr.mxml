@@ -249,6 +249,7 @@
 				return 0;
 			}
 			private var videoPaused:Boolean = false;
+			private var lastSound:SoundChannel;
 			protected function windowedapplication1_stateChangeCompleteHandler(event:FlexEvent):void
 			{
 				if(soundChannel != null)
@@ -276,7 +277,7 @@
 								videoPaused = false;
 								ns.resume();
 							}
-							if(soundChannel.soundTransform.volume!=0.5)
+							if(soundChannel.soundTransform.volume<0.5)
 							{
 								var t3:Tween = new Tween(this,0,0.5,3000,-1,upd,upd);
 								//TweenLite.to(soundChannel.soundTransform,3,{volume:0.5});
@@ -288,7 +289,7 @@
 								videoPaused = true;
 								ns.pause();
 							}
-							if(soundChannel.soundTransform.volume!=0)
+							if(soundChannel.soundTransform.volume>0)
 							{
 								var t2:Tween = new Tween(this,0.5,0,3000,-1,upd,upd);
 							}
@@ -297,22 +298,23 @@
 				}
 				if(gameSoundChannel != null)
 				{
-					
+					lastSound = gameSoundChannel;
+					setTimeout(stopIt,3000,lastSound);
 					switch(currentState)
 					{
 						case "menu":
 						case "beckon":
 						case "greeting":
-							if(gameSoundChannel.soundTransform.volume!=0)
+							if(gameSoundChannel.soundTransform.volume>0)
 							{
-								var t5:Tween = new Tween(this,0.5,0,1000,-1,updGameBackground,updGameBackground);
+								var t5:Tween = new Tween(this,0.5,0,200,-1,updGameBackground,updGameBackground);
 								//TweenLite.to(soundChannel.soundTransform,3,{volume:0.5});
 							}
 							break;
 						case "ecuador":
 							gameBackground = new EcuadorSound();
 							gameSoundChannel = gameBackground.play();
-							if(gameSoundChannel.soundTransform.volume!=0.5)
+							if(gameSoundChannel.soundTransform.volume<0.5)
 							{
 								var transform2:SoundTransform = new SoundTransform(0.001);
 								gameSoundChannel.soundTransform = transform2;
@@ -322,7 +324,7 @@
 						case "recipe":
 							gameBackground = new RecipesSound();
 							gameSoundChannel = gameBackground.play();
-							if(gameSoundChannel.soundTransform.volume!=0.5)
+							if(gameSoundChannel.soundTransform.volume<0.5)
 							{
 								var transform3:SoundTransform = new SoundTransform(0.001);
 								gameSoundChannel.soundTransform = transform3;
@@ -332,7 +334,7 @@
 						case "ninja":
 							gameBackground = new NinjaSound();
 							gameSoundChannel = gameBackground.play();
-							if(gameSoundChannel.soundTransform.volume!=0.5)
+							if(gameSoundChannel.soundTransform.volume<0.5)
 							{
 								var transform4:SoundTransform = new SoundTransform(0.001);
 								gameSoundChannel.soundTransform = transform4;
@@ -342,7 +344,7 @@
 						case "weight":
 							gameBackground = new VesRostSound();
 							gameSoundChannel = gameBackground.play();
-							if(gameSoundChannel.soundTransform.volume!=0.5)
+							if(gameSoundChannel.soundTransform.volume<0.5)
 							{
 								var transform5:SoundTransform = new SoundTransform(0.001);
 								gameSoundChannel.soundTransform = transform5;
@@ -373,7 +375,10 @@
 						break;
 				}
 			}
-			
+			private function stopIt(soundCh:SoundChannel):void
+			{
+				soundCh.stop();
+			}
 			private function upd(val:Number):void
 			{
 				trace(val);

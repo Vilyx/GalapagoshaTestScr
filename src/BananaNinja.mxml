@@ -374,7 +374,7 @@
 					var dist:Number = Math.abs(posi.Length());
 					trace(dist);
 					
-					if(dist<50) 
+					if(dist<80) 
 					{
 						var objType:String = body.GetUserData();
 						if(objType == "skin"&&(dist<40))

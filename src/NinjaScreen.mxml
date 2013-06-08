@@ -39,7 +39,7 @@
 					case "result":
 						(new WinSound() as Sound).play();
 						resultBanans.score = slicedBananas;	
-						goodbyeMsg.text = msgs[int(Math.random()*7.9)+1];
+						goodbyeMsg.text = msgs[int(Math.random()*7.9)];
 						break;
 				}
 			}
@@ -136,28 +136,30 @@
 				text="Ты - ниндзя! Сбивай бананы и познай силу банановой энергии"/>
 	<s:Image includeIn="result,start" top="80" width="554" height="414" horizontalCenter="0"
 			 smooth="true" source="@Embed('../assets/olushaUpper.png')"/>
+	<s:VideoDisplay includeIn="play" top="0" horizontalCenter="0" source="assets/ninja.flv" rotation="90" mouseEnabled="false" loop="true"/>
 	<local:BananaNinja includeIn="play" width="100%" height="100%" id="ninjaPlayCmp"/>
 	<local:TouchItBlinking includeIn="start" bottom="220" width="250" height="250"
 						   horizontalCenter="0"/>
 	<local:VectBananNinja includeIn="start" y="850" horizontalCenter="0"/>
 	<s:Image includeIn="result" width="686" height="322" horizontalCenter="0" smooth="true"
 			 source="@Embed('../assets/blob.png')" verticalCenter="265"/>
-	<s:TextArea id="goodbyeMsg" includeIn="result" width="448" height="168" borderVisible="false"
-				contentBackgroundAlpha="0.0" editable="false" horizontalCenter="0"
+	<s:TextArea id="goodbyeMsg" includeIn="result" width="448" height="230" borderVisible="false"
+				contentBackgroundAlpha="0.0" editable="false" fontSize="33" horizontalCenter="0"
 				mouseEnabled="false" selectable="false" styleName="recipeName2"
 				text="Теперь ты можешь легко обежать земной шар!" textAlign="center"
-				verticalCenter="296"/>
+				verticalAlign="middle" verticalCenter="270"/>
 	<local:BananScoreCmp id="resultBanans" includeIn="result" horizontalCenter="-8"
 						 verticalCenter="-8">
 	</local:BananScoreCmp>
 	<local:TouchItBlinking2 id="repeat" includeIn="result" bottom="170" horizontalCenter="0" click="repeat_clickHandler(event)"/>
 	<local:BananScoreCmp id="currentBananasDisp" includeIn="play" bottom="220" horizontalCenter="0">
 	</local:BananScoreCmp>
-	<local:BananaSkins includeIn="play" right="41" top="400" id="bananaSkins">
+	<local:BananaSkins includeIn="play" right="41" top="500" id="bananaSkins">
 	</local:BananaSkins>
-	<s:TextArea id="timerText" includeIn="play" right="783" top="400" width="263" height="164"
+	<s:TextArea id="timerText" includeIn="play" right="783" top="500" width="263" height="164"
 				borderVisible="false" contentBackgroundAlpha="0.0" editable="false"
 				mouseEnabled="false" selectable="false" styleName="headerBig" text="30"/>	
+	
 	
 	
 </s:Group>

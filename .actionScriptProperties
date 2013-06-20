@@ -23,19 +23,11 @@
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
   <buildTargets>
     <buildTarget buildTargetName="default">
-      <airSettings airCertificatePath="/Users/enthusiast/Programing/Flash/hc.p12" airTimestamp="true" anePathSet="true" version="1">
-        <airExcludes>
-          <pathEntry path="test.swf"/>
-          <pathEntry path="test-app.xml"/>
-          <pathEntry path="TestTwo.swf"/>
-          <pathEntry path=".DS_Store"/>
-          <pathEntry path="TestTwo-app.xml"/>
-          <pathEntry path="Test-app (2).xml"/>
-        </airExcludes>
+      <airSettings airCertificatePath="C:/ActiveCodeWorks/lol.p12" airTimestamp="true" anePathSet="true" version="1">
+        <airExcludes/>
         <anePaths/>
       </airSettings>
       <actionScriptSettings version="1"/>
     </buildTarget>
   </buildTargets>
 </actionScriptProperties>
-

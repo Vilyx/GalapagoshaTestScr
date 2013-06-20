@@ -43,7 +43,7 @@
 						break;
 				}
 				swfPlayer.source = null;
-				switch(currentState)
+				/*switch(currentState)
 				{
 					case "ecuador_sun":
 						ns.play("../assets/dance1.flv");						
@@ -57,7 +57,8 @@
 					case "ecuador_happy":
 						ns.play("../assets/dance4.flv");						
 						break;
-				}
+				}*/
+				run();
 				
 			}
 			private function RecursiveStop(mc:MovieClip):void
@@ -137,13 +138,13 @@
 			
 			private function setupVideo(vid:VideoPlace):void 
 			{
-				vid.videoObject = new Video(1920,1080);
+				/*vid.videoObject = new Video(1920,1080);
 				var nc:NetConnection = new NetConnection(); 
 				nc.connect(null); 
 				ns = new NetStream(nc); 
 				ns.client = {onMetaData:ns_onMetaData, NetStatusEvent:ns_onPlayStatus}; 
 				ns.addEventListener(NetStatusEvent.NET_STATUS, ns_onPlayStatus);
-				vid.videoObject.attachNetStream(ns);
+				vid.videoObject.attachNetStream(ns);*/
 			}
 			
 			protected function ns_onPlayStatus(event:NetStatusEvent):void 

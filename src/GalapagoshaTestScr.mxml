@@ -155,6 +155,7 @@
 					if(switchToStateName.length > 0)
 					{
 						currentState = switchToStateName;
+						switchToStateName = "";
 					}
 				}
 				
@@ -293,6 +294,10 @@
 							TweenLite.to(bananaNinja,0.5,{alpha:0});
 							break;
 						case "menu":
+							bananaWeightBtn.alpha = 1;
+							equadorBtn.alpha = 1;
+							bananaRecipeBtn.alpha = 1;
+							bananaNinja.alpha = 1;
 							if(musicStopped)
 							{
 								soundChannel.stop();

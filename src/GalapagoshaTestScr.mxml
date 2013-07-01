@@ -276,6 +276,7 @@
 			}
 			private var videoPaused:Boolean = false;
 			private var lastSound:SoundChannel;
+			private var lastState:String;
 			protected function windowedapplication1_stateChangeCompleteHandler(event:FlexEvent):void
 			{
 				if(soundChannel != null)
@@ -294,6 +295,7 @@
 							TweenLite.to(bananaNinja,0.5,{alpha:0});
 							break;
 						case "menu":
+							
 							bananaWeightBtn.alpha = 1;
 							equadorBtn.alpha = 1;
 							bananaRecipeBtn.alpha = 1;
@@ -405,6 +407,8 @@
 				switch(currentState)
 				{
 					case "menu":
+						if(lastState == "recipe")
+							recipeCmp.stopAll();
 						// глючит
 						TweenLite.from(bananaWeightBtn,0.5,{horizontalCenter:0,verticalCenter:500,alpha:0});
 						TweenLite.from(bananaRecipeBtn,0.5,{horizontalCenter:0,verticalCenter:500,alpha:0});
@@ -415,6 +419,7 @@
 						TweenLite.from(clickMe,0.5,{alpha:0});
 						break;
 				}
+				lastState = currentState;
 			}
 			private function stopIt(soundCh:SoundChannel):void
 			{
@@ -548,7 +553,7 @@
 		</s:Group>
 	
 		<ns1:NinjaScreen includeIn="ninja" left="0" top="0" bottom="0" right="0" />
-		<ns1:Recipe includeIn="recipe" left="0" top="0" bottom="0" right="0"/>
+		<ns1:Recipe includeIn="recipe,menu" visible.menu="false" left="0" top="0" bottom="0" right="0" id="recipeCmp"/>
 		<ns1:VesRostComp includeIn="weight" left="0" top="0" bottom="0" right="0"/>
 		<ns1:Ecuador includeIn="ecuador" left="0" top="0" bottom="0" right="0"/>
 		<ns1:IconButton skinClass="BtnIconSkin2" click="button1_clickHandler(event)" horizontalCenter="0" bottom="20" icon="{imgBack}" excludeFrom="beckon,menu,greeting,semiMenu"/>

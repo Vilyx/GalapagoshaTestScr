@@ -61,6 +61,15 @@
 						break;
 				}
 			}
+			public function stopAll():void
+			{
+				if(lastMov != null)
+				{
+					lastMov.removeEventListener("stopped",onMovieStop,false);
+					lastMov = null;
+				}
+				RecursiveStop(swfPlayer.content as MovieClip);
+			}
 			protected function run():void
 			{
 				var mov:MovieClip = (swfPlayer.content as MovieClip);

@@ -60,6 +60,17 @@
 					default:
 						break;
 				}
+				switch(currentState)
+				{
+					case "recipe_shake":
+					case "recipe_cream":
+					case "recipe_blin":
+					case "recipe_zhar":
+						RecursiveStart(swfPlayer.content as MovieClip);
+					default:
+						break;
+				}
+				
 			}
 			public function stopAll():void
 			{
@@ -86,6 +97,24 @@
 				(new MySound() as Sound).play();
 				currentState = "recipe_print";
 				
+			}
+			private function RecursiveStart(mc:MovieClip):void
+			{
+				if(mc == null) {trace("null");return;}
+				for(var i:int = 0; i < mc.numChildren; i++)
+				{
+					var obj:Object = mc.getChildAt(i);
+					
+					trace(obj); // debugging
+					
+					if(mc.getChildAt(i) is MovieClip || getQualifiedSuperclassName(obj) == "flash.display::MovieClip")
+					{
+						RecursiveStart(obj as MovieClip);
+					}
+				}
+				var transform:SoundTransform = new SoundTransform(1);
+				mc.soundTransform = transform;
+				mc.gotoAndPlay(1);
 			}
 			private function RecursiveStop(mc:MovieClip):void
 			{

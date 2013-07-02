@@ -150,7 +150,6 @@
 					if(currentState != "beckon" && currentState != "menu" && currentState != "greeting" && (currentVid == 6 || currentVid == 11)) currentVid = 4;
 					var path:String = "../assets/"+currentVid.toString()+".flv";
 				
-					trace(path);
 					ns.play(path);
 					if(switchToStateName.length > 0)
 					{
@@ -227,7 +226,6 @@
 			{	
 				currentState = "menu";
 				nextVid = Math.round(21 + Math.random()*4);
-				trace("next",nextVid);
 			}
 			
 			//protected var firstMenuTime:Date = new Date();
@@ -407,8 +405,11 @@
 				switch(currentState)
 				{
 					case "menu":
+						trace("lastState: ",lastState);
 						if(lastState == "recipe")
+						{
 							recipeCmp.stopAll();
+						}
 						// глючит
 						TweenLite.from(bananaWeightBtn,0.5,{horizontalCenter:0,verticalCenter:500,alpha:0});
 						TweenLite.from(bananaRecipeBtn,0.5,{horizontalCenter:0,verticalCenter:500,alpha:0});
@@ -427,13 +428,11 @@
 			}
 			private function upd(val:Number):void
 			{
-				trace(val);
 				var transform:SoundTransform = new SoundTransform(val);
 				soundChannel.soundTransform = transform;
 			}
 			private function updGameBackground(val:Number):void
 			{
-				trace(val);
 				var transform:SoundTransform = new SoundTransform(val);
 				gameSoundChannel.soundTransform = transform;
 				if(val == 0)

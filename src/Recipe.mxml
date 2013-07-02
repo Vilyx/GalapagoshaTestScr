@@ -66,14 +66,19 @@
 					case "recipe_cream":
 					case "recipe_blin":
 					case "recipe_zhar":
-						RecursiveStart(swfPlayer.content as MovieClip);
+						setTimeout(kostil,100);
 					default:
 						break;
 				}
 				
 			}
+			private function kostil():void
+			{
+				RecursiveStart(swfPlayer.content as MovieClip);
+			}
 			public function stopAll():void
 			{
+				RecursiveStop(lastMov);
 				if(lastMov != null)
 				{
 					lastMov.removeEventListener("stopped",onMovieStop,false);
@@ -89,7 +94,6 @@
 					var ob:MovieClip = mov.getChildAt(0) as MovieClip;
 					ob.addEventListener("stopped",onMovieStop,false,0,true);
 					lastMov = ob;
-					trace("listener added");
 				}
 			}
 			protected function onMovieStop(event:Event):void
@@ -100,12 +104,10 @@
 			}
 			private function RecursiveStart(mc:MovieClip):void
 			{
-				if(mc == null) {trace("null");return;}
+				if(mc == null) {return;}
 				for(var i:int = 0; i < mc.numChildren; i++)
 				{
 					var obj:Object = mc.getChildAt(i);
-					
-					trace(obj); // debugging
 					
 					if(mc.getChildAt(i) is MovieClip || getQualifiedSuperclassName(obj) == "flash.display::MovieClip")
 					{
@@ -118,12 +120,10 @@
 			}
 			private function RecursiveStop(mc:MovieClip):void
 			{
-				if(mc == null) {trace("null");return;}
+				if(mc == null) {return;}
 				for(var i:int = 0; i < mc.numChildren; i++)
 				{
 					var obj:Object = mc.getChildAt(i);
-					
-					trace(obj); // debugging
 					
 					if(mc.getChildAt(i) is MovieClip || getQualifiedSuperclassName(obj) == "flash.display::MovieClip")
 					{

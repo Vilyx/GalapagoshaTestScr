@@ -26,7 +26,6 @@
 			
 			protected function group1_stateChangeCompleteHandler(event:FlexEvent):void
 			{
-				trace("dv",danceVideo);
 				switch(currentState)
 				{
 					case "ecuador_sun":
@@ -63,12 +62,10 @@
 			}
 			private function RecursiveStop(mc:MovieClip):void
 			{
-				if(mc == null) {trace("null");return;}
+				if(mc == null) {return;}
 				for(var i:int = 0; i < mc.numChildren; i++)
 				{
 					var obj:Object = mc.getChildAt(i);
-					
-					trace(obj); // debugging
 					
 					if(mc.getChildAt(i) is MovieClip || getQualifiedSuperclassName(obj) == "flash.display::MovieClip")
 					{
@@ -167,11 +164,9 @@
 				var mov:MovieClip = (swfPlayer.content as MovieClip);
 				if(mov != null)
 				{
-					trace();
 					var ob:MovieClip = mov.getChildAt(0) as MovieClip;
 					ob.addEventListener("stopped",onMovieStop,false,0,true);
 					lastMov = ob;
-					trace("listener added");
 				}
 			}
 			
